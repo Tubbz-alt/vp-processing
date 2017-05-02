@@ -96,3 +96,10 @@ h5_files.paths <- bioRad::retrieve_vp_paths(
 )
 ```
 
+The file paths only start at the level of the data directory, so we need to append all with the path to the data directory itself:
+
+```{r}
+h5_files.full_paths <- paste0(settings.h5_data_dir, h5_files.paths)
+head(h5_files.full_paths)
+```
+
