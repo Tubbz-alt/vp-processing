@@ -1,0 +1,65 @@
+---
+title: "Create timeseries from h5 bird profile data"
+author: "Peter Desmet"
+output: html_notebook
+---
+
+```{r}
+library(devtools)
+library(rhdf5)
+library(bioRad)
+```
+
+## 1. Installations
+
+Install the following packages from the R Studio console:
+
+### rhdf5
+
+```{r eval=FALSE}
+source("https://bioconductor.org/biocLite.R")
+biocLite("rhdf5")
+```
+
+### bioRad
+
+This needs to be installed from the `vignettes` branch on ENRAM:
+
+```{r eval=FALSE}
+install_github("enram/bioRad", ref="vignettes")
+```
+
+```{r}
+h5_data_dir <- "../data/raw"
+```
+
+## 3. Download bird profile data
+
+_Ignore this step if you already have all the required bird profile data locally._
+
+Download the data you are interested in from the [ENRAM bird profile data repository](http://enram.github.io/data-repository). Note that this step might take some time.
+
+```{r results = "hide"}
+bioRad::download_vp(
+  localpath = h5_data_dir,
+  start_date = "2017-03-01",
+  end_date = "2017-04-30",
+  country = c("se"),
+  radar = c("ang", "kkr")
+)
+```
+
+TODO: ideally, the range of radars andshould get input on time window and radars. Example right now is two radars from Sweden for March and April 2017.
+
+## Create timeseries
+
+Create a list of the data files we want to include in the timeseries:
+
+```{r}
+list.paths <- bioRad::retrieve_vp_paths(
+  path = h5_data_dir,
+  start_date = "2017-01-01", # Should not be necessary
+  end_date = "2017-12-31",   # Should not be necessary
+  country = c("se")
+)
+```
