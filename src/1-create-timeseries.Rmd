@@ -103,3 +103,14 @@ h5_files.full_paths <- paste0(settings.h5_data_dir, h5_files.paths)
 head(h5_files.full_paths)
 ```
 
+```{r}
+# vp <- bioRad::readvp.list(h5_files.full_paths)
+vp <- bioRad::readvp("../data/bewid_vp_20151009T0000Z.h5")
+```
+
+```{r}
+data(vp)
+# plot bird profile
+plot(vp, line.col = 'blue')
+```
+
