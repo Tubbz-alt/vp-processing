@@ -12,7 +12,7 @@ library(bioRad)
 
 ## 1. Installations
 
-Install the following packages from the R Studio console:
+Install the following packages via the R Studio console:
 
 ### rhdf5
 
@@ -23,14 +23,38 @@ biocLite("rhdf5")
 
 ### bioRad
 
-This needs to be installed from the `vignettes` branch on ENRAM:
+[Until this pull request](https://github.com/adokter/bioRad/pull/32) is accepted, you need to install bioRad from the `vignettes` branch on ENRAM:
 
 ```{r eval=FALSE}
 install_github("enram/bioRad", ref="vignettes")
 ```
 
+## 2. Define your settings
+
+### Local data directory
+
 ```{r}
-h5_data_dir <- "../data/raw"
+# Where h5 bird profile data are stored locally 
+# or where they should be downloaded to:
+settings.h5_data_dir <- "../data/raw" 
+```
+
+### Time window
+
+```{r}
+# Time windows starts at this date (inclusive):
+settings.start_date = "2017-03-01"
+# Time window ends at this date (inclusive):
+settings.end_date = "2017-04-30"
+```
+
+### Countries and radars
+
+```{r}
+# List of countries (ISO_3166-1 alpha 2) to include:
+settings.countries = c("se")
+# List of radars (ODIM codes) to include:
+settings.radars = c("ang", "kkr")
 ```
 
 ## 3. Download bird profile data
@@ -41,11 +65,11 @@ Download the data you are interested in from the [ENRAM bird profile data reposi
 
 ```{r results = "hide"}
 bioRad::download_vp(
-  localpath = h5_data_dir,
-  start_date = "2017-03-01",
-  end_date = "2017-04-30",
-  country = c("se"),
-  radar = c("ang", "kkr")
+  localpath = settings.h5_data_dir,
+  start_date = settings.start_date,
+  end_date = settings.end_date,
+  country = settings.countries,
+  radar = settings.radars
 )
 ```
 
@@ -57,9 +81,11 @@ Create a list of the data files we want to include in the timeseries:
 
 ```{r}
 list.paths <- bioRad::retrieve_vp_paths(
-  path = h5_data_dir,
-  start_date = "2017-01-01", # Should not be necessary
-  end_date = "2017-12-31",   # Should not be necessary
-  country = c("se")
+  path = settings.h5_data_dir,
+  start_date = settings.start_date,
+  end_date = settings.end_date,
+  country = settings.countries
 )
 ```
+
+TODO: decide on radars OR countries (one or the other, see bioRad vignettes).
