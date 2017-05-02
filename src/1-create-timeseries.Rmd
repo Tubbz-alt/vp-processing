@@ -10,9 +10,9 @@ library(rhdf5)
 library(bioRad)
 ```
 
-## 1. Installations
+## 1. Install packages
 
-Install the following packages via the R Studio console:
+If you get any missing package errors, install the following packages via the R Studio console:
 
 ### rhdf5
 
@@ -23,7 +23,7 @@ biocLite("rhdf5")
 
 ### bioRad
 
-[Until this pull request](https://github.com/adokter/bioRad/pull/32) is accepted, you need to install bioRad from the `vignettes` branch on ENRAM:
+Install bioRad from the `vignettes` branch on ENRAM ([until this pull request is accepted](https://github.com/adokter/bioRad/pull/32)):
 
 ```{r eval=FALSE}
 install_github("enram/bioRad", ref="vignettes")
@@ -33,27 +33,34 @@ install_github("enram/bioRad", ref="vignettes")
 
 ### Local data directory
 
+Path (relative to this script) where h5 bird profile data are stored locally or where they should be downloaded to:
+
 ```{r}
-# Where h5 bird profile data are stored locally 
-# or where they should be downloaded to:
-settings.h5_data_dir <- "../data/raw" 
+settings.h5_data_dir <- "../data/raw/" # Needs a trailing slash!
 ```
 
-### Time window
+### Date range
+
+Date range to include (both dates inclusive):
 
 ```{r}
-# Time windows starts at this date (inclusive):
 settings.start_date = "2017-03-01"
-# Time window ends at this date (inclusive):
 settings.end_date = "2017-04-30"
 ```
 
-### Countries and radars
+### Countries
+
+List of countries (ISO_3166-1 alpha 2) to include:
 
 ```{r}
-# List of countries (ISO_3166-1 alpha 2) to include:
 settings.countries = c("se")
-# List of radars (ODIM codes) to include:
+```
+
+### Radars
+
+List of radars (ODIM codes) to include:
+
+```{r}
 settings.radars = c("ang", "kkr")
 ```
 
@@ -61,9 +68,9 @@ settings.radars = c("ang", "kkr")
 
 _Ignore this step if you already have all the required bird profile data locally._
 
-Download the data you are interested in from the [ENRAM bird profile data repository](http://enram.github.io/data-repository). Note that this step might take some time.
+Download the data you are interested in from the [ENRAM bird profile data repository](http://enram.github.io/data-repository). Note that this step might take some time:
 
-```{r results = "hide"}
+```{r results="hide", eval=FALSE}
 bioRad::download_vp(
   localpath = settings.h5_data_dir,
   start_date = settings.start_date,
@@ -73,19 +80,19 @@ bioRad::download_vp(
 )
 ```
 
-TODO: ideally, the range of radars andshould get input on time window and radars. Example right now is two radars from Sweden for March and April 2017.
+_TODO: ideally, the range of radars andshould get input on time window and radars. Example right now is two radars from Sweden for March and April 2017._
 
 ## Create timeseries
 
-Create a list of the data files we want to include in the timeseries:
+Create a list of all the paths to the h5 bird profile data files (using the same settings we used to download the data):
 
 ```{r}
-list.paths <- bioRad::retrieve_vp_paths(
+h5_files.paths <- bioRad::retrieve_vp_paths(
   path = settings.h5_data_dir,
   start_date = settings.start_date,
   end_date = settings.end_date,
-  country = settings.countries
+  country = settings.countries,
+  radar = settings.radars
 )
 ```
 
-TODO: decide on radars OR countries (one or the other, see bioRad vignettes).
