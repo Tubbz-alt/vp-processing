@@ -1,2 +1,3 @@
-# timamp-etl
-Data processing pipeline to prepare bird profile H5 data for TIMAMP
+# Data processing pipeline to transform h5 bird profile data for TIMAMP
+
+This ETL (Extract, Transform and Load) process is mainly set up to be able to visualize flyway data with [TIMAMP](https://github.com/enram/timamp).
