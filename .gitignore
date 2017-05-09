@@ -40,3 +40,4 @@ vignettes/*.pdf
 
 # Raw data files
 data/raw/*
+data/se-sample/*
