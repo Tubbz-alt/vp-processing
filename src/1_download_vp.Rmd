@@ -1,8 +1,12 @@
 ---
 title: "Download bird profile data from the ENRAM data repository"
 author: "Peter Desmet"
-output: html_notebook
+output: html_document
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 ```{r echo=FALSE}
 library(bioRad)
