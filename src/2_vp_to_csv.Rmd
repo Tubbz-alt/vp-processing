@@ -4,8 +4,9 @@ author: "Peter Desmet"
 output: html_notebook
 ---
 
-```{r}
+```{r echo=FALSE}
 library(bioRad)
+library(tidyr)
 ```
 
 ## 1. Define extraction settings
@@ -13,19 +14,21 @@ library(bioRad)
 Define your extraction settings/filters, such as the date range, countries and radars to include and where the bird profile data are stored locally (a file path relative to this script). These settings will overwrite the download settings from [the first script](1_download_vp.Rmd).
 
 ```{r}
-settings.start_date = "2017-03-01"
-settings.end_date = "2017-04-30"
+settings.start_date = "2016-10-03"
+settings.end_date = "2016-10-03"
 settings.countries = c("se")
-settings.radars = c("ang", "kkr")
-settings.raw_data_dir <- "../data/raw/" # Needs a trailing slash!
+settings.radars = c("ang")
+settings.raw_data_dir <- "../data/se-sample/" # Needs a trailing slash!
 ```
+
+*TODO: will need to get the file paths radar per radar, since `readvp.list()` will only accept data from one radar at a time.*
 
 ## 2. Create a list of data file paths
 
 Let's build a list of all the file (paths) that meet your extraction criteria:
 
 ```{r}
-vp_files.paths <- bioRad::retrieve_vp_paths(
+vp.file_paths <- bioRad::retrieve_vp_paths(
   start_date = settings.start_date,
   end_date = settings.end_date,
   country = settings.countries,
@@ -37,41 +40,36 @@ vp_files.paths <- bioRad::retrieve_vp_paths(
 The file paths only start at the level of the data directory, so we need to append all with the path to the data directory itself:
 
 ```{r}
-vp_files.paths <- paste0(settings.raw_data_dir, vp_files.paths)
-head(vp_files.paths) # Show 5 first entries
+vp.file_paths <- paste0(settings.raw_data_dir, vp.file_paths)
+head(vp.file_paths) # Show 5 first entries
 ```
 
 ## 3. Read data
 
-### Bug
-
-There is a [bug in reading data from the repository](https://github.com/enram/timamp-etl/issues/4):
-
 ```{r}
-bioRad::readvp("../data/raw/se/ang/2017/03/03/23/seang_vp_20170303233000.h5")
-```
-
-While it does work for sample data:
-
-```{r}
-bioRad::readvp("../data/se-sample/2016/10/03/20/00/seang_vp_20161003T2000Z.h5")
-```
-
-### Test with sample data
-
-```{r}
-vp_files.paths <- c(
+vp.one <- bioRad::readvp("../data/se-sample/2016/10/03/20/45/seang_vp_20161003T2045Z.h5") # A single file
+vp.some <- bioRad::readvp.list(c(
   "../data/se-sample/2016/10/03/20/00/seang_vp_20161003T2000Z.h5",
   "../data/se-sample/2016/10/03/20/15/seang_vp_20161003T2015Z.h5",
   "../data/se-sample/2016/10/03/20/30/seang_vp_20161003T2030Z.h5",
   "../data/se-sample/2016/10/03/20/45/seang_vp_20161003T2045Z.h5"
-)
+))
+vp.all <- bioRad::readvp.list(vp.file_paths)
 ```
 
-```{r}
-vp_files.summary <- bioRad::readvp.list(vp_files.paths)
-```
+### Fetch method
+
+Returns a list with HGHT as column headers and a single variable as the row. Not that useful:
 
 ```{r}
-bioRad::fetch(vp_files.summary, quantity = "eta")
+bioRad::fetch(vp.one, quantity = "v")
 ```
+
+### Data method
+
+Returns a data.frame with variables as column headers and HGHTs as rows. Exactly what I need. 🙌
+
+```{r}
+vp.one$data
+```
+
