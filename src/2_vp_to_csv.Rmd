@@ -14,11 +14,12 @@ library(tidyr)
 Define your extraction settings/filters, such as the date range, countries and radars to include and where the bird profile data are stored locally (a file path relative to this script). These settings will overwrite the download settings from [the first script](1_download_vp.Rmd).
 
 ```{r}
-settings.start_date = "2016-10-03"
-settings.end_date = "2016-10-03"
-settings.countries = c("se")
-settings.radars = c("ang")
-settings.raw_data_dir <- "../data/se-sample/" # Needs a trailing slash!
+settings <- list()
+settings["start_date"]   <- "2016-10-03"
+settings["end_date"]     <- "2016-10-03"
+settings["countries"]    <- c("se")
+settings["radars"]       <- c("ang")
+settings["raw_data_dir"] <- "../data/se-sample/" # Needs a trailing slash!
 ```
 
 *TODO: will need to get the file paths radar per radar, since `readvp.list()` will only accept data from one radar at a time.*
@@ -29,18 +30,18 @@ Let's build a list of all the file (paths) that meet your extraction criteria:
 
 ```{r}
 vp.file_paths <- bioRad::retrieve_vp_paths(
-  start_date = settings.start_date,
-  end_date = settings.end_date,
-  country = settings.countries,
-  radar = settings.radars,
-  path = settings.raw_data_dir
+  start_date = settings$start_date,
+  end_date = settings$end_date,
+  country = settings$countries,
+  radar = settings$radars,
+  path = settings$raw_data_dir
 )
 ```
 
 The file paths only start at the level of the data directory, so we need to append all with the path to the data directory itself:
 
 ```{r}
-vp.file_paths <- paste0(settings.raw_data_dir, vp.file_paths)
+vp.file_paths <- paste0(settings$raw_data_dir, vp.file_paths)
 head(vp.file_paths) # Show 5 first entries
 ```
 

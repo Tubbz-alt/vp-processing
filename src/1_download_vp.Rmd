@@ -25,11 +25,12 @@ install_github("enram/bioRad", ref="vignettes")
 Define your download settings/filters, such as the date range, countries, and radars to include and where the bird profile data should be stored locally (a file path relative to this script):
 
 ```{r}
-settings.start_date = "2017-03-01"
-settings.end_date = "2017-04-30"
-settings.countries = c("se")
-settings.radars = c("ang", "kkr")
-settings.raw_data_dir <- "../data/raw/" # Needs a trailing slash!
+settings <- list()
+settings["start_date"]   <- "2017-03-01"
+settings["end_date"]     <- "2017-04-30"
+settings["countries"]    <- c("se")
+settings["radars"]       <- c("ang", "kkr")
+settings["raw_data_dir"] <- "../data/raw/" # Needs a trailing slash!
 ```
 
 ## 3. Download bird profile data
@@ -38,11 +39,11 @@ Download the data from the [ENRAM bird profile data repository](http://enram.git
 
 ```{r results="hide", eval=FALSE}
 bioRad::download_vp(
-  start_date = settings.start_date
-  end_date = settings.end_date,
-  country = settings.countries,
-  radar = settings.radars,
-  localpath = settings.raw_data_dir
+  start_date = settings$start_date,
+  end_date = settings$end_date,
+  country = settings$countries,
+  radar = settings$radars,
+  localpath = settings$raw_data_dir
 )
 ```
 
