@@ -6,7 +6,7 @@ output: html_notebook
 
 ```{r echo=FALSE}
 library(bioRad)
-library(tidyr)
+source("vp_to_df.R")
 ```
 
 ## 1. Define extraction settings
@@ -42,7 +42,7 @@ The file paths only start at the level of the data directory, so we need to appe
 
 ```{r}
 vp.file_paths <- paste0(settings$raw_data_dir, vp.file_paths)
-head(vp.file_paths) # Show 5 first entries
+head(vp.file_paths)
 ```
 
 ## 3. Read data
@@ -68,33 +68,8 @@ Show the data from a single file:
 vp.one$data
 ```
 
-Select data from specific columns:
+Build a custom dataframe:
 
 ```{r}
-vp.data <- subset(vp.one$data, select = c("HGHT", "u", "v", "dens"))
-vp.data
+vp_to_df(vp.one)
 ```
-
-Get the metadata:
-
-```{r}
-get_metadata <- function(vp) {
-  metadata <- list()
-  
-  # Retrieve and combine date and time
-  datetime_string <- paste0(vp$attributes$what$date, vp$attributes$what$time)
-  # Express as ISO datetime
-  metadata["datetime"] <- format(as.POSIXct(datetime_string, format = "%Y%m%d%H%M%S"), "%Y-%m-%dT%H:%M:%SZ")
-  
-  # Split source information on comma
-  source <- unlist(strsplit(vp$attributes$what$source, ","))
-  # Get radar_id part (e.g. "seang") from first source element (e.g. "NOD:seang"):
-  metadata["radar_id"] <- unlist(strsplit(source[1], ":"))[2]
-  
-  # Return the metadata
-  metadata
-}
-
-get_metadata(vp.one)
-```
-
