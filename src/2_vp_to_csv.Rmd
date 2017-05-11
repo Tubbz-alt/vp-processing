@@ -47,8 +47,10 @@ head(vp.file_paths) # Show 5 first entries
 
 ## 3. Read data
 
+Load a single file, a couple of files and all files (defined by the settings):
+
 ```{r}
-vp.one <- bioRad::readvp("../data/se-sample/2016/10/03/20/45/seang_vp_20161003T2045Z.h5") # A single file
+vp.one <- bioRad::readvp("../data/se-sample/2016/10/03/20/45/seang_vp_20161003T2045Z.h5")
 vp.some <- bioRad::readvp.list(c(
   "../data/se-sample/2016/10/03/20/00/seang_vp_20161003T2000Z.h5",
   "../data/se-sample/2016/10/03/20/15/seang_vp_20161003T2015Z.h5",
@@ -58,19 +60,22 @@ vp.some <- bioRad::readvp.list(c(
 vp.all <- bioRad::readvp.list(vp.file_paths)
 ```
 
-### Fetch method
+### Single file
 
-Returns a list with HGHT as column headers and a single variable as the row. Not that useful:
-
-```{r}
-bioRad::fetch(vp.one, quantity = "v")
-```
-
-### Data method
-
-Returns a data.frame with variables as column headers and HGHTs as rows. Exactly what I need. 🙌
+Show the data from a single file:
 
 ```{r}
 vp.one$data
+```
+
+Select data from specific columns:
+
+```{r}
+vp.data <- subset(vp.one$data, select = c("HGHT", "u", "v", "dens"))
+vp.data
+```
+
+
+```{r}
 ```
 
