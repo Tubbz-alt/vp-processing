@@ -41,17 +41,3 @@ vp_to_df <- function(vp) {
   )
   return(df)
 }
-
-get_metadata <- function(vp) {
-  # Get and split attributes/what/source
-  source <- unlist(strsplit(vp$attributes$what$source, ","))
-  # Get radar_id part ("seang") from first source element ("NOD:seang"):
-  radar_id <- unlist(strsplit(source[1], ":"))[2]
-  
-  # Get and combine attributes/what/date & attributes/what/time
-  datetime_string <- paste0(vp$attributes$what$date, vp$attributes$what$time)
-  # Express as an ISO datetime
-  datetime <- format(as.POSIXct(datetime_string, format = "%Y%m%d%H%M%S"), "%Y-%m-%dT%H:%M:%SZ")
-  
-  return(list("radar_id" = radar_id, "datetime" = datetime))
-}
