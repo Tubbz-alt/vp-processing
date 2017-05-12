@@ -54,10 +54,35 @@ head(vp.file_paths)
 
 ## 3. Read data
 
-Load a single file, a couple of files and all files (defined by the settings):
+### Single file example
+
+Read a single vp file with bioRad:
 
 ```{r}
-vp.one <- bioRad::readvp("../data/se-sample/2016/10/03/20/45/seang_vp_20161003T2045Z.h5")
+vp.single <- bioRad::readvp("../data/se-sample/2016/10/03/20/45/seang_vp_20161003T2045Z.h5")
+```
+
+Have a look at the structure:
+
+```{r}
+summary(vp.single)
+```
+
+And the data:
+
+```{r}
+head(vp.single$data)
+```
+
+Create a data.frame with the data and metadata we need (using the `vp_to_df` function):
+
+```{r}
+head(vp_to_df(vp.single))
+```
+
+### All files
+
+```{r}
 vp.some <- bioRad::readvp.list(c(
   "../data/se-sample/2016/10/03/20/00/seang_vp_20161003T2000Z.h5",
   "../data/se-sample/2016/10/03/20/15/seang_vp_20161003T2015Z.h5",
@@ -65,18 +90,4 @@ vp.some <- bioRad::readvp.list(c(
   "../data/se-sample/2016/10/03/20/45/seang_vp_20161003T2045Z.h5"
 ))
 vp.all <- bioRad::readvp.list(vp.file_paths)
-```
-
-### Single file
-
-Show the data from a single file:
-
-```{r}
-vp.one$data
-```
-
-Build a custom dataframe:
-
-```{r}
-vp_to_df(vp.one)
 ```
