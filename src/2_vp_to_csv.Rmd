@@ -91,3 +91,23 @@ vp.some <- bioRad::readvp.list(c(
 ))
 vp.all <- bioRad::readvp.list(vp.file_paths)
 ```
+Create a data.frame with the data and metadata we need from all those files:
+
+```{r}
+vpdf.list = list()
+for (i in seq_along(vp.all)) {
+  vpdf.list[[i]] <- vp_to_df(vp.all[[i]])
+}
+
+vpdf = dplyr::bind_rows(vpdf.list)
+```
+
+```{r}
+head(vpdf)
+```
+
+## 4. Export data as CSV file
+
+```{r}
+write.csv(vpdf, file = "../data/interim/vp.csv", na="")
+```
