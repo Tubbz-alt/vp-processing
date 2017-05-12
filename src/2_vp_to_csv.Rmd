@@ -25,8 +25,12 @@ Since the data we want to include for the TIMAMP visualization might be differen
 export_settings <- list()
 export_settings[["start_date"]]   <- "2016-10-03"
 export_settings[["end_date"]]     <- "2016-10-03"
-export_settings[["countries"]]    <- c("se")
-export_settings[["radars"]]       <- c("ang")
+export_settings[["countries"]]    <- c(
+  "se"
+)
+export_settings[["radars"]]       <- c(
+  "ang", "arl", "ase", "hud", "kir", "kkr", "lek", "lul", "osu", "ovi", "var", "vil"
+)
 export_settings[["raw_data_dir"]] <- "../data/se-sample/" # Needs a trailing slash!
 ```
 
@@ -110,7 +114,11 @@ vpdf = dplyr::bind_rows(vpdf.list)
 head(vpdf)
 ```
 
-## 4. Export data as CSV file
+## 4. Sort data
+
+TODO
+
+## 5. Export data as CSV file
 
 ```{r}
 write.csv(vpdf, file = "../data/interim/vp.csv", na="")
