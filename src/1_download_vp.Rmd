@@ -1,7 +1,10 @@
 ---
 title: "Download bird profile data from the ENRAM data repository"
 author: "Peter Desmet"
-output: html_document
+output:
+  html_document:
+    toc: yes
+    toc_depth: 1
 ---
 
 ```{r setup, include=FALSE}
@@ -12,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(bioRad)
 ```
 
-You don't need to run this script if you already have all the required bird profile data locally. You will need the bioRad package for the next steps too though, so make sure it is installed.
+The steps described in this document can be skipped if you already have all the required bird profile data stored locally. You will need the bioRad package for the next steps too though, so make sure it is installed.
 
 ## 1. Install bioRad
 
@@ -29,12 +32,12 @@ install_github("enram/bioRad", ref="vignettes")
 Define your download settings/filters, such as the date range, countries, and radars to include and where the bird profile data should be stored locally (a file path relative to this script):
 
 ```{r}
-settings <- list()
-settings["start_date"]   <- "2017-03-01"
-settings["end_date"]     <- "2017-04-30"
-settings["countries"]    <- c("se")
-settings["radars"]       <- c("ang", "kkr")
-settings["raw_data_dir"] <- "../data/raw/" # Needs a trailing slash!
+download_settings <- list()
+download_settings[["start_date"]]   <- "2017-03-01"
+download_settings[["end_date"]]     <- "2017-04-30"
+download_settings[["countries"]]    <- c("se")
+download_settings[["radars"]]       <- c("ang", "kkr")
+download_settings[["raw_data_dir"]] <- "../data/raw/" # Needs a trailing slash!
 ```
 
 ## 3. Download bird profile data
@@ -43,12 +46,12 @@ Download the data from the [ENRAM bird profile data repository](http://enram.git
 
 ```{r results="hide", eval=FALSE}
 bioRad::download_vp(
-  start_date = settings$start_date,
-  end_date = settings$end_date,
-  country = settings$countries,
-  radar = settings$radars,
-  localpath = settings$raw_data_dir
+  start_date = download_settings$start_date,
+  end_date = download_settings$end_date,
+  country = download_settings$countries,
+  radar = download_settings$radars,
+  localpath = download_settings$raw_data_dir
 )
 ```
 
-Cool, you now have all the bird profile data locally. 😎 In [the next step](2_vp_to_csv.Rmd) you'll extract what you need to CSV files.
+Once you have all the data stored locally, go to [the next step](2_vp_to_csv.Rmd) to export those to a CSV file.

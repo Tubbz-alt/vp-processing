@@ -1,51 +1,54 @@
 ---
-title: "Extract bird profile data to CSV files"
+title: "Export bird profile data to a CSV file"
 author: "Peter Desmet"
-output: html_document
+output:
+  html_document:
+    toc: yes
+    toc_depth: 1
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r echo=FALSE}
+```{r results="hide"}
 library(bioRad)
 source("vp_to_df.R")
 ```
 
-## 1. Define extraction settings
+## 1. Define export settings
 
-Define your extraction settings/filters, such as the date range, countries and radars to include and where the bird profile data are stored locally (a file path relative to this script). These settings will overwrite the download settings from [the first script](1_download_vp.Rmd).
+Define your export settings/filters, such as the date range, countries and radars to include and where the bird profile data are stored locally (a file path relative to this script):
 
 ```{r}
-settings <- list()
-settings["start_date"]   <- "2016-10-03"
-settings["end_date"]     <- "2016-10-03"
-settings["countries"]    <- c("se")
-settings["radars"]       <- c("ang")
-settings["raw_data_dir"] <- "../data/se-sample/" # Needs a trailing slash!
+export_settings <- list()
+export_settings[["start_date"]]   <- "2016-10-03"
+export_settings[["end_date"]]     <- "2016-10-03"
+export_settings[["countries"]]    <- c("se")
+export_settings[["radars"]]       <- c("ang")
+export_settings[["raw_data_dir"]] <- "../data/se-sample/" # Needs a trailing slash!
 ```
 
 *TODO: will need to get the file paths radar per radar, since `readvp.list()` will only accept data from one radar at a time.*
 
 ## 2. Create a list of data file paths
 
-Let's build a list of all the file (paths) that meet your extraction criteria:
+Build a list of all the file (paths) that meet your extraction criteria:
 
 ```{r}
 vp.file_paths <- bioRad::retrieve_vp_paths(
-  start_date = settings$start_date,
-  end_date = settings$end_date,
-  country = settings$countries,
-  radar = settings$radars,
-  path = settings$raw_data_dir
+  start_date = export_settings$start_date,
+  end_date = export_settings$end_date,
+  country = export_settings$countries,
+  radar = export_settings$radars,
+  path = export_settings$raw_data_dir
 )
 ```
 
 The file paths only start at the level of the data directory, so we need to append all with the path to the data directory itself:
 
 ```{r}
-vp.file_paths <- paste0(settings$raw_data_dir, vp.file_paths)
+vp.file_paths <- paste0(export_settings$raw_data_dir, vp.file_paths)
 head(vp.file_paths)
 ```
 
