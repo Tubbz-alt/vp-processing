@@ -1,5 +1,5 @@
 ---
-title: "Download bird profile data from the ENRAM data repository"
+title: "Download vertical profile data from the ENRAM data repository"
 author: "Peter Desmet"
 output:
   html_document:
@@ -11,11 +11,11 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r echo=FALSE}
+```{r results="hide"}
 library(bioRad)
 ```
 
-The steps described in this document can be skipped if you already have all the required bird profile data stored locally. You will need the bioRad package for the next steps too though, so make sure it is installed.
+The steps described in this document can be skipped if all required vertical profile data are already available locally. We will need the bioRad package for the next steps too though, so make sure it is installed.
 
 ## 1. Install bioRad
 
@@ -29,7 +29,7 @@ install_github("enram/bioRad", ref="vignettes")
 
 ## 2. Define download settings
 
-Define your download settings/filters, such as the date range, countries, and radars to include and where the bird profile data should be stored locally (a file path relative to this script):
+To download specific data from the [ENRAM bird profile data repository](http://enram.github.io/data-repository), we need to specify a number of settings/filters, such as the date range, countries, and radars to include and where the vertical profile data should be stored locally (a file path relative to this script):
 
 ```{r}
 download_settings <- list()
@@ -40,9 +40,9 @@ download_settings[["radars"]]       <- c("ang", "kkr")
 download_settings[["raw_data_dir"]] <- "../data/raw/" # Needs a trailing slash!
 ```
 
-## 3. Download bird profile data
+## 3. Download vertical profile data
 
-Download the data from the [ENRAM bird profile data repository](http://enram.github.io/data-repository). Note that this step might take some time:
+Download the data. Note that this step might take some time:
 
 ```{r results="hide", eval=FALSE}
 bioRad::download_vp(
@@ -54,4 +54,4 @@ bioRad::download_vp(
 )
 ```
 
-Once you have all the data stored locally, go to [the next step](2_vp_to_csv.Rmd) to export those to a CSV file.
+We now have all the data stored locally. 👏 In [the next step](2_vp_to_csv.Rmd) we'll export what we need for TIMAMP in a CSV file.

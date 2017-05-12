@@ -1,5 +1,5 @@
 ---
-title: "Export bird profile data to a CSV file"
+title: "Export vertical profile data to a CSV file"
 author: "Peter Desmet"
 output:
   html_document:
@@ -11,14 +11,15 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r results="hide"}
+```{r results="hide", warning=FALSE, message=FALSE}
 library(bioRad)
+library(dplyr)
 source("vp_to_df.R")
 ```
 
 ## 1. Define export settings
 
-Define your export settings/filters, such as the date range, countries and radars to include and where the bird profile data are stored locally (a file path relative to this script):
+Since the data we want to include for the TIMAMP visualization might be different from what we have downloaded (or already stored locally), we need to define some export settings/filters. Those include date range, countries and radars to include and where the vertical profile data are stored locally (a file path relative to this script):
 
 ```{r}
 export_settings <- list()
@@ -29,11 +30,9 @@ export_settings[["radars"]]       <- c("ang")
 export_settings[["raw_data_dir"]] <- "../data/se-sample/" # Needs a trailing slash!
 ```
 
-*TODO: will need to get the file paths radar per radar, since `readvp.list()` will only accept data from one radar at a time.*
-
 ## 2. Create a list of data file paths
 
-Build a list of all the file (paths) that meet your extraction criteria:
+Build a list of all the file (paths) that meet our extraction criteria:
 
 ```{r}
 vp.file_paths <- bioRad::retrieve_vp_paths(
@@ -45,7 +44,7 @@ vp.file_paths <- bioRad::retrieve_vp_paths(
 )
 ```
 
-The file paths only start at the level of the data directory, so we need to append all with the path to the data directory itself:
+The file paths only start at the level of the data directory, so we need to append those with the path to the data directory itself:
 
 ```{r}
 vp.file_paths <- paste0(export_settings$raw_data_dir, vp.file_paths)
@@ -56,7 +55,7 @@ head(vp.file_paths)
 
 ### Single file example
 
-Read a single vp file with bioRad:
+Read a single vertical profile file (vp) with [bioRad](https://github.com/adokter/bioRad):
 
 ```{r}
 vp.single <- bioRad::readvp("../data/se-sample/2016/10/03/20/45/seang_vp_20161003T2045Z.h5")
@@ -82,6 +81,8 @@ head(vp_to_df(vp.single))
 
 ### All files
 
+Now, let's do this for all files we selected with our export settings. Get file paths:
+
 ```{r}
 vp.some <- bioRad::readvp.list(c(
   "../data/se-sample/2016/10/03/20/00/seang_vp_20161003T2000Z.h5",
@@ -91,6 +92,9 @@ vp.some <- bioRad::readvp.list(c(
 ))
 vp.all <- bioRad::readvp.list(vp.file_paths)
 ```
+
+_Note: bioRad will warn that not all vertical profiles are from a single radar, but that's fine._
+
 Create a data.frame with the data and metadata we need from all those files:
 
 ```{r}
