@@ -27,11 +27,8 @@ vp_to_df <- function(vp) {
   
   # Get and combine attributes/what/date & attributes/what/time
   date_time_string <- paste0(vp$attributes$what$date, vp$attributes$what$time)
-  # Express as an ISO datetime
-  date_time <- format(
-    as.POSIXct(date_time_string, format = "%Y%m%d%H%M%S"),
-    "%Y-%m-%dT%H:%M:%SZ"
-  )
+  # Express as POSIXct date
+  date_time <- as.POSIXct(date_time_string, format = "%Y%m%d%H%M%S")
   
   # Prepend metadata to data.frame
   df <- cbind(
