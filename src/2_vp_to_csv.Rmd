@@ -121,5 +121,5 @@ TODO
 ## 5. Export data as CSV file
 
 ```{r}
-write.csv(vpdf, file = "../data/interim/vp.csv", na="")
+write.csv(vpdf, file = "../data/interim/vp.csv", na = "", row.names = FALSE)
 ```
