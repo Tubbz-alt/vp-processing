@@ -19,12 +19,11 @@ The steps described in this document can be skipped if all required vertical pro
 
 ## 1. Install bioRad
 
-Follow step 1 to 3 of the [bioRad installation instructions](https://github.com/adokter/bioRad#installation). Until [this pull request is accepted](https://github.com/adokter/bioRad/pull/32), replace step 3 by:
+Follow step 1 to 3 of the [bioRad installation instructions](https://github.com/adokter/bioRad#installation):
 
-```{r eval=FALSE}
-# Install bioRad from the vignettes branch on ENRAM
+```{r install_biorad, eval=FALSE}
 library(devtools)
-install_github("enram/bioRad", ref="vignettes")
+install_github("adokter/bioRad", ref="master")
 ```
 
 ## 2. Define download settings
