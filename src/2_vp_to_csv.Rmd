@@ -110,13 +110,15 @@ for (i in seq_along(vp.all)) {
 vpdf = dplyr::bind_rows(vpdf.list)
 ```
 
+## 4. Sort data
+
+```{r}
+vpdf <- dplyr::arrange(vpdf, radar_id, date_time, HGHT)
+```
+
 ```{r}
 head(vpdf)
 ```
-
-## 4. Sort data
-
-TODO
 
 ## 5. Export data as CSV file
 
