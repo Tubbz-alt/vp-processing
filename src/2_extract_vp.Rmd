@@ -1,5 +1,5 @@
 ---
-title: "Export vertical profile data to a CSV file"
+title: "Extract vertical profile data and export to a single CSV file"
 author: "Peter Desmet"
 output:
   html_document:
@@ -17,21 +17,21 @@ library(dplyr)
 source("vp_to_df.R")
 ```
 
-## 1. Define export settings
+## 1. Define extraction settings
 
-Since the data we want to include for the TIMAMP visualization might be different from what we have downloaded (or already stored locally), we need to define some export settings/filters. Those include date range, countries and radars to include and where the vertical profile data are stored locally (a file path relative to this script):
+Since the data we want to include for the TIMAMP visualization might be different from what we have downloaded (or already stored locally), we need to define some extraction settings/filters. Those include date range, countries and radars to include and where the vertical profile data are stored locally (a file path relative to this script):
 
 ```{r}
-export_settings <- list()
-export_settings[["start_date"]]   <- "2016-10-03"
-export_settings[["end_date"]]     <- "2016-10-03"
-export_settings[["countries"]]    <- c(
+extraction_settings <- list()
+extraction_settings[["start_date"]]   <- "2016-10-03"
+extraction_settings[["end_date"]]     <- "2016-10-03"
+extraction_settings[["countries"]]    <- c(
   "se"
 )
-export_settings[["radars"]]       <- c(
+extraction_settings[["radars"]]       <- c(
   "ang", "arl", "ase", "hud", "kir", "kkr", "lek", "lul", "osu", "ovi", "var", "vil"
 )
-export_settings[["raw_data_dir"]] <- "../data/se-sample/" # Needs a trailing slash!
+extraction_settings[["raw_data_dir"]] <- "../data/se-sample/" # Needs a trailing slash!
 ```
 
 ## 2. Create a list of data file paths
@@ -40,18 +40,18 @@ Build a list of all the file (paths) that meet our extraction criteria:
 
 ```{r}
 vp.file_paths <- bioRad::retrieve_vp_paths(
-  start_date = export_settings$start_date,
-  end_date = export_settings$end_date,
-  country = export_settings$countries,
-  radar = export_settings$radars,
-  path = export_settings$raw_data_dir
+  start_date = extraction_settings$start_date,
+  end_date = extraction_settings$end_date,
+  country = extraction_settings$countries,
+  radar = extraction_settings$radars,
+  path = extraction_settings$raw_data_dir
 )
 ```
 
 The file paths only start at the level of the data directory, so we need to append those with the path to the data directory itself:
 
 ```{r}
-vp.file_paths <- paste0(export_settings$raw_data_dir, vp.file_paths)
+vp.file_paths <- paste0(extraction_settings$raw_data_dir, vp.file_paths)
 head(vp.file_paths)
 ```
 
@@ -85,7 +85,7 @@ head(vp_to_df(vp.single))
 
 ### All files
 
-Now, let's do this for all files we selected with our export settings. Get file paths:
+Now, let's do this for all files we selected with our extraction settings. Get file paths:
 
 ```{r}
 vp.some <- bioRad::readvp.list(c(
