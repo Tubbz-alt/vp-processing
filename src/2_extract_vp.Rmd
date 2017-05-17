@@ -11,7 +11,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r results="hide", warning=FALSE, message=FALSE}
+```{r libraries, results="hide", warning=FALSE, message=FALSE}
 library(bioRad)
 library(dplyr)
 source("vp_to_df.R")
@@ -21,7 +21,7 @@ source("vp_to_df.R")
 
 Since the data we want to include for the TIMAMP visualization might be different from what we have downloaded (or already stored locally), we need to define some extraction settings/filters. Those include date range, countries and radars to include and where the vertical profile data are stored locally (a file path relative to this script):
 
-```{r}
+```{r extraction_settings}
 extraction_settings <- list()
 extraction_settings[["start_date"]]   <- "2016-10-03"
 extraction_settings[["end_date"]]     <- "2016-10-03"
@@ -38,7 +38,7 @@ extraction_settings[["raw_data_dir"]] <- "../data/se-sample/" # Needs a trailing
 
 Build a list of all the file (paths) that meet our extraction criteria:
 
-```{r}
+```{r file_paths_1}
 vp.file_paths <- bioRad::retrieve_vp_paths(
   start_date = extraction_settings$start_date,
   end_date = extraction_settings$end_date,
@@ -50,7 +50,7 @@ vp.file_paths <- bioRad::retrieve_vp_paths(
 
 The file paths only start at the level of the data directory, so we need to append those with the path to the data directory itself:
 
-```{r}
+```{r file_paths_2}
 vp.file_paths <- paste0(extraction_settings$raw_data_dir, vp.file_paths)
 head(vp.file_paths)
 ```
@@ -61,25 +61,25 @@ head(vp.file_paths)
 
 Read a single vertical profile file (vp) with [bioRad](https://github.com/adokter/bioRad):
 
-```{r}
 vp.single <- bioRad::readvp("../data/se-sample/2016/10/03/20/45/seang_vp_20161003T2045Z.h5")
+```{r single_read}
 ```
 
 Have a look at the structure:
 
-```{r}
+```{r single_summary}
 summary(vp.single)
 ```
 
 And the data:
 
-```{r}
-head(vp.single$data)
+```{r single_data}
+vp.single$data
 ```
 
 Create a data.frame with the data and metadata we need (using the `vp_to_df` function):
 
-```{r}
+```{r single_df}
 head(vp_to_df(vp.single))
 ```
 
@@ -87,7 +87,7 @@ head(vp_to_df(vp.single))
 
 Now, let's do this for all files we selected with our extraction settings. Get file paths:
 
-```{r}
+```{r all_read}
 vp.some <- bioRad::readvp.list(c(
   "../data/se-sample/2016/10/03/20/00/seang_vp_20161003T2000Z.h5",
   "../data/se-sample/2016/10/03/20/15/seang_vp_20161003T2015Z.h5",
@@ -101,7 +101,7 @@ _Note: bioRad will warn that not all vertical profiles are from a single radar, 
 
 Create a data.frame with the data and metadata we need from all those files:
 
-```{r}
+```{r all_to_df}
 vpdf.list = list()
 for (i in seq_along(vp.all)) {
   vpdf.list[[i]] <- vp_to_df(vp.all[[i]])
@@ -112,16 +112,16 @@ vpdf = dplyr::bind_rows(vpdf.list)
 
 ## 4. Sort data
 
-```{r}
+```{r all_sort}
 vpdf <- dplyr::arrange(vpdf, radar_id, date_time, HGHT)
 ```
 
-```{r}
+```{r all_head}
 head(vpdf)
 ```
 
 ## 5. Export data as CSV file
 
-```{r}
+```{r all_export}
 write.csv(vpdf, file = "../data/interim/vp.csv", na = "", row.names = FALSE)
 ```

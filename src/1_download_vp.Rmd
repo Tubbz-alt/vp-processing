@@ -11,7 +11,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r results="hide"}
+```{r libraries results="hide"}
 library(bioRad)
 ```
 
@@ -31,7 +31,7 @@ install_github("enram/bioRad", ref="vignettes")
 
 To download specific data from the [ENRAM bird profile data repository](http://enram.github.io/data-repository), we need to specify a number of settings/filters, such as the date range, countries, and radars to include and where the vertical profile data should be stored locally (a file path relative to this script):
 
-```{r}
+```{r download_settings}
 download_settings <- list()
 download_settings[["start_date"]]   <- "2017-03-01"
 download_settings[["end_date"]]     <- "2017-04-30"
@@ -44,7 +44,7 @@ download_settings[["raw_data_dir"]] <- "../data/raw/" # Needs a trailing slash!
 
 Download the data. Note that this step might take some time:
 
-```{r results="hide", eval=FALSE}
+```{r download_data, results="hide", eval=FALSE}
 bioRad::download_vp(
   start_date = download_settings$start_date,
   end_date = download_settings$end_date,
