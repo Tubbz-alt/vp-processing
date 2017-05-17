@@ -61,8 +61,8 @@ head(vp.file_paths)
 
 Read a single vertical profile file (vp) with [bioRad](https://github.com/adokter/bioRad):
 
-vp.single <- bioRad::readvp("../data/se-sample/2016/10/03/20/45/seang_vp_20161003T2045Z.h5")
 ```{r single_read}
+vp.single <- bioRad::readvp("../data/se-sample/2016/10/03/20/00/searl_vp_20161003T2000Z.h5")
 ```
 
 Have a look at the structure:
@@ -89,10 +89,10 @@ Now, let's do this for all files we selected with our extraction settings. Get f
 
 ```{r all_read}
 vp.some <- bioRad::readvp.list(c(
-  "../data/se-sample/2016/10/03/20/00/seang_vp_20161003T2000Z.h5",
-  "../data/se-sample/2016/10/03/20/15/seang_vp_20161003T2015Z.h5",
-  "../data/se-sample/2016/10/03/20/30/seang_vp_20161003T2030Z.h5",
-  "../data/se-sample/2016/10/03/20/45/seang_vp_20161003T2045Z.h5"
+  "../data/se-sample/2016/10/03/20/00/searl_vp_20161003T2000Z.h5",
+  "../data/se-sample/2016/10/03/20/15/searl_vp_20161003T2015Z.h5",
+  "../data/se-sample/2016/10/03/20/30/searl_vp_20161003T2030Z.h5",
+  "../data/se-sample/2016/10/03/20/45/searl_vp_20161003T2045Z.h5"
 ))
 vp.all <- bioRad::readvp.list(vp.file_paths)
 ```
