@@ -122,6 +122,8 @@ head(vpdf)
 
 ## 5. Export data as CSV file
 
+Note that `NaN` values will be treated like `NA` values.
+
 ```{r all_export}
 write.csv(vpdf, file = "../data/interim/vp.csv", na = "", row.names = FALSE)
 ```
