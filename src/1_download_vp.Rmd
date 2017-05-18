@@ -53,4 +53,4 @@ bioRad::download_vp(
 )
 ```
 
-We now have all the data stored locally. 👏 In [the next step](2_vp_to_csv.Rmd) we'll export what we need for TIMAMP in a CSV file.
+We now have all the data stored locally. 👏 In [the next step](2_vp_to_csv.Rmd) we'll export what we need for the visualization in a CSV file.
