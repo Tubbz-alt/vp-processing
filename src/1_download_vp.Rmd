@@ -7,12 +7,8 @@ output:
     toc_depth: 1
 ---
 
-```{r setup, include=FALSE}
+```{r 1_setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
-
-```{r libraries, results="hide"}
-library(bioRad)
 ```
 
 The steps described in this document can be skipped if all required vertical profile data are already available locally. We will need the bioRad package for the next steps too though, so make sure it is installed.
@@ -21,16 +17,20 @@ The steps described in this document can be skipped if all required vertical pro
 
 Follow step 1 to 3 of the [bioRad installation instructions](https://github.com/adokter/bioRad#installation):
 
-```{r install_biorad, eval=FALSE}
+```{r 1_install_biorad, eval=FALSE}
 library(devtools)
 install_github("adokter/bioRad", ref="master")
 ```
 
 ## 2. Define download settings
+```{r 1_libraries, results="hide"}
+library(bioRad)
+```
+
 
 To download specific data from the [ENRAM bird profile data repository](http://enram.github.io/data-repository), we need to specify a number of settings/filters, such as the date range, countries, and radars to include and where the vertical profile data should be stored locally (a file path relative to this script):
 
-```{r download_settings}
+```{r 1_download_settings}
 download_settings <- list()
 download_settings[["start_date"]]   <- "2017-03-01"
 download_settings[["end_date"]]     <- "2017-04-30"
@@ -43,7 +43,7 @@ download_settings[["raw_data_dir"]] <- "../data/raw/" # Needs a trailing slash!
 
 Download the data. Note that this step might take some time:
 
-```{r download_data, results="hide", eval=FALSE}
+```{r 1_download_data, results="hide", eval=FALSE}
 bioRad::download_vp(
   start_date = download_settings$start_date,
   end_date = download_settings$end_date,
