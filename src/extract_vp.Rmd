@@ -1,10 +1,10 @@
 # Extract, aggregate and export vertical profile data {#extract_vp}
 
-```{r 2_setup, include=FALSE}
+```{r 3_setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r 2_libraries, results="hide", warning=FALSE, message=FALSE}
+```{r 3_libraries, results="hide", warning=FALSE, message=FALSE}
 library(bioRad)
 library(dplyr)
 library(lubridate)
@@ -15,7 +15,7 @@ source("vp_to_df.R")
 
 Since the data we want to include for the TIMAMP visualization might be different from what we have downloaded (or already stored locally), we need to define some extraction settings/filters. Those include date range, countries and radars to include and where the vertical profile data are stored locally (a file path relative to this script):
 
-```{r 2_extraction_settings}
+```{r 3_extraction_settings}
 extraction_settings <- list()
 extraction_settings[["start_date"]]   <- "2016-10-03"
 extraction_settings[["end_date"]]     <- "2016-10-03"
@@ -32,7 +32,7 @@ extraction_settings[["raw_data_dir"]] <- "../data/raw/se-sample/" # Needs a trai
 
 Build a list of all the file (paths) that meet our extraction criteria:
 
-```{r 2_file_paths}
+```{r 3_file_paths}
 vp.file_paths <- bioRad::retrieve_vp_paths(
   start_date = extraction_settings$start_date,
   end_date = extraction_settings$end_date,
@@ -44,7 +44,7 @@ vp.file_paths <- bioRad::retrieve_vp_paths(
 
 The file paths only start at the level of the data directory, so we need to append those with the path to the data directory itself:
 
-```{r 2_file_paths_add_data_dir}
+```{r 3_file_paths_add_data_dir}
 vp.file_paths <- paste0(extraction_settings$raw_data_dir, vp.file_paths)
 head(vp.file_paths)
 ```
@@ -55,25 +55,25 @@ head(vp.file_paths)
 
 Read a single vertical profile file (vp) with [bioRad](https://github.com/adokter/bioRad):
 
-```{r 2_vp_read_single_with_biorad}
+```{r 3_vp_read_single_with_biorad}
 vp.single <- bioRad::readvp("../data/raw/se-sample/2016/10/03/20/00/searl_vp_20161003T2000Z.h5")
 ```
 
 Have a look at the structure:
 
-```{r 2_vp_single_summary}
+```{r 3_vp_single_summary}
 summary(vp.single)
 ```
 
 And the data:
 
-```{r 2_vp_single_data}
+```{r 3_vp_single_data}
 vp.single$data
 ```
 
 Create a data.frame with the data and metadata we need (using the `vp_to_df` function):
 
-```{r 2_vp_single_to_df}
+```{r 3_vp_single_to_df}
 head(vp_to_df(vp.single))
 ```
 
@@ -81,7 +81,7 @@ head(vp_to_df(vp.single))
 
 Now, let's do this for all files we selected with our extraction settings. Get file paths:
 
-```{r 2_vp_read_all_with_biorad}
+```{r 3_vp_read_all_with_biorad}
 vp.some <- bioRad::readvp.list(c(
   "../data/raw/se-sample/2016/10/03/20/00/searl_vp_20161003T2000Z.h5",
   "../data/raw/se-sample/2016/10/03/20/15/searl_vp_20161003T2015Z.h5",
@@ -94,7 +94,7 @@ _Note: bioRad will warn that not all vertical profiles are from a single radar, 
 
 Create a data.frame with the data and metadata we need from all those files:
 
-```{r 2_vp_to_df}
+```{r 3_vp_to_df}
 vp_df.list = list()
 for (i in seq_along(vp.all)) {
   vp_df.list[[i]] <- vp_to_df(vp.all[[i]])
@@ -107,19 +107,19 @@ vp_df = dplyr::bind_rows(vp_df.list)
 
 Sort data on `radar_id`, `date_time` and `HGHT`:
 
-```{r 2_vp_sort}
+```{r 3_vp_sort}
 vp_df %>% arrange(radar_id, date_time, HGHT) -> vp_df
 ```
 
 Preview:
 
-```{r 2_vp_head, echo=FALSE}
+```{r 3_vp_head, echo=FALSE}
 head(vp_df)
 ```
 
 Number of records:
 
-```{r 2_vp_nrow, echo=FALSE}
+```{r 3_vp_nrow, echo=FALSE}
 nrow(vp_df)
 ```
 
@@ -127,7 +127,7 @@ nrow(vp_df)
 
 _Note that `NaN` values will be treated like `NA` values (see [this conversation](https://github.com/enram/timamp-etl/issues/10#issuecomment-302235736))_
 
-```{r 2_vp_export}
+```{r 3_vp_export}
 write.csv(vp_df, file = "../data/interim/vp.csv", na = "", row.names = FALSE)
 ```
 
@@ -137,13 +137,13 @@ For the visualization, we won't use this "raw" vp data output: we'll filter and 
 
 Not all radars will have data below 200m or above 4000m (see [this conversation]( https://github.com/enram/timamp-etl/issues/9)), so we'll only keep data from the **200-3800m height range** (both inclusive, resulting in 19 heights):
 
-```{r 2_vp_filter}
+```{r 3_vp_filter}
 vp_df %>% dplyr::filter(HGHT >= 200 & HGHT <= 3800) -> vp_df
 ```
 
 Number of records after filtering:
 
-```{r 2_vp_filter_nrow, echo=FALSE}
+```{r 3_vp_filter_nrow, echo=FALSE}
 nrow(vp_df)
 ```
 
@@ -151,7 +151,7 @@ nrow(vp_df)
 
 For the aggregation, we'll group by radar, time (per hour) and height (4 bins). For the latter two, we need to add columns:
 
-```{r 2_vp_add_bins}
+```{r 3_vp_add_bins}
 vp_df %>%
 # bin date_time on hour:
 dplyr::mutate(date_time_bin = format(floor_date(date_time, unit = "hour"), "%Y%m%d %H%M")) %>%
@@ -169,7 +169,7 @@ dplyr::mutate(height_bin = case_when(
 
 Preview:
 
-```{r 2_vp_add_bins_head, echo=FALSE}
+```{r 3_vp_add_bins_head, echo=FALSE}
 vp_df
 ```
 
@@ -177,7 +177,7 @@ vp_df
 
 For the aggregation will average `u`, `v` and `dens`, ignoring `NA` values:
 
-```{r 2_vp_aggregate}
+```{r 3_vp_aggregate}
 vp_df %>%
 dplyr::group_by(radar_id, date_time_bin, height_bin) %>%
 dplyr::summarize(
@@ -189,12 +189,12 @@ dplyr::summarize(
 
 Preview:
 
-```{r 2_vp_agg_head, echo=FALSE}
+```{r 3_vp_agg_head, echo=FALSE}
 head(vp_agg_df)
 ```
 
 ## Export aggregated vp data to a CSV file
 
-```{r 2_vp_agg_export}
+```{r 3_vp_agg_export}
 write.csv(vp_agg_df, file = "../data/interim/vp_agg.csv", na = "", row.names = FALSE)
 ```

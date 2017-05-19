@@ -6,4 +6,7 @@ book_filename: timamp-etl.Rmd
 # The output will be generated in the docs directory:
 output_dir: ../docs
 
+# The order of the chapters (and which Rmd files to include) is defined here:
+rmd_files: [index.Rmd, download_vp.Rmd, extract_vp.Rmd]
+
 # All other settings are defined in /src/index.Rmd
