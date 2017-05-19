@@ -1,0 +1,21 @@
+--- 
+title: "Process vertical profile data for visualizations"
+author: "Peter Desmet"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output:
+  bookdown::gitbook:
+    split_by: chapter
+    config:
+      edit: https://github.com/enram/timamp-etl/edit/master/src/%s
+      search: no
+      sharing:
+        facebook: no
+        twitter: yes
+        all: []
+github-repo: enram/timamp-etl
+---
+
+# Introduction {-}
+
+This document describes how to process vertical profile data for the visualizations [TIMAMP](https://github.com/enram/timamp) and [bird migration flow visualization](https://github.com/enram/bird-migration-flow-visualization).

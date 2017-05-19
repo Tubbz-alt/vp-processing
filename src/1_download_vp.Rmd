@@ -1,19 +1,12 @@
----
-title: "Download vertical profile data from the ENRAM data repository"
-author: "Peter Desmet"
-output:
-  html_document:
-    toc: yes
-    toc_depth: 1
----
+# Download vertical profile data from the ENRAM data repository {#download_vp}
 
 ```{r 1_setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The steps described in this document can be skipped if all required vertical profile data are already available locally. We will need the bioRad package for the next steps too though, so make sure it is installed.
+The steps described in this chapter can be skipped if all required vertical profile data are already available locally. We will need the bioRad package for the next steps too though, so make sure it is installed.
 
-## 1. Install bioRad
+## Install bioRad
 
 Follow step 1 to 3 of the [bioRad installation instructions](https://github.com/adokter/bioRad#installation):
 
@@ -22,11 +15,11 @@ library(devtools)
 install_github("adokter/bioRad", ref="master")
 ```
 
-## 2. Define download settings
 ```{r 1_libraries, results="hide"}
 library(bioRad)
 ```
 
+## Define download settings
 
 To download specific data from the [ENRAM bird profile data repository](http://enram.github.io/data-repository), we need to specify a number of settings/filters, such as the date range, countries, and radars to include and where the vertical profile data should be stored locally (a file path relative to this script):
 
@@ -39,7 +32,7 @@ download_settings[["radars"]]       <- c("ang", "kkr")
 download_settings[["raw_data_dir"]] <- "../data/raw/" # Needs a trailing slash!
 ```
 
-## 3. Download vertical profile data
+## Download vertical profile data
 
 Download the data. Note that this step might take some time:
 
@@ -53,4 +46,4 @@ bioRad::download_vp(
 )
 ```
 
-We now have all the data stored locally. 👏 In [the next step](2_vp_to_csv.Rmd) we'll export what we need for the visualization in a CSV file.
+We now have all the data stored locally. 👏 In the [next chapter](extract-vp.html) we'll export what we need for the visualization in a CSV file.

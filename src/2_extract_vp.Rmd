@@ -1,11 +1,4 @@
----
-title: "Extract, aggregate and export vertical profile data"
-author: "Peter Desmet"
-output:
-  html_document:
-    toc: yes
-    toc_depth: 1
----
+# Extract, aggregate and export vertical profile data {#extract_vp}
 
 ```{r 2_setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -18,7 +11,7 @@ library(lubridate)
 source("vp_to_df.R")
 ```
 
-## 1. Define extraction settings
+## Define extraction settings
 
 Since the data we want to include for the TIMAMP visualization might be different from what we have downloaded (or already stored locally), we need to define some extraction settings/filters. Those include date range, countries and radars to include and where the vertical profile data are stored locally (a file path relative to this script):
 
@@ -35,7 +28,7 @@ extraction_settings[["radars"]]       <- c(
 extraction_settings[["raw_data_dir"]] <- "../data/raw/se-sample/" # Needs a trailing slash!
 ```
 
-## 2. Create a list of data file paths
+## Create a list of data file paths
 
 Build a list of all the file (paths) that meet our extraction criteria:
 
@@ -56,7 +49,7 @@ vp.file_paths <- paste0(extraction_settings$raw_data_dir, vp.file_paths)
 head(vp.file_paths)
 ```
 
-## 3. Read data with bioRad
+## Read data with bioRad
 
 ### Single file example
 
@@ -130,7 +123,7 @@ Number of records:
 nrow(vp_df)
 ```
 
-## 5. Export vp data to a CSV file
+## Export vp data to a CSV file
 
 _Note that `NaN` values will be treated like `NA` values (see [this conversation](https://github.com/enram/timamp-etl/issues/10#issuecomment-302235736))_
 
@@ -138,11 +131,9 @@ _Note that `NaN` values will be treated like `NA` values (see [this conversation
 write.csv(vp_df, file = "../data/interim/vp.csv", na = "", row.names = FALSE)
 ```
 
-See the file at: [../data/interim/vp.csv](../data/interim/vp.csv)
-
 For the visualization, we won't use this "raw" vp data output: we'll filter and aggregate it in the next steps.
 
-## 6. Filter out lower and upper heights
+## Filter out lower and upper heights
 
 Not all radars will have data below 200m or above 4000m (see [this conversation]( https://github.com/enram/timamp-etl/issues/9)), so we'll only keep data from the **200-3800m height range** (both inclusive, resulting in 19 heights):
 
@@ -156,7 +147,7 @@ Number of records after filtering:
 nrow(vp_df)
 ```
 
-## 7. Add aggregation bins
+## Add aggregation bins
 
 For the aggregation, we'll group by radar, time (per hour) and height (4 bins). For the latter two, we need to add columns:
 
@@ -182,7 +173,7 @@ Preview:
 vp_df
 ```
 
-## 8. Aggregate
+## Aggregate
 
 For the aggregation will average `u`, `v` and `dens`, ignoring `NA` values:
 
@@ -202,10 +193,8 @@ Preview:
 head(vp_agg_df)
 ```
 
-## 9. Export aggregated vp data to a CSV file
+## Export aggregated vp data to a CSV file
 
 ```{r 2_vp_agg_export}
 write.csv(vp_agg_df, file = "../data/interim/vp_agg.csv", na = "", row.names = FALSE)
 ```
-
-See the file at: [../data/interim/vp_agg.csv](../data/interim/vp_agg.csv)

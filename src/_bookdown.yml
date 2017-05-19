@@ -1,0 +1,8 @@
+# To build the book, make sure that your Rstudio project directory is /src.
+# That should be the case if you open src/timamp-etl.Rproj.
+# Click the "Build > Build book" button in Rstudio to build the book.
+# The output will be generated in the /docs directory.
+# All other settings are defined in /src/index.Rmd
+
+book_filename: timamp-etl.Rmd
+output_dir: ../docs
