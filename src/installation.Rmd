@@ -1,4 +1,4 @@
-# Getting started
+# Getting started {#installation}
 
 ```{r 1_setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -6,7 +6,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 _Note: This documentation assumes you are working in RStudio._
 
-## Install
+## Install packages
 
 In this tutorial we use a number of R packages, which you need to install first:
 
@@ -36,13 +36,13 @@ Once downloaded, go to the `/src` directory:
 
 What your are reading here (in your browser) is all generated from the `.Rmd` files in the `src` directory, using the R package [bookdown](https://bookdown.org/yihui/bookdown/).
 
-In fact, **if you notice a typo in this documentation**, you can correct it by clicking the pencil icon in the menu at the top, which will take you straight to the correct `.Rmd` file in the [original repository on GitHub](https://github.com/enram/timamp-etl). If you click the pencil icon there, it will be able to edit right away or suggest to create a fork (= copy) first, depending on your access rights.
+In fact, **if you notice a typo in this documentation**, you can correct it by clicking the pencil icon in the menu at the top, which will take you straight to the correct `.Rmd` file in the [original repository on GitHub](https://github.com/enram/timamp-etl). If you click the pencil icon on that GitHub page, you will be able to edit right away or create a copy (a fork) of the repository to do so, depending on your access rights.
 
-If you want to generate fancy documentation for your own adapted code, then:
+If you want to generate your own fancy documentation from the adapted `.Rmd` files, then:
 
 1. Go to `Build` pane in RStudio
 2. Click the `Build book` button
-3. Wait for it the build to finish: that might take a while, as it will run all the `.Rmd` files.
+3. Wait for the build to finish: that might take a while as it will run the code from all the `.Rmd` files.
 4. Go to the `docs` repository
 5. Open `index.html` in your browser
 6. See your updated documentation
