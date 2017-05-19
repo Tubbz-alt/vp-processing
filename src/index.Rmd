@@ -7,7 +7,7 @@ output:
   bookdown::gitbook:
     split_by: chapter
     config:
-      edit: https://github.com/enram/timamp-etl/edit/master/src/%s
+      edit: https://github.com/enram/timamp-etl/blob/master/src/%s
       search: no
       sharing:
         facebook: no
