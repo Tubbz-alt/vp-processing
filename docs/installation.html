@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="installation.html">
-<link rel="next" href="extract-vp.html">
+<link rel="prev" href="index.html">
+<link rel="next" href="download-vp.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -142,38 +142,47 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="download_vp" class="section level1">
-<h1><span class="header-section-number">2</span> Download vp data</h1>
-<p>This chapter describes how to download vp data from the <a href="http://enram.github.io/data-repository">ENRAM bird profile data repository</a>. If you already have all the vp data (= h5 files) you need on your computer, you can skip this completely. 👋</p>
-<div id="define-download-settings" class="section level2">
-<h2><span class="header-section-number">2.1</span> Define download settings</h2>
-<p>To download specific vp data from the <a href="http://enram.github.io/data-repository">ENRAM bird profile data repository</a>, we need to specify a number of settings/filters, such as:</p>
-<ul>
-<li>date range</li>
-<li>countries to include</li>
-<li>radars to include (unless you only want to select on whole countries)</li>
-<li>where to download the vp data to (= a file path relative to this file)</li>
-</ul>
-<p>All these are stored in <code>download_settings</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">download_settings &lt;-<span class="st"> </span><span class="kw">list</span>()
-download_settings[[<span class="st">&quot;start_date&quot;</span>]]   &lt;-<span class="st"> &quot;2017-03-01&quot;</span>
-download_settings[[<span class="st">&quot;end_date&quot;</span>]]     &lt;-<span class="st"> &quot;2017-04-30&quot;</span>
-download_settings[[<span class="st">&quot;countries&quot;</span>]]    &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;se&quot;</span>)
-download_settings[[<span class="st">&quot;radars&quot;</span>]]       &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ang&quot;</span>, <span class="st">&quot;kkr&quot;</span>)
-download_settings[[<span class="st">&quot;raw_data_dir&quot;</span>]] &lt;-<span class="st"> &quot;../data/raw/&quot;</span></code></pre></div>
+<div id="installation" class="section level1">
+<h1><span class="header-section-number">1</span> Getting started</h1>
+<p><em>Note: This documentation assumes you are working in RStudio.</em></p>
+<div id="install-packages" class="section level2">
+<h2><span class="header-section-number">1.1</span> Install packages</h2>
+<p>In this tutorial we use a number of R packages, which you need to install first:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="kw">c</span>(
+  <span class="st">&quot;devtools&quot;</span>,  <span class="co"># To install packages from GitHub</span>
+  <span class="st">&quot;dplyr&quot;</span>,     <span class="co"># To process dataframes</span>
+  <span class="st">&quot;lubridate&quot;</span>, <span class="co"># To process dates</span>
+  <span class="st">&quot;bookdown&quot;</span>   <span class="co"># To generate this documentation</span>
+))
+devtools::<span class="kw">install_github</span>(<span class="st">&quot;adokter/bioRad&quot;</span>, <span class="dt">ref=</span><span class="st">&quot;master&quot;</span>) <span class="co"># To process vp data</span></code></pre></div>
 </div>
-<div id="download-vp-data" class="section level2">
-<h2><span class="header-section-number">2.2</span> Download vp data</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(bioRad)</code></pre></div>
-<p>Next, we download the data. You better get some ☕ as this might take a while.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bioRad::<span class="kw">download_vp</span>(
-  <span class="dt">start_date =</span> download_settings$start_date,
-  <span class="dt">end_date =</span> download_settings$end_date,
-  <span class="dt">country =</span> download_settings$countries,
-  <span class="dt">radar =</span> download_settings$radars,
-  <span class="dt">localpath =</span> download_settings$raw_data_dir
-)</code></pre></div>
-<p>Finished? Great! 👏 In the next chapter we’ll see how to export the relevant data from all those h5 files to a single CSV file.</p>
+<div id="download-the-code" class="section level2">
+<h2><span class="header-section-number">1.2</span> Download the code</h2>
+<p>To use and especially <em>adapt</em> the code of this tutorial, fork or clone this repository: <a href="https://github.com/enram/timamp-etl" class="uri">https://github.com/enram/timamp-etl</a></p>
+</div>
+<div id="edit-the-code" class="section level2">
+<h2><span class="header-section-number">1.3</span> Edit the code</h2>
+<p>Once downloaded, go to the <code>/src</code> directory:</p>
+<ol style="list-style-type: decimal">
+<li>Open <code>timamp-etl.Rproj</code> as a project in RStudio</li>
+<li>Open one of the <code>.Rmd</code> files in RStudio to see and edit the code.</li>
+<li>Test your code by running it.</li>
+</ol>
+</div>
+<div id="generating-fancy-documentation" class="section level2">
+<h2><span class="header-section-number">1.4</span> Generating fancy documentation 📕</h2>
+<p>What your are reading here (in your browser) is all generated from the <code>.Rmd</code> files in the <code>src</code> directory, using the R package <a href="https://bookdown.org/yihui/bookdown/">bookdown</a>.</p>
+<p>In fact, <strong>if you notice a typo in this documentation</strong>, you can correct it by clicking the pencil icon in the menu at the top, which will take you straight to the correct <code>.Rmd</code> file in the <a href="https://github.com/enram/timamp-etl">original repository on GitHub</a>. If you click the pencil icon on that GitHub page, you will be able to edit right away or create a copy (a fork) of the repository to do so, depending on your access rights.</p>
+<p>If you want to generate your own fancy documentation from the adapted <code>.Rmd</code> files, then:</p>
+<ol style="list-style-type: decimal">
+<li>Go to <code>Build</code> pane in RStudio</li>
+<li>Click the <code>Build book</code> button</li>
+<li>Wait for the build to finish: that might take a while as it will run the code from all the <code>.Rmd</code> files.</li>
+<li>Go to the <code>docs</code> repository</li>
+<li>Open <code>index.html</code> in your browser</li>
+<li>See your updated documentation</li>
+</ol>
+<p>For more info on debugging or hosting your documentation (i.e. on GitHub pages), see <a href="https://bookdown.org/yihui/bookdown/">this bookdown book on bookdown</a>. 😊</p>
 
 </div>
 </div>
@@ -182,8 +191,8 @@ download_settings[[<span class="st">&quot;raw_data_dir&quot;</span>]] &lt;-<span
           </div>
         </div>
       </div>
-<a href="installation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="extract-vp.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="download-vp.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
@@ -211,7 +220,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/enram/timamp-etl/blob/master/src/download_vp.Rmd",
+"link": "https://github.com/enram/timamp-etl/blob/master/src/installation.Rmd",
 "text": "Edit"
 },
 "download": null,
