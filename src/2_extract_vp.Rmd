@@ -138,6 +138,8 @@ _Note that `NaN` values will be treated like `NA` values (see [this conversation
 write.csv(vp_df, file = "../data/interim/vp.csv", na = "", row.names = FALSE)
 ```
 
+See the file at: [../data/interim/vp.csv](../data/interim/vp.csv)
+
 For the visualization, we won't use this "raw" vp data output: we'll filter and aggregate it in the next steps.
 
 ## 6. Filter out lower and upper heights
@@ -197,7 +199,7 @@ dplyr::summarize(
 Preview:
 
 ```{r vp_agg_head, echo=FALSE}
-vp_agg_df
+head(vp_agg_df)
 ```
 
 ## 9. Export aggregated vp data to a CSV file
@@ -205,3 +207,5 @@ vp_agg_df
 ```{r vp_agg_export}
 write.csv(vp_agg_df, file = "../data/interim/vp_agg.csv", na = "", row.names = FALSE)
 ```
+
+See the file at: [../data/interim/vp_agg.csv](../data/interim/vp_agg.csv)
