@@ -1,19 +1,10 @@
-# Download vertical profile data from the ENRAM data repository {#download_vp}
+# Download vp data {#download_vp}
 
 ```{r 2_setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The steps described in this chapter can be skipped if all required vertical profile data are already available locally. We will need the bioRad package for the next steps too though, so make sure it is installed.
-
-## Install bioRad
-
-Follow step 1 to 3 of the [bioRad installation instructions](https://github.com/adokter/bioRad#installation):
-
-```{r 2_install_biorad, eval=FALSE}
-library(devtools)
-install_github("adokter/bioRad", ref="master")
-```
+This chapter describes how to download vp data from the [ENRAM bird profile data repository](http://enram.github.io/data-repository). If you already have all the vp data (= h5 files) you need on your computer, you can skip this completely. 👋
 
 ```{r 2_libraries, results="hide"}
 library(bioRad)
@@ -21,7 +12,14 @@ library(bioRad)
 
 ## Define download settings
 
-To download specific data from the [ENRAM bird profile data repository](http://enram.github.io/data-repository), we need to specify a number of settings/filters, such as the date range, countries, and radars to include and where the vertical profile data should be stored locally (a file path relative to this script):
+To download specific vp data from the [ENRAM bird profile data repository](http://enram.github.io/data-repository), we need to specify a number of settings/filters, such as:
+
+* date range
+* countries to include
+* radars to include (unless you only want to select on whole countries)
+* where to download the vp data to (= a file path relative to this file)
+
+All these are stored in `download_settings`:
 
 ```{r 2_download_settings}
 download_settings <- list()
@@ -29,14 +27,14 @@ download_settings[["start_date"]]   <- "2017-03-01"
 download_settings[["end_date"]]     <- "2017-04-30"
 download_settings[["countries"]]    <- c("se")
 download_settings[["radars"]]       <- c("ang", "kkr")
-download_settings[["raw_data_dir"]] <- "../data/raw/" # Needs a trailing slash!
+download_settings[["raw_data_dir"]] <- "../data/raw/"
 ```
 
-## Download vertical profile data
+## Download vp data
 
-Download the data. Note that this step might take some time:
+Next, we download the data. This might take some time:
 
-```{r 2_download_data, results="hide", eval=FALSE}
+```{r 1_download_data, results="hide", eval=FALSE}
 bioRad::download_vp(
   start_date = download_settings$start_date,
   end_date = download_settings$end_date,
@@ -46,4 +44,4 @@ bioRad::download_vp(
 )
 ```
 
-We now have all the data stored locally. 👏 In the [next chapter](extract-vp.html) we'll export what we need for the visualization in a CSV file.
+Finished? Great! 👏 In the next chapter we'll see how to export the relevant data from all those h5 files to a single CSV file.
