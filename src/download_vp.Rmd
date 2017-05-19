@@ -6,10 +6,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This chapter describes how to download vp data from the [ENRAM bird profile data repository](http://enram.github.io/data-repository). If you already have all the vp data (= h5 files) you need on your computer, you can skip this completely. 👋
 
-```{r 2_libraries, results="hide"}
-library(bioRad)
-```
-
 ## Define download settings
 
 To download specific vp data from the [ENRAM bird profile data repository](http://enram.github.io/data-repository), we need to specify a number of settings/filters, such as:
@@ -32,7 +28,11 @@ download_settings[["raw_data_dir"]] <- "../data/raw/"
 
 ## Download vp data
 
-Next, we download the data. This might take some time:
+```{r 2_libraries, results="hide"}
+library(bioRad)
+```
+
+Next, we download the data. You better get some ☕ as this might take a while.
 
 ```{r 1_download_data, results="hide", eval=FALSE}
 bioRad::download_vp(
