@@ -1,4 +1,6 @@
-# Extract, aggregate and export vertical profile data {#extract_vp}
+# Extract vp data {#extract_vp}
+
+_This section needs to be reviewed and maybe split._
 
 ```{r 3_setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
