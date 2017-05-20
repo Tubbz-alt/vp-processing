@@ -1,4 +1,4 @@
-# Getting started {#installation}
+# Get started {#installation}
 
 ```{r 1_setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -32,7 +32,7 @@ Once downloaded, go to the `/src` directory:
 2. Open one of the `.Rmd` files in RStudio to see and edit the code.
 3. Test your code by running it.
 
-## Generating fancy documentation 📕
+## Generate fancy documentation 📕
 
 What your are reading here (in your browser) is all generated from the `.Rmd` files in the `src` directory, using the R package [bookdown](https://bookdown.org/yihui/bookdown/).
 
