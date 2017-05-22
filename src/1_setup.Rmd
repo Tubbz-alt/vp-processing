@@ -37,14 +37,14 @@ The processing requires a number of settings we need to define. If you want to [
 ```{r 1_define_settings}
 # The following three paths are relative to this script (i.e. to the src directory)
 raw_data_dir <- "../data/raw/example/" # Needs a trailing slash!
-# settings_file <- "../settings/example_settings.yaml"
-# radars_file <- "../settings/example_radars.csv"
+settings_file <- "../settings/example_settings.yaml"
+radars_file <- "../settings/example_radars.csv"
 ```
 
 Load those settings:
 
 ```{r 1_load_settings, results="hide", warning=FALSE, message=FALSE}
-# settings <- load_settings(settings_file)
+settings <- load_settings(settings_file)
 # radars <- load_radars(radars_file)
 ```
 
