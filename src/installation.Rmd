@@ -26,19 +26,19 @@ To use and especially _adapt_ the code of this tutorial, fork or clone this repo
 
 ## Edit the code
 
-Once downloaded, go to the `/src` directory:
+Once downloaded, go to the `src` directory:
 
 1. Open `timamp-etl.Rproj` as a project in RStudio
 2. Open one of the `.Rmd` files in RStudio to see and edit the code.
 3. Test your code by running it.
 
-## Generate fancy documentation 📕
+## Generate fancy documentation
 
 What your are reading here (in your browser) is all generated from the `.Rmd` files in the `src` directory, using the R package [bookdown](https://bookdown.org/yihui/bookdown/).
 
 In fact, **if you notice a typo in this documentation**, you can correct it by clicking the pencil icon in the menu at the top, which will take you straight to the correct `.Rmd` file in the [original repository on GitHub](https://github.com/enram/timamp-etl). If you click the pencil icon on that GitHub page, you will be able to edit right away or create a copy (a fork) of the repository to do so, depending on your access rights.
 
-If you want to generate your own fancy documentation from the adapted `.Rmd` files, then:
+If you want to generate your own fancy documentation 📕 from the adapted `.Rmd` files, then:
 
 1. Go to `Build` pane in RStudio
 2. Click the `Build book` button
