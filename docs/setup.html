@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Process vertical profile data for visualizations</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="Process vertical profile data for visualizations">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Process vertical profile data for visualizations" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="enram/timamp-etl" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Process vertical profile data for visualizations" />
+  
+  
+  
+
+<meta name="author" content="Peter Desmet">
+
+
+<meta name="date" content="2017-05-22">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="index.html">
+
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="setup.html"><a href="setup.html"><i class="fa fa-check"></i><b>1</b> Get started</a><ul>
+<li class="chapter" data-level="1.1" data-path="setup.html"><a href="setup.html#install-packages"><i class="fa fa-check"></i><b>1.1</b> Install packages</a></li>
+<li class="chapter" data-level="1.2" data-path="setup.html"><a href="setup.html#download-code"><i class="fa fa-check"></i><b>1.2</b> Download code</a></li>
+<li class="chapter" data-level="1.3" data-path="setup.html"><a href="setup.html#settings"><i class="fa fa-check"></i><b>1.3</b> Define processing settings</a></li>
+<li class="chapter" data-level="1.4" data-path="setup.html"><a href="setup.html#run-processing"><i class="fa fa-check"></i><b>1.4</b> Run processing</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="setup.html"><a href="setup.html#run-all-steps"><i class="fa fa-check"></i><b>1.4.1</b> Run all steps</a></li>
+<li class="chapter" data-level="1.4.2" data-path="setup.html"><a href="setup.html#run-individual-steps"><i class="fa fa-check"></i><b>1.4.2</b> Run individual steps</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="setup.html"><a href="setup.html#own-processing"><i class="fa fa-check"></i><b>1.5</b> Run your own processing</a><ul>
+<li class="chapter" data-level="1.5.1" data-path="setup.html"><a href="setup.html#upload-your-data"><i class="fa fa-check"></i><b>1.5.1</b> Upload your data</a></li>
+<li class="chapter" data-level="1.5.2" data-path="setup.html"><a href="setup.html#update-settings"><i class="fa fa-check"></i><b>1.5.2</b> Update settings</a></li>
+<li class="chapter" data-level="1.5.3" data-path="setup.html"><a href="setup.html#update-radars-metadata"><i class="fa fa-check"></i><b>1.5.3</b> Update radars metadata</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="setup.html"><a href="setup.html#update-code"><i class="fa fa-check"></i><b>1.6</b> Update code</a></li>
+<li class="chapter" data-level="1.7" data-path="setup.html"><a href="setup.html#update-documentation"><i class="fa fa-check"></i><b>1.7</b> Update documentation</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Process vertical profile data for visualizations</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="setup" class="section level1">
+<h1><span class="header-section-number">1</span> Get started</h1>
+<p><em>Note: This documentation assumes you are working in RStudio.</em></p>
+<div id="install-packages" class="section level2">
+<h2><span class="header-section-number">1.1</span> Install packages</h2>
+<p>First, you will need to install a number of R packages we will use:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="kw">c</span>(
+  <span class="st">&quot;devtools&quot;</span>,  <span class="co"># To install packages from GitHub</span>
+  <span class="st">&quot;yaml&quot;</span>,      <span class="co"># To read processing settings</span>
+  <span class="st">&quot;dplyr&quot;</span>,     <span class="co"># To process dataframes</span>
+  <span class="st">&quot;lubridate&quot;</span>, <span class="co"># To process dates</span>
+  <span class="st">&quot;bookdown&quot;</span>   <span class="co"># To generate this documentation</span>
+))
+devtools::<span class="kw">install_github</span>(<span class="st">&quot;adokter/bioRad&quot;</span>, <span class="dt">ref=</span><span class="st">&quot;master&quot;</span>) <span class="co"># To process vp data</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;functions/load_settings.R&quot;</span>)
+<span class="co"># source(&quot;functions/load_radars.R&quot;)</span></code></pre></div>
+</div>
+<div id="download-code" class="section level2">
+<h2><span class="header-section-number">1.2</span> Download code</h2>
+<p>To run or adapt the code in this document, fork or clone this repository: <a href="https://github.com/enram/timamp-etl" class="uri">https://github.com/enram/timamp-etl</a>.</p>
+</div>
+<div id="settings" class="section level2">
+<h2><span class="header-section-number">1.3</span> Define processing settings</h2>
+<p>The processing requires a number of settings we need to define. If you want to <a href="setup.html#own-processing">run the processing with other data and settings</a>, then <strong>this is the only code you need to update</strong> (in <code>1_setup.Rmd</code>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The following three paths are relative to this script (i.e. to the src directory)</span>
+raw_data_dir &lt;-<span class="st"> &quot;../data/raw/example/&quot;</span> <span class="co"># Needs a trailing slash!</span>
+<span class="co"># settings_file &lt;- &quot;../settings/example_settings.yaml&quot;</span>
+<span class="co"># radars_file &lt;- &quot;../settings/example_radars.csv&quot;</span></code></pre></div>
+<p>Load those settings:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># settings &lt;- load_settings(settings_file)</span>
+<span class="co"># radars &lt;- load_radars(radars_file)</span></code></pre></div>
+</div>
+<div id="run-processing" class="section level2">
+<h2><span class="header-section-number">1.4</span> Run processing</h2>
+<p>The processing of the vp data is done in four steps. Each has its own chapter and <a href="https://github.com/enram/timamp-etl/tree/master/src"><code>Rmd file</code></a>:</p>
+<ol style="list-style-type: decimal">
+<li><a href="setup.html">Get started</a> (<code>1_setup.Rmd</code>) = this chapter</li>
+<li><a href="extract-vp.html">Extract vp data</a> (<code>2_extract_vp.Rmd</code>)</li>
+<li><a href="vp-to-flowviz.html">Process vp data for the Bird migration flow visualization</a> (<code>3_vp_to_flowviz.Rmd</code>)</li>
+<li><a href="vp-to-timamp.html">Process vp data for TIMAMP</a> (<code>4_vp_to_timamp.Rmd</code>)</li>
+</ol>
+<p>The repository comes with <a href="https://github.com/enram/timamp-etl/tree/master/settings">example settings</a> and <a href="https://github.com/enram/timamp-etl/tree/master/data">data</a> for all steps, so you can run the processing out of the box:</p>
+<ol style="list-style-type: decimal">
+<li>Go the <code>src</code> directory of the downloaded code</li>
+<li>Open <code>timamp-etl.Rproj</code> in RStudio</li>
+</ol>
+<div id="run-all-steps" class="section level3">
+<h3><span class="header-section-number">1.4.1</span> Run all steps</h3>
+<p>To run all steps use the build functionality: it will run all the <code>.Rmd</code> files in <code>src</code> and generate <a href="setup.html#update-documentation">fancy documentation</a>:</p>
+<ol style="list-style-type: decimal">
+<li>Click on the <code>Build</code> pane in RStudio</li>
+<li>Click the <code>Build book</code> button</li>
+<li>Wait for the build to finish</li>
+</ol>
+<p>If you used example data, nothing should have changed: you’ve just reprocessed those files.</p>
+</div>
+<div id="run-individual-steps" class="section level3">
+<h3><span class="header-section-number">1.4.2</span> Run individual steps</h3>
+<p>If you are adapting the code, it can be useful to run individual steps. Except for <code>1_setup.Rmd</code>, all steps read input data file(s) and generate output data file(s). If those data files are already there, you don’t need to rerun the step that generated those. However, all files use the <a href="setup.html#settings">processing settings</a> defined in <code>1_setup.Rmd</code>, so you need to run that file at least once first:</p>
+<ol style="list-style-type: decimal">
+<li>Open and run <code>1_setup.Rmd</code> in RStudio</li>
+<li>Open and run one of the other <code>.Rmd</code> files</li>
+<li>Adapt the <code>.Rmd</code> file and run to test</li>
+</ol>
+</div>
+</div>
+<div id="own-processing" class="section level2">
+<h2><span class="header-section-number">1.5</span> Run your own processing</h2>
+<p>If you want to run the processing with your own data and processing settings, do this:</p>
+<div id="upload-your-data" class="section level3">
+<h3><span class="header-section-number">1.5.1</span> Upload your data</h3>
+<ol style="list-style-type: decimal">
+<li>Add a new directory to <code>data/raw</code> and give it a meaningful name</li>
+<li>Update <code>raw_data_dir</code> in <a href="setup.html#settings">1.3</a> so the code can find your directory</li>
+<li>Copy your vp data to that directory or download vp data from the <a href="http://enram.github.io/data-repository">ENRAM bird profile data repository</a></li>
+</ol>
+<p>To download data, adapt the following to your needs and run it. You might want to get some ☕ as this could take a while:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(bioRad)
+bioRad::<span class="kw">download_vp</span>(
+  <span class="dt">start_date =</span> <span class="st">&quot;2017-03-01&quot;</span>,
+  <span class="dt">end_date =</span> <span class="st">&quot;2017-03-01&quot;</span>,
+  <span class="dt">country =</span> <span class="kw">c</span>(<span class="st">&quot;se&quot;</span>),
+  <span class="dt">radar =</span> <span class="kw">c</span>(<span class="st">&quot;ang&quot;</span>, <span class="st">&quot;arl&quot;</span>),
+  <span class="dt">localpath =</span> <span class="st">&quot;../data/raw/my_data&quot;</span>
+)</code></pre></div>
+</div>
+<div id="update-settings" class="section level3">
+<h3><span class="header-section-number">1.5.2</span> Update settings</h3>
+<ol style="list-style-type: decimal">
+<li>Copy and paste <code>example_settings.yaml</code> in <code>settings</code> and give it a meaningful name</li>
+<li>Update <code>settings_file</code> in <a href="setup.html#settings">1.3</a> so the code can find your file</li>
+<li>Adapt your settings file to your own needs</li>
+</ol>
+</div>
+<div id="update-radars-metadata" class="section level3">
+<h3><span class="header-section-number">1.5.3</span> Update radars metadata</h3>
+<ol style="list-style-type: decimal">
+<li>Copy and paste <code>example_radars.csv</code> in <code>settings</code> and give it a meaningful name</li>
+<li>Update <code>radars_file</code> in <a href="setup.html#settings">1.3</a> so the code can find your file</li>
+<li>Adapt your settings file to your own needs</li>
+</ol>
+<p>Once done, <a href="setup.html#run-all-steps">run all steps of the processing</a>. There should be no need to adapt the code.</p>
+</div>
+</div>
+<div id="update-code" class="section level2">
+<h2><span class="header-section-number">1.6</span> Update code</h2>
+<p>If the processing doesn’t fit your needs, you can update the code by editing the relevant file in <code>src</code> and running it (see <a href="setup.html#run-individual-steps">1.4.2</a>). If you encounter a bug in the original code, please let us know by <a href="https://github.com/enram/timamp-etl/issues/new">filing an issue</a> or submitting a pull request.</p>
+</div>
+<div id="update-documentation" class="section level2">
+<h2><span class="header-section-number">1.7</span> Update documentation</h2>
+<p>What your are reading here (in your browser) is in fact all generated from the <code>.Rmd</code> files in the <code>src</code> directory, using the R package <a href="https://bookdown.org/yihui/bookdown/">bookdown</a>.</p>
+<p>If you notice a typo in this documentation, you can correct it by clicking the pencil icon in the menu at the top, which will take you straight to the correct <code>.Rmd</code> file in the <a href="https://github.com/enram/timamp-etl">original repository on GitHub</a>. If you click the pencil icon on that GitHub page, you will be able to edit right away or create a copy (a fork) of the repository to do so, depending on your access rights.</p>
+<p>If you want to generate your own fancy documentation 📕 from the adapted <code>.Rmd</code> files, then just <a href="setup.html#run-all-steps">run all steps</a>. The build process will create your documentation in the <code>docs</code> repository. Open <code>index.html</code> in your browser to see it.</p>
+<p>For more info on debugging or hosting your documentation (i.e. on GitHub pages), see <a href="https://bookdown.org/yihui/bookdown/">this bookdown book on bookdown</a>. 😊</p>
+
+</div>
+</div>
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": {}
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/enram/timamp-etl/blob/master/src/1_setup.Rmd",
+"text": "Edit"
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+},
+"search": false
+});
+});
+</script>
+
+</body>
+
+</html>
