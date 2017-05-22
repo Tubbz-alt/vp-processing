@@ -1,6 +1,6 @@
 # Get started {#setup}
 
-```{r 1_rmd_settings, include=FALSE}
+```{r setup_rmd_settings, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -10,7 +10,7 @@ _Note: This documentation assumes you are working in RStudio._
 
 First, you will need to install a number of R packages we will use:
 
-```{r 1_install_packages, eval=FALSE}
+```{r setup_install_packages, eval=FALSE}
 install.packages(c(
   "devtools",  # To install packages from GitHub
   "yaml",      # To read processing settings
@@ -21,7 +21,7 @@ install.packages(c(
 devtools::install_github("adokter/bioRad", ref="master") # To process vp data
 ```
 
-```{r 1_libraries, results="hide", warning=FALSE, message=FALSE}
+```{r setup_load_libraries, results="hide", warning=FALSE, message=FALSE}
 source("functions/load_settings.R")
 # source("functions/load_radars.R")
 ```
@@ -32,9 +32,9 @@ To run or adapt the code in this document, fork or clone this repository: https:
 
 ## Define processing settings {#settings}
 
-The processing requires a number of settings we need to define. If you want to [run the processing with other data and settings](#own-processing), then **this is the only code you need to update** (in `1_setup.Rmd`):
+The processing requires a number of settings we need to define. If you want to [run the processing with other data and settings](#own-processing), then **this is the only code you need to update** (in `setup.Rmd`):
 
-```{r 1_define_settings}
+```{r setup_define_settings}
 # The following three paths are relative to this script (i.e. to the src directory)
 raw_data_dir <- "../data/raw/example/" # Needs a trailing slash!
 settings_file <- "../settings/example_settings.yaml"
@@ -43,7 +43,7 @@ radars_file <- "../settings/example_radars.csv"
 
 Load those settings:
 
-```{r 1_load_settings, results="hide", warning=FALSE, message=FALSE}
+```{r setup_load_settings, results="hide", warning=FALSE, message=FALSE}
 settings <- load_settings(settings_file)
 # radars <- load_radars(radars_file)
 ```
@@ -52,10 +52,10 @@ settings <- load_settings(settings_file)
 
 The processing of the vp data is done in four steps. Each has its own chapter and [`Rmd file`](https://github.com/enram/timamp-etl/tree/master/src):
 
-1. [Get started](setup.html) (`1_setup.Rmd`) = this chapter
-3. [Extract vp data](extract-vp.html) (`2_extract_vp.Rmd`)
-4. [Process vp data for the Bird migration flow visualization](vp-to-flowviz.html) (`3_vp_to_flowviz.Rmd`)
-5. [Process vp data for TIMAMP](vp-to-timamp.html) (`4_vp_to_timamp.Rmd`)
+1. [Get started](setup.html) (`setup.Rmd`) = this chapter
+3. [Extract vp data](extract-vp.html) (`extract_vp.Rmd`)
+4. [Process vp data for the Bird migration flow visualization](vp-to-flowviz.html) (`vp_to_flowviz.Rmd`)
+5. [Process vp data for TIMAMP](vp-to-timamp.html) (`vp_to_timamp.Rmd`)
 
 The repository comes with [example settings](https://github.com/enram/timamp-etl/tree/master/settings) and [data](https://github.com/enram/timamp-etl/tree/master/data) for all steps, so you can run the processing out of the box:
 
@@ -74,9 +74,9 @@ If you used example data, nothing should have changed: you've just reprocessed t
 
 ### Run individual steps
 
-If you are adapting the code, it can be useful to run individual steps. Except for `1_setup.Rmd`, all steps read input data file(s) and generate output data file(s). If those data files are already there, you don't need to rerun the step that generated those. However, all files use the [processing settings](#settings) defined in `1_setup.Rmd`, so you need to run that file at least once first:
+If you are adapting the code, it can be useful to run individual steps. Except for `setup.Rmd`, all steps read input data file(s) and generate output data file(s). If those data files are already there, you don't need to rerun the step that generated those. However, all files use the [processing settings](#settings) defined in `setup.Rmd`, so you need to run that file at least once first:
 
-1. Open and run `1_setup.Rmd` in RStudio
+1. Open and run `setup.Rmd` in RStudio
 2. Open and run one of the other `.Rmd` files
 3. Adapt the `.Rmd` file and run to test
 
@@ -92,7 +92,7 @@ If you want to run the processing with your own data and processing settings, do
 
 To download data, adapt the following to your needs and run it. You might want to get some ☕ as this could take a while:
 
-```{r 1_download_data, results="hide", eval=FALSE}
+```{r setup_download_data, results="hide", eval=FALSE}
 library(bioRad)
 bioRad::download_vp(
   start_date = "2017-03-01",
