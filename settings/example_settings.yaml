@@ -1,0 +1,12 @@
+general_settings:
+  start_date: 2016-10-03
+  end_date: 2016-10-03
+  min_height: 200
+  max_height: 3800
+timamp_settings:
+bmfv_settings:
+radar_settings:
+  seang:
+  searl:
+  sease:
+  sehud:

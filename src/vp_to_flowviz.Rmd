@@ -1,0 +1,7 @@
+# Process vp data for the Bird migration flow visualization {#vp-to-flowviz}
+
+```{r flowviz_rmd_settings, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+To be completed...

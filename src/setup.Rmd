@@ -1,0 +1,132 @@
+# Get started {#setup}
+
+```{r setup_rmd_settings, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+_Note: This documentation assumes you are working in RStudio._
+
+## Install packages
+
+First, you will need to install a number of R packages we will use:
+
+```{r setup_install_packages, eval=FALSE}
+install.packages(c(
+  "devtools",  # To install packages from GitHub
+  "yaml",      # To read processing settings
+  "dplyr",     # To process dataframes
+  "lubridate", # To process dates
+  "bookdown"   # To generate this documentation
+))
+devtools::install_github("adokter/bioRad", ref="master") # To process vp data
+```
+
+```{r setup_load_libraries, results="hide", warning=FALSE, message=FALSE}
+source("functions/load_settings.R")
+# source("functions/load_radars.R")
+```
+
+## Download code
+
+To run or adapt the code in this document, fork or clone this repository: https://github.com/enram/timamp-etl.
+
+## Define processing settings {#settings}
+
+The processing requires a number of settings we need to define. If you want to [run the processing with other data and settings](#own-processing), then **this is the only code you need to update** (in `setup.Rmd`):
+
+```{r setup_define_settings}
+# The following three paths are relative to this script (i.e. to the src directory)
+raw_data_dir <- "../data/raw/example/" # Needs a trailing slash!
+settings_file <- "../settings/example_settings.yaml"
+radars_file <- "../settings/example_radars.csv"
+```
+
+Load those settings:
+
+```{r setup_load_settings, results="hide", warning=FALSE, message=FALSE}
+settings <- load_settings(settings_file)
+# radars <- load_radars(radars_file)
+```
+
+## Run processing
+
+The processing of the vp data is done in four steps. Each has its own chapter and [`Rmd file`](https://github.com/enram/timamp-etl/tree/master/src):
+
+1. [Get started](setup.html) (`setup.Rmd`) = this chapter
+3. [Extract vp data](extract-vp.html) (`extract_vp.Rmd`)
+4. [Process vp data for the Bird migration flow visualization](vp-to-flowviz.html) (`vp_to_flowviz.Rmd`)
+5. [Process vp data for TIMAMP](vp-to-timamp.html) (`vp_to_timamp.Rmd`)
+
+The repository comes with [example settings](https://github.com/enram/timamp-etl/tree/master/settings) and [data](https://github.com/enram/timamp-etl/tree/master/data) for all steps, so you can run the processing out of the box:
+
+1. Go the `src` directory of the downloaded code
+2. Open `timamp-etl.Rproj` in RStudio
+
+### Run all steps
+
+To run all steps use the build functionality: it will run all the `.Rmd` files in `src` and generate [fancy documentation](#update-documentation):
+
+1. Click on the `Build` pane in RStudio
+2. Click the `Build book` button
+3. Wait for the build to finish
+
+If you used example data, nothing should have changed: you've just reprocessed those files.
+
+### Run individual steps
+
+If you are adapting the code, it can be useful to run individual steps. Except for `setup.Rmd`, all steps read input data file(s) and generate output data file(s). If those data files are already there, you don't need to rerun the step that generated those. However, all files use the [processing settings](#settings) defined in `setup.Rmd`, so you need to run that file at least once first:
+
+1. Open and run `setup.Rmd` in RStudio
+2. Open and run one of the other `.Rmd` files
+3. Adapt the `.Rmd` file and run to test
+
+## Run your own processing {#own-processing}
+
+If you want to run the processing with your own data and processing settings, do this:
+
+### Upload your data
+
+1. Add a new directory to `data/raw` and give it a meaningful name
+2. Update `raw_data_dir` in \@ref(settings) so the code can find your directory
+2. Copy your vp data to that directory or download vp data from the [ENRAM bird profile data repository](http://enram.github.io/data-repository)
+
+To download data, adapt the following to your needs and run it. You might want to get some ☕ as this could take a while:
+
+```{r setup_download_data, results="hide", eval=FALSE}
+library(bioRad)
+bioRad::download_vp(
+  start_date = "2017-03-01",
+  end_date = "2017-03-01",
+  country = c("se"),
+  radar = c("ang", "arl"),
+  localpath = "../data/raw/my_data"
+)
+```
+
+### Update settings
+
+1. Copy and paste `example_settings.yaml` in `settings` and give it a meaningful name
+2. Update `settings_file` in \@ref(settings) so the code can find your file
+3. Adapt your settings file to your own needs
+
+### Update radars metadata
+
+1. Copy and paste `example_radars.csv` in `settings` and give it a meaningful name
+2. Update `radars_file` in \@ref(settings) so the code can find your file
+3. Adapt your settings file to your own needs
+
+Once done, [run all steps of the processing](#run-all-steps). There should be no need to adapt the code.
+
+## Update code
+
+If the processing doesn't fit your needs, you can update the code by editing the relevant file in `src` and running it (see \@ref(run-individual-steps)). If you encounter a bug in the original code, please let us know by [filing an issue](https://github.com/enram/timamp-etl/issues/new) or submitting a pull request.
+
+## Update documentation
+
+What your are reading here (in your browser) is in fact all generated from the `.Rmd` files in the `src` directory, using the R package [bookdown](https://bookdown.org/yihui/bookdown/).
+
+If you notice a typo in this documentation, you can correct it by clicking the pencil icon in the menu at the top, which will take you straight to the correct `.Rmd` file in the [original repository on GitHub](https://github.com/enram/timamp-etl). If you click the pencil icon on that GitHub page, you will be able to edit right away or create a copy (a fork) of the repository to do so, depending on your access rights.
+
+If you want to generate your own fancy documentation 📕 from the adapted `.Rmd` files, then just [run all steps](#run-all-steps). The build process will create your documentation in the `docs` repository. Open `index.html` in your browser to see it.
+
+For more info on debugging or hosting your documentation (i.e. on GitHub pages), see [this bookdown book on bookdown](https://bookdown.org/yihui/bookdown/). 😊

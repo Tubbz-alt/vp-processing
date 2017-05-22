@@ -18,8 +18,8 @@ github-repo: enram/timamp-etl
 
 # Preface {-}
 
-This tutorial describes how to process **vertical profile (vp) data**[^1] for visualizations, such as [TIMAMP](http://timamp.github.io/) or the [bird migration flow visualization](http://enram.github.io/bird-migration-flow-visualization/viz/). You can also use it to just download or extract vp data for further analysis.
-
-![Bird migration flow visualization for Sweden.](images/flow_viz_se.png)
+This document describes how we process **vertical profile (vp) data**[^1] for the visualizations [bird migration flow visualization](http://enram.github.io/bird-migration-flow-visualization/viz/) and [TIMAMP](http://timamp.github.io/). You can also use it to just download or extract vp data for further analysis.
 
 [^1]: Vertical profiles of birds generated from weather radar volume scans by [vol2bird](https://github.com/adokter/vol2bird).
+
+![Bird migration flow visualization for Sweden.](images/flow_viz_se.png)

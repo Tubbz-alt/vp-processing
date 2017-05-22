@@ -7,6 +7,6 @@ book_filename: timamp-etl.Rmd
 output_dir: ../docs
 
 # The order of the chapters (and which Rmd files to include) is defined here:
-rmd_files: [index.Rmd, installation.Rmd, download_vp.Rmd, extract_vp.Rmd]
+rmd_files: [index.Rmd, setup.Rmd, extract_vp.Rmd, vp_to_flowviz.Rmd, vp_to_timamp.Rmd]
 
 # All other settings are defined in /src/index.Rmd
