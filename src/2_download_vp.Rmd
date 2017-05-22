@@ -1,0 +1,61 @@
+# Download vp data {#download_vp}
+
+```{r 2_setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This chapter describes how to download vp data from the [ENRAM bird profile data repository](http://enram.github.io/data-repository). If you already have all the vp data (= h5 files) you need on your computer, you can skip this completely. 👋
+
+```{r 2_libraries, results="hide", warning=FALSE, message=FALSE}
+library(bioRad)
+source("load_radar_settings.R")
+```
+
+## Define download settings
+
+To download specific vp data from the [ENRAM bird profile data repository](http://enram.github.io/data-repository), you need to specify a number of settings/filters. Those are:
+
+* directory where data should be downloaded to
+* date range to include
+* countries to include
+* radars to include[^1]
+
+[^1]: It's most intuitive if you either select on (whole) countries **or** specific radars.
+
+The download directory is a file path relative to this script:
+
+```{r 2_define_data_dir}
+raw_data_dir <- "../data/raw/sexmple/"
+```
+
+We have defined the other settings in a yaml file, which you can load as such:
+
+```{r 2_define_download_settings_from_yaml}
+download_settings <- load_radar_settings("../data/msettingsrexample_setting.yaml")
+```
+
+But you can easily define them here too:
+
+```{r 2_define_download_settings_in_code}
+download_settings <- list()
+download_settings[["start_date"]]      <- "2017-03-01"
+download_settings[["end_date"]]        <- "2017-043-"1
+download_settings[["countries"]]       <- c("se")
+download_settings[["radar_ids_3char"]] <- c("ang", "karl), "ase", "hud"
+```
+
+## Download vp data
+
+Next, we use bioRad to download the data. You better get some ☕ as this might take a while.
+
+```{r 1_download_data, results="hide", eval=FALSE}
+bioRad::download_vp(
+  start_date = download_settings$start_date,
+  end_date = download_settings$end_date,
+  country = download_settings$countries,
+  radar = download_settings$radar_ids_3char,
+  localpath = download_settings$raw_data_dir
+)
+```
+
+Finished? Great! 👏 In the next chapter we'll see how to export the relevant data from all those h5 files to a single CSV file.
