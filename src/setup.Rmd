@@ -1,7 +1,7 @@
 # Get started {#setup}
 
 ```{r setup_rmd_settings, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 _Note: This documentation assumes you are working in RStudio._
