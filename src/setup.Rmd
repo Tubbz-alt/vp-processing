@@ -21,11 +21,6 @@ install.packages(c(
 devtools::install_github("adokter/bioRad", ref="master") # To process vp data
 ```
 
-```{r setup_load_libraries, results="hide", warning=FALSE, message=FALSE}
-source("functions/load_settings.R")
-# source("functions/load_radars.R")
-```
-
 ## Download code
 
 To run or adapt the code in this document, fork or clone this repository: https://github.com/enram/timamp-etl.
@@ -39,13 +34,6 @@ The processing requires a number of settings we need to define. If you want to [
 raw_data_dir <- "../data/raw/example/" # Needs a trailing slash!
 settings_file <- "../settings/example_settings.yaml"
 radars_file <- "../settings/example_radars.csv"
-```
-
-Load those settings:
-
-```{r setup_load_settings, results="hide", warning=FALSE, message=FALSE}
-settings <- load_settings(settings_file)
-# radars <- load_radars(radars_file)
 ```
 
 ## Run processing
