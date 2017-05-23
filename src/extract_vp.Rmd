@@ -1,202 +1,92 @@
 # Extract vp data {#extract-vp}
 
-_This section needs to be reviewed and maybe split._
-
 ```{r extract_rmd_settings, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-```{r extract_libraries, results="hide", warning=FALSE, message=FALSE}
+In this chapter we'll select, read, combine, filter and export data from vp files to a single, unaggregated CSV file.
+
+```{r extract_load_libraries, results="hide"}
 library(bioRad)
 library(dplyr)
 library(lubridate)
-source("vp_to_df.R")
+source("functions/vp_to_df.R")
+source("functions/load_settings.R")
 ```
 
-## Define extraction settings
+## Select date range & radars
 
-Since the data we want to include for the TIMAMP visualization might be different from what we have downloaded (or already stored locally), we need to define some extraction settings/filters. Those include date range, countries and radars to include and where the vertical profile data are stored locally (a file path relative to this script):
+Select vp files on the date range and radars we defined in our `settings_file` (_horizontal selection_):
 
-```{r extract_extraction_settings}
-extraction_settings <- list()
-extraction_settings[["start_date"]]   <- "2016-10-03"
-extraction_settings[["end_date"]]     <- "2016-10-03"
-extraction_settings[["countries"]]    <- c(
-  "se"
-)
-extraction_settings[["radars"]]       <- c(
-  "ang", "arl", "ase", "hud", "kir", "kkr", "lek", "lul", "osu", "ovi", "var", "vil"
-)
-extraction_settings[["raw_data_dir"]] <- "../data/raw/se-sample/" # Needs a trailing slash!
-```
-
-## Create a list of data file paths
-
-Build a list of all the file (paths) that meet our extraction criteria:
-
-```{r extract_file_paths}
-vp.file_paths <- bioRad::retrieve_vp_paths(
-  start_date = extraction_settings$start_date,
-  end_date = extraction_settings$end_date,
-  country = extraction_settings$countries,
-  radar = extraction_settings$radars,
-  path = extraction_settings$raw_data_dir
+```{r extract_get_file_paths}
+settings <- load_settings(settings_file)
+vp_file_paths <- bioRad::retrieve_vp_paths(
+  start_date = settings$start_date,
+  end_date = settings$end_date, # Is inclusive
+  radar = settings$radar_ids_3char,
+  path = raw_data_dir
 )
 ```
 
-The file paths only start at the level of the data directory, so we need to append those with the path to the data directory itself:
+The file paths we get back only start from the data directory, so we need to append those with the path to the data directory itself:
 
-```{r extract_file_paths_add_data_dir}
-vp.file_paths <- paste0(extraction_settings$raw_data_dir, vp.file_paths)
-head(vp.file_paths)
+```{r extract_complete_file_paths}
+vp_file_paths <- paste0(raw_data_dir, vp_file_paths)
 ```
 
-## Read data with bioRad
+There are **`r length(vp_file_paths)` vp files** that meet our criteria. Preview:
 
-### Single file example
-
-Read a single vertical profile file (vp) with [bioRad](https://github.com/adokter/bioRad):
-
-```{r extract_vp_read_single_with_biorad}
-vp.single <- bioRad::readvp("../data/raw/se-sample/2016/10/03/20/00/searl_vp_20161003T2000Z.h5")
+```{r extract_preview_file_paths}
+head(vp_file_paths, 5)
 ```
 
-Have a look at the structure:
+## Read vp files
 
-```{r extract_vp_single_summary}
-summary(vp.single)
+We read all those files with bioRad. This could take a while:
+
+```{r extract_read_vp_data_get_☕}
+vp_files <- bioRad::readvp.list(vp_file_paths)
 ```
 
-And the data:
+## Select variables
 
-```{r extract_vp_single_data}
-vp.single$data
+A single vp file contains a data frame with heights as rows and variables as columns: 
+
+```{r extract_show_vp_data_structure}
+str(vp_files[[1]]$data)
 ```
 
-Create a data.frame with the data and metadata we need (using the `vp_to_df` function):
+We only select the variables (`HGHT`, `u`, `v`, `dens`, `sd_vpp`) and attributes (`date_time` and `radar_id`) we need (_vertical selection_). We retrieve those with the custom function `vp_to_df.R` after which we combine all data in one single data frame, sorted on `radar_id`, `date_time`, and `HGHT`:
 
-```{r extract_vp_single_to_df}
-head(vp_to_df(vp.single))
-```
-
-### All files
-
-Now, let's do this for all files we selected with our extraction settings. Get file paths:
-
-```{r extract_vp_read_all_with_biorad}
-vp.some <- bioRad::readvp.list(c(
-  "../data/raw/se-sample/2016/10/03/20/00/searl_vp_20161003T2000Z.h5",
-  "../data/raw/se-sample/2016/10/03/20/15/searl_vp_20161003T2015Z.h5",
-  "../data/raw/se-sample/2016/10/03/20/30/searl_vp_20161003T2030Z.h5",
-  "../data/raw/se-sample/2016/10/03/20/45/searl_vp_20161003T2045Z.h5"))
-vp.all <- bioRad::readvp.list(vp.file_paths)
-```
-
-_Note: bioRad will warn that not all vertical profiles are from a single radar, but that's fine._
-
-Create a data.frame with the data and metadata we need from all those files:
-
-```{r extract_vp_to_df}
-vp_df.list = list()
-for (i in seq_along(vp.all)) {
-  vp_df.list[[i]] <- vp_to_df(vp.all[[i]])
+```{r extact_select_columns_and_sort}
+vp_data = list()
+for (i in seq_along(vp_files)) {
+  vp_data[[i]] <- vp_to_df(vp_files[[i]])
 }
-
-vp_df = dplyr::bind_rows(vp_df.list)
+dplyr::bind_rows(vp_data) %>%
+dplyr::arrange(radar_id, date_time, HGHT) -> vp_data
 ```
 
-## Sort data
+That data frame contains **`r nrow(vp_data)` records**. Preview:
 
-Sort data on `radar_id`, `date_time` and `HGHT`:
-
-```{r extract_vp_sort}
-vp_df %>% arrange(radar_id, date_time, HGHT) -> vp_df
+```{r extract_vp_data_preview}
+head(vp_data)
 ```
 
-Preview:
+## Filter out specific heights
 
-```{r extract_vp_head, echo=FALSE}
-head(vp_df)
-```
+...
 
-Number of records:
+## Filter out specific dates
 
-```{r extract_vp_nrow, echo=FALSE}
-nrow(vp_df)
-```
+...
 
-## Export vp data to a CSV file
+## Export to a CSV file
 
-_Note that `NaN` values will be treated like `NA` values (see [this conversation](https://github.com/enram/timamp-etl/issues/10#issuecomment-302235736))_
+Finally, we export the data to a CSV file:
 
 ```{r extract_vp_export}
-write.csv(vp_df, file = "../data/interim/vp.csv", na = "", row.names = FALSE)
+write.csv(vp_data, file = "../data/interim/vp_data.csv", na = "", row.names = FALSE)
 ```
 
-For the visualization, we won't use this "raw" vp data output: we'll filter and aggregate it in the next steps.
-
-## Filter out lower and upper heights
-
-Not all radars will have data below 200m or above 4000m (see [this conversation]( https://github.com/enram/timamp-etl/issues/9)), so we'll only keep data from the **200-3800m height range** (both inclusive, resulting in 19 heights):
-
-```{r extract_vp_filter}
-vp_df %>% dplyr::filter(HGHT >= 200 & HGHT <= 3800) -> vp_df
-```
-
-Number of records after filtering:
-
-```{r extract_vp_filter_nrow, echo=FALSE}
-nrow(vp_df)
-```
-
-## Add aggregation bins
-
-For the aggregation, we'll group by radar, time (per hour) and height (4 bins). For the latter two, we need to add columns:
-
-```{r extract_vp_add_bins}
-vp_df %>%
-# bin date_time on hour:
-dplyr::mutate(date_time_bin = format(floor_date(date_time, unit = "hour"), "%Y%m%d %H%M")) %>%
-
-# bin HGHT in 4 bins:
-dplyr::mutate(height_bin = case_when(
-  .$HGHT < 200 ~ "200 and below", # are filtered out
-  .$HGHT >= 200 & .$HGHT < 1000 ~ "0200-1000",  # 4 heights
-  .$HGHT >= 1000 & .$HGHT < 2000 ~ "1000-2000", # 5 heights
-  .$HGHT >= 2000 & .$HGHT < 3000 ~ "2000-3000", # 5 heights
-  .$HGHT >= 3000 & .$HGHT < 4000 ~ "3000-4000", # 5 heights
-  .$HGHT >= 4000 ~ "4000 and above" # are filtered out
-)) -> vp_df
-```
-
-Preview:
-
-```{r extract_vp_add_bins_head, echo=FALSE}
-vp_df
-```
-
-## Aggregate
-
-For the aggregation will average `u`, `v` and `dens`, ignoring `NA` values:
-
-```{r extract_vp_aggregate}
-vp_df %>%
-dplyr::group_by(radar_id, date_time_bin, height_bin) %>%
-dplyr::summarize(
-  u_avg = mean(u, na.rm = TRUE), 
-  v_avg = mean(v, na.rm = TRUE), 
-  dens_avg = mean(dens, na.rm = TRUE)
-) -> vp_agg_df
-```
-
-Preview:
-
-```{r extract_vp_agg_head, echo=FALSE}
-head(vp_agg_df)
-```
-
-## Export aggregated vp data to a CSV file
-
-```{r extract_vp_agg_export}
-write.csv(vp_agg_df, file = "../data/interim/vp_agg.csv", na = "", row.names = FALSE)
-```
+_Note: the data frame `vp_data` contains `NaN` and `NA` values, [which have a different meaning](https://github.com/enram/timamp-etl/issues/10#issuecomment-302235736). That difference gets lost in the CSV file: all are treated as blank (= `NA`) values, which is fine for visualizations. If you want to keep that difference, you need work further with `vp_data`._
