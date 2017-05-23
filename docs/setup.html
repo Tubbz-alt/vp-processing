@@ -26,7 +26,7 @@
 <meta name="author" content="Peter Desmet">
 
 
-<meta name="date" content="2017-05-22">
+<meta name="date" content="2017-05-23">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,7 +34,7 @@
   
   
 <link rel="prev" href="index.html">
-
+<link rel="next" href="extract-vp.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -117,6 +117,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1.6" data-path="setup.html"><a href="setup.html#update-code"><i class="fa fa-check"></i><b>1.6</b> Update code</a></li>
 <li class="chapter" data-level="1.7" data-path="setup.html"><a href="setup.html#update-documentation"><i class="fa fa-check"></i><b>1.7</b> Update documentation</a></li>
 </ul></li>
+<li class="chapter" data-level="2" data-path="extract-vp.html"><a href="extract-vp.html"><i class="fa fa-check"></i><b>2</b> Extract vp data</a><ul>
+<li class="chapter" data-level="2.1" data-path="extract-vp.html"><a href="extract-vp.html#select-date-range-radars"><i class="fa fa-check"></i><b>2.1</b> Select date range &amp; radars</a></li>
+<li class="chapter" data-level="2.2" data-path="extract-vp.html"><a href="extract-vp.html#read-vp-files"><i class="fa fa-check"></i><b>2.2</b> Read vp files</a></li>
+<li class="chapter" data-level="2.3" data-path="extract-vp.html"><a href="extract-vp.html#select-variables"><i class="fa fa-check"></i><b>2.3</b> Select variables</a></li>
+<li class="chapter" data-level="2.4" data-path="extract-vp.html"><a href="extract-vp.html#filter-out-specific-heights"><i class="fa fa-check"></i><b>2.4</b> Filter out specific heights</a></li>
+<li class="chapter" data-level="2.5" data-path="extract-vp.html"><a href="extract-vp.html#filter-out-specific-dates"><i class="fa fa-check"></i><b>2.5</b> Filter out specific dates</a></li>
+<li class="chapter" data-level="2.6" data-path="extract-vp.html"><a href="extract-vp.html#export-to-a-csv-file"><i class="fa fa-check"></i><b>2.6</b> Export to a CSV file</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html"><i class="fa fa-check"></i><b>3</b> Process vp data for the Bird migration flow visualization</a></li>
+<li class="chapter" data-level="4" data-path="vp-to-timamp.html"><a href="vp-to-timamp.html"><i class="fa fa-check"></i><b>4</b> Process vp data for TIMAMP</a></li>
 </ul>
 
       </nav>
@@ -148,8 +158,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <span class="st">&quot;bookdown&quot;</span>   <span class="co"># To generate this documentation</span>
 ))
 devtools::<span class="kw">install_github</span>(<span class="st">&quot;adokter/bioRad&quot;</span>, <span class="dt">ref=</span><span class="st">&quot;master&quot;</span>) <span class="co"># To process vp data</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;functions/load_settings.R&quot;</span>)
-<span class="co"># source(&quot;functions/load_radars.R&quot;)</span></code></pre></div>
 </div>
 <div id="download-code" class="section level2">
 <h2><span class="header-section-number">1.2</span> Download code</h2>
@@ -157,23 +165,20 @@ devtools::<span class="kw">install_github</span>(<span class="st">&quot;adokter/
 </div>
 <div id="settings" class="section level2">
 <h2><span class="header-section-number">1.3</span> Define processing settings</h2>
-<p>The processing requires a number of settings we need to define. If you want to <a href="setup.html#own-processing">run the processing with other data and settings</a>, then <strong>this is the only code you need to update</strong> (in <code>1_setup.Rmd</code>):</p>
+<p>The processing requires a number of settings we need to define. If you want to <a href="setup.html#own-processing">run the processing with other data and settings</a>, then <strong>this is the only code you need to update</strong> (in <code>setup.Rmd</code>):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The following three paths are relative to this script (i.e. to the src directory)</span>
 raw_data_dir &lt;-<span class="st"> &quot;../data/raw/example/&quot;</span> <span class="co"># Needs a trailing slash!</span>
-<span class="co"># settings_file &lt;- &quot;../settings/example_settings.yaml&quot;</span>
-<span class="co"># radars_file &lt;- &quot;../settings/example_radars.csv&quot;</span></code></pre></div>
-<p>Load those settings:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># settings &lt;- load_settings(settings_file)</span>
-<span class="co"># radars &lt;- load_radars(radars_file)</span></code></pre></div>
+settings_file &lt;-<span class="st"> &quot;../settings/example_settings.yaml&quot;</span>
+radars_file &lt;-<span class="st"> &quot;../settings/example_radars.csv&quot;</span></code></pre></div>
 </div>
 <div id="run-processing" class="section level2">
 <h2><span class="header-section-number">1.4</span> Run processing</h2>
 <p>The processing of the vp data is done in four steps. Each has its own chapter and <a href="https://github.com/enram/timamp-etl/tree/master/src"><code>Rmd file</code></a>:</p>
 <ol style="list-style-type: decimal">
-<li><a href="setup.html">Get started</a> (<code>1_setup.Rmd</code>) = this chapter</li>
-<li><a href="extract-vp.html">Extract vp data</a> (<code>2_extract_vp.Rmd</code>)</li>
-<li><a href="vp-to-flowviz.html">Process vp data for the Bird migration flow visualization</a> (<code>3_vp_to_flowviz.Rmd</code>)</li>
-<li><a href="vp-to-timamp.html">Process vp data for TIMAMP</a> (<code>4_vp_to_timamp.Rmd</code>)</li>
+<li><a href="setup.html">Get started</a> (<code>setup.Rmd</code>) = this chapter</li>
+<li><a href="extract-vp.html">Extract vp data</a> (<code>extract_vp.Rmd</code>)</li>
+<li><a href="vp-to-flowviz.html">Process vp data for the Bird migration flow visualization</a> (<code>vp_to_flowviz.Rmd</code>)</li>
+<li><a href="vp-to-timamp.html">Process vp data for TIMAMP</a> (<code>vp_to_timamp.Rmd</code>)</li>
 </ol>
 <p>The repository comes with <a href="https://github.com/enram/timamp-etl/tree/master/settings">example settings</a> and <a href="https://github.com/enram/timamp-etl/tree/master/data">data</a> for all steps, so you can run the processing out of the box:</p>
 <ol style="list-style-type: decimal">
@@ -192,9 +197,9 @@ raw_data_dir &lt;-<span class="st"> &quot;../data/raw/example/&quot;</span> <spa
 </div>
 <div id="run-individual-steps" class="section level3">
 <h3><span class="header-section-number">1.4.2</span> Run individual steps</h3>
-<p>If you are adapting the code, it can be useful to run individual steps. Except for <code>1_setup.Rmd</code>, all steps read input data file(s) and generate output data file(s). If those data files are already there, you don’t need to rerun the step that generated those. However, all files use the <a href="setup.html#settings">processing settings</a> defined in <code>1_setup.Rmd</code>, so you need to run that file at least once first:</p>
+<p>If you are adapting the code, it can be useful to run individual steps. Except for <code>setup.Rmd</code>, all steps read input data file(s) and generate output data file(s). If those data files are already there, you don’t need to rerun the step that generated those. However, all files use the <a href="setup.html#settings">processing settings</a> defined in <code>setup.Rmd</code>, so you need to run that file at least once first:</p>
 <ol style="list-style-type: decimal">
-<li>Open and run <code>1_setup.Rmd</code> in RStudio</li>
+<li>Open and run <code>setup.Rmd</code> in RStudio</li>
 <li>Open and run one of the other <code>.Rmd</code> files</li>
 <li>Adapt the <code>.Rmd</code> file and run to test</li>
 </ol>
@@ -251,19 +256,13 @@ bioRad::<span class="kw">download_vp</span>(
 
 </div>
 </div>
-
-
-
-
-
-
             </section>
 
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="extract-vp.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
@@ -291,7 +290,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/enram/timamp-etl/blob/master/src/1_setup.Rmd",
+"link": "https://github.com/enram/timamp-etl/blob/master/src/setup.Rmd",
 "text": "Edit"
 },
 "download": null,
