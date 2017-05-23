@@ -8,13 +8,13 @@ load_settings <- function(settings_file) {
   # settings[["yaml_settings"]] <- yaml_settings
 
   # Get general settings
-  settings[["start_date"]] <- yaml_settings$general_settings$start_date
-  settings[["end_date"]] <- yaml_settings$general_settings$end_date
-  settings[["min_height"]] <- yaml_settings$general_settings$min_height
-  settings[["max_height"]] <- yaml_settings$general_settings$max_height
+  settings[["start_date"]] <- yaml_settings$general$include_dates[1]
+  settings[["end_date"]] <- yaml_settings$general$include_dates[2]
+  settings[["min_height"]] <- yaml_settings$general$include_heights[1]
+  settings[["max_height"]] <- yaml_settings$general$include_heights[2]
 
   # Get radar ids
-  radar_ids <- names(yaml_settings$radar_settings)
+  radar_ids <- names(yaml_settings$radars)
   # Throw error if radar id does not contain 5 characters
   # Expected is e.g "searl" (countrycode + odim code)
   for (radar_id in radar_ids) {

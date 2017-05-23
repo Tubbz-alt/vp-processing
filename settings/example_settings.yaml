@@ -1,12 +1,12 @@
-general_settings:
-  start_date: 2016-10-03
-  end_date: 2016-10-03
-  min_height: 200
-  max_height: 3800
-timamp_settings:
-bmfv_settings:
-radar_settings:
+# Ranges are [min, max], with both inclusive
+general:
+  include_dates: ["2016-10-03", "2016-10-03"] # Use YYYY-MM-DD format
+  include_heights: [200, 3999]
+radars:
   seang:
-  searl:
-  sease:
-  sehud:
+#  searl:
+#  sease:
+#  sehud:
+aggregation:
+timamp:
+flowviz:
