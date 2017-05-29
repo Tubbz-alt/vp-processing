@@ -21,9 +21,9 @@ Select vp files on the date range and radars we defined in our `settings_file` (
 ```{r extract_get_file_paths}
 settings <- load_settings(settings_file)
 vp_file_paths <- bioRad::retrieve_vp_paths(
-  start_date = settings$start_date,
-  end_date = settings$end_date, # Is inclusive
-  radar = settings$radar_ids_3char,
+  start_date = settings$general$tart_date,
+  end_date = settings$general$end_date,
+  radar = settings$general$radar_ids_3char,
   path = raw_data_dir
 )
 ```
