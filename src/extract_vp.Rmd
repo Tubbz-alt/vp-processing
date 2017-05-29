@@ -14,12 +14,19 @@ source("functions/vp_to_df.R")
 source("functions/load_settings.R")
 ```
 
+## Load settings
+
+All of the filtering options we'll use here are defined in **yaml settings file**, which we pointed to in `setup.Rmd` (see \@ref(#settings)). Let's load those:
+
+```{r extract_load_settings}
+settings <- load_settings(settings_file)
+```
+
 ## Select date range & radars
 
-Select vp files on the date range and radars we defined in our `settings_file` (_horizontal selection_):
+Select vp files on the date range and radars we defined in our settings (_horizontal_selection_):
 
 ```{r extract_get_file_paths}
-settings <- load_settings(settings_file)
 vp_file_paths <- bioRad::retrieve_vp_paths(
   start_date = settings$general$tart_date,
   end_date = settings$general$end_date,
