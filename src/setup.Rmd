@@ -4,7 +4,7 @@
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-_Note: This documentation assumes you are working in RStudio._
+This chapter explains how to get you up and running. It assumes you are working in RStudio.
 
 ## Install packages
 

@@ -16,7 +16,7 @@ source("functions/load_settings.R")
 
 ## Load settings
 
-All of the filtering options we'll use here are defined in **yaml settings file**, which we pointed to in `setup.Rmd` (see \@ref(#settings)). Let's load those:
+All of the filtering options we'll use here are defined in **yaml settings file**, which we pointed to in `setup.Rmd` (see \@ref(settings)). Let's load those:
 
 ```{r extract_load_settings}
 settings <- load_settings(settings_file)
@@ -28,7 +28,7 @@ Select vp files on the date range and radars we defined in our settings (_horizo
 
 ```{r extract_get_file_paths}
 vp_file_paths <- bioRad::retrieve_vp_paths(
-  start_date = settings$general$tart_date,
+  start_date = settings$general$start_date,
   end_date = settings$general$end_date,
   radar = settings$general$radar_ids_3char,
   path = raw_data_dir
@@ -49,9 +49,9 @@ head(vp_file_paths, 5)
 
 ## Read vp files
 
-We read all those files with bioRad. This could take a while:
+We read all those files with bioRad. This could take a while (☕ time):
 
-```{r extract_read_vp_data_get_☕}
+```{r extract_read_vp_data_get_coffee}
 vp_files <- bioRad::readvp.list(vp_file_paths)
 ```
 
@@ -66,7 +66,7 @@ str(vp_files[[1]]$data)
 We only select the variables (`HGHT`, `u`, `v`, `dens`, `sd_vpp`) and attributes (`date_time` and `radar_id`) we need (_vertical selection_). We retrieve those with the custom function `vp_to_df.R` after which we combine all data in one single data frame, sorted on `radar_id`, `date_time`, and `HGHT`:
 
 ```{r extact_select_columns_and_sort}
-vp_data = list()
+vp_data <- list()
 for (i in seq_along(vp_files)) {
   vp_data[[i]] <- vp_to_df(vp_files[[i]])
 }
@@ -77,23 +77,40 @@ dplyr::arrange(radar_id, date_time, HGHT) -> vp_data
 That data frame contains **`r nrow(vp_data)` records**. Preview:
 
 ```{r extract_vp_data_preview}
-head(vp_data)
+head(vp_data, 20)
 ```
 
-## Select general heights
+## Select heights
 
-Select heights that fall within the height range we defined in our settings (_horizontal_selection_). We do this for each radar
+Select the heights that fall within the height range we defined for each radar in our settings (_horizontal_selection_), with minimum and maximum _inclusive_. If no height settings are defined for a radar, the `load_settings.R` function will use our general height settings for that radar[^1]:
 
-```{r}
-vp_data %>% dplyr::filter(HGHT >= settings$general$min_height & HGHT <= settings$general$xmax_height) -> vp_data
+[^1]: We can specify `min_height`, `max_height`, both or none for a radar. If the value is something other than an integer, the general `min_height` or `max_height` is used instead. That means we don't need to filter the data on the general height range, as those will be applied for each radar already.
+
+```{r extract_select_heights}
+# Rather than using a complicated combination of AND and OR filters, we select
+# data radar by radar, and store the selected rows in separate data frames
+# (e.g. vp_data_temp$searl). We then combine and sort those back into a single 
+# data frame, which we store again as vp_data.
+vp_data_temp <- list()
+for (radar in settings$radars) {
+  vp_data %>%
+  dplyr::filter(
+    radar_id == radar$radar_id & 
+    HGHT >= radar$min_height & 
+    HGHT <= radar$max_height
+  ) -> vp_data_temp[[radar$radar_id]]
+}
+
+dplyr::bind_rows(vp_data_temp) %>%
+# Sorting the data is not really necessary, but we just do it for good measure.
+dplyr::arrange(radar_id, date_time, HGHT) -> vp_data
 ```
 
-Our data frame now contains **`r nrow(vp_data)` records**.
+Our data frame now contains **`r nrow(vp_data)` records**. Preview:
 
-## Select specific heights per radar
-
-...
-
+```{r extract_select_heights_preview}
+head(vp_data, 20)
+```
 
 ## Select specific dates per radar
 
