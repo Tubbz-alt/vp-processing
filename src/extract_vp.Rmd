@@ -80,11 +80,22 @@ That data frame contains **`r nrow(vp_data)` records**. Preview:
 head(vp_data)
 ```
 
-## Filter out specific heights
+## Select general heights
+
+Select heights that fall within the height range we defined in our settings (_horizontal_selection_). We do this for each radar
+
+```{r}
+vp_data %>% dplyr::filter(HGHT >= settings$general$min_height & HGHT <= settings$general$xmax_height) -> vp_data
+```
+
+Our data frame now contains **`r nrow(vp_data)` records**.
+
+## Select specific heights per radar
 
 ...
 
-## Filter out specific dates
+
+## Select specific dates per radar
 
 ...
 
