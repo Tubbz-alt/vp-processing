@@ -22,6 +22,8 @@ All of the filtering options we'll use here are defined in **yaml settings file*
 settings <- load_settings(settings_file)
 ```
 
+Found **`r length(settings$general$radar_ids_5char)` radars from `r length(settings$general$countries)` countries** in the settings.
+
 ## Select date range & radars
 
 Select vp files on the date range and radars we defined in our settings (_horizontal_selection_):
@@ -75,9 +77,17 @@ dplyr::bind_rows(vp_data) %>%
 dplyr::arrange(radar_id, datetime, HGHT) -> vp_data
 ```
 
+That data frame contains **`r nrow(vp_data)` records**.
+
+## Calculate MTR per height
+
+We also want migration traffic rate (mtr) per height for further analysis, so we calculate and add it here as an extra column:
+
+```{r extract_calculate_mtr}
+vp_data$mtr <- vp_data$ff * vp_data$dens / 5
 ```
 
-That data frame contains **`r nrow(vp_data)` records**. Preview:
+Preview:
 
 ```{r extract_vp_data_preview}
 head(vp_data, 20)
