@@ -26,7 +26,7 @@
 <meta name="author" content="Peter Desmet">
 
 
-<meta name="date" content="2017-05-23">
+<meta name="date" content="2017-05-29">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,7 +34,7 @@
   
   
 <link rel="prev" href="setup.html">
-<link rel="next" href="vp-to-flowviz.html">
+<link rel="next" href="vp-to-timamp.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -118,15 +118,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1.7" data-path="setup.html"><a href="setup.html#update-documentation"><i class="fa fa-check"></i><b>1.7</b> Update documentation</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="extract-vp.html"><a href="extract-vp.html"><i class="fa fa-check"></i><b>2</b> Extract vp data</a><ul>
-<li class="chapter" data-level="2.1" data-path="extract-vp.html"><a href="extract-vp.html#select-date-range-radars"><i class="fa fa-check"></i><b>2.1</b> Select date range &amp; radars</a></li>
-<li class="chapter" data-level="2.2" data-path="extract-vp.html"><a href="extract-vp.html#read-vp-files"><i class="fa fa-check"></i><b>2.2</b> Read vp files</a></li>
-<li class="chapter" data-level="2.3" data-path="extract-vp.html"><a href="extract-vp.html#select-variables"><i class="fa fa-check"></i><b>2.3</b> Select variables</a></li>
-<li class="chapter" data-level="2.4" data-path="extract-vp.html"><a href="extract-vp.html#filter-out-specific-heights"><i class="fa fa-check"></i><b>2.4</b> Filter out specific heights</a></li>
-<li class="chapter" data-level="2.5" data-path="extract-vp.html"><a href="extract-vp.html#filter-out-specific-dates"><i class="fa fa-check"></i><b>2.5</b> Filter out specific dates</a></li>
-<li class="chapter" data-level="2.6" data-path="extract-vp.html"><a href="extract-vp.html#export-to-a-csv-file"><i class="fa fa-check"></i><b>2.6</b> Export to a CSV file</a></li>
+<li class="chapter" data-level="2.1" data-path="extract-vp.html"><a href="extract-vp.html#load-settings"><i class="fa fa-check"></i><b>2.1</b> Load settings</a></li>
+<li class="chapter" data-level="2.2" data-path="extract-vp.html"><a href="extract-vp.html#select-date-range-radars"><i class="fa fa-check"></i><b>2.2</b> Select date range &amp; radars</a></li>
+<li class="chapter" data-level="2.3" data-path="extract-vp.html"><a href="extract-vp.html#read-vp-files"><i class="fa fa-check"></i><b>2.3</b> Read vp files</a></li>
+<li class="chapter" data-level="2.4" data-path="extract-vp.html"><a href="extract-vp.html#select-variables"><i class="fa fa-check"></i><b>2.4</b> Select variables</a></li>
+<li class="chapter" data-level="2.5" data-path="extract-vp.html"><a href="extract-vp.html#select-heights"><i class="fa fa-check"></i><b>2.5</b> Select heights</a></li>
+<li class="chapter" data-level="2.6" data-path="extract-vp.html"><a href="extract-vp.html#select-specific-dates-per-radar"><i class="fa fa-check"></i><b>2.6</b> Select specific dates per radar</a></li>
+<li class="chapter" data-level="2.7" data-path="extract-vp.html"><a href="extract-vp.html#export-to-a-csv-file"><i class="fa fa-check"></i><b>2.7</b> Export to a CSV file</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html"><i class="fa fa-check"></i><b>3</b> Process vp data for the Bird migration flow visualization</a></li>
-<li class="chapter" data-level="4" data-path="vp-to-timamp.html"><a href="vp-to-timamp.html"><i class="fa fa-check"></i><b>4</b> Process vp data for TIMAMP</a></li>
+<li class="chapter" data-level="3" data-path="vp-to-timamp.html"><a href="vp-to-timamp.html"><i class="fa fa-check"></i><b>3</b> Process vp data for TIMAMP</a></li>
 </ul>
 
       </nav>
@@ -152,19 +152,23 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">library</span>(lubridate)
 <span class="kw">source</span>(<span class="st">&quot;functions/vp_to_df.R&quot;</span>)
 <span class="kw">source</span>(<span class="st">&quot;functions/load_settings.R&quot;</span>)</code></pre></div>
+<div id="load-settings" class="section level2">
+<h2><span class="header-section-number">2.1</span> Load settings</h2>
+<p>All of the filtering options we’ll use here are defined in <strong>yaml settings file</strong>, which we pointed to in <code>setup.Rmd</code> (see <a href="setup.html#settings">1.3</a>). Let’s load those:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">settings &lt;-<span class="st"> </span><span class="kw">load_settings</span>(settings_file)</code></pre></div>
+</div>
 <div id="select-date-range-radars" class="section level2">
-<h2><span class="header-section-number">2.1</span> Select date range &amp; radars</h2>
-<p>Select vp files on the date range and radars we defined in our <code>settings_file</code> (<em>horizontal selection</em>):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">settings &lt;-<span class="st"> </span><span class="kw">load_settings</span>(settings_file)
-vp_file_paths &lt;-<span class="st"> </span>bioRad::<span class="kw">retrieve_vp_paths</span>(
-  <span class="dt">start_date =</span> settings$start_date,
-  <span class="dt">end_date =</span> settings$end_date, <span class="co"># Is inclusive</span>
-  <span class="dt">radar =</span> settings$radar_ids_3char,
+<h2><span class="header-section-number">2.2</span> Select date range &amp; radars</h2>
+<p>Select vp files on the date range and radars we defined in our settings (<em>horizontal_selection</em>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_file_paths &lt;-<span class="st"> </span>bioRad::<span class="kw">retrieve_vp_paths</span>(
+  <span class="dt">start_date =</span> settings$general$start_date,
+  <span class="dt">end_date =</span> settings$general$end_date,
+  <span class="dt">radar =</span> settings$general$radar_ids_3char,
   <span class="dt">path =</span> raw_data_dir
 )</code></pre></div>
 <p>The file paths we get back only start from the data directory, so we need to append those with the path to the data directory itself:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_file_paths &lt;-<span class="st"> </span><span class="kw">paste0</span>(raw_data_dir, vp_file_paths)</code></pre></div>
-<p>There are <strong>16 vp files</strong> that meet our criteria. Preview:</p>
+<p>There are <strong>32 vp files</strong> that meet our criteria. Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(vp_file_paths, <span class="dv">5</span>)</code></pre></div>
 <pre><code>## [1] &quot;../data/raw/example/seang_vp_20161003T2000Z.h5&quot;
 ## [2] &quot;../data/raw/example/seang_vp_20161003T2015Z.h5&quot;
@@ -173,12 +177,12 @@ vp_file_paths &lt;-<span class="st"> </span>bioRad::<span class="kw">retrieve_vp
 ## [5] &quot;../data/raw/example/seang_vp_20161003T2100Z.h5&quot;</code></pre>
 </div>
 <div id="read-vp-files" class="section level2">
-<h2><span class="header-section-number">2.2</span> Read vp files</h2>
-<p>We read all those files with bioRad. This could take a while:</p>
+<h2><span class="header-section-number">2.3</span> Read vp files</h2>
+<p>We read all those files with bioRad. This could take a while (☕ time):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_files &lt;-<span class="st"> </span>bioRad::<span class="kw">readvp.list</span>(vp_file_paths)</code></pre></div>
 </div>
 <div id="select-variables" class="section level2">
-<h2><span class="header-section-number">2.3</span> Select variables</h2>
+<h2><span class="header-section-number">2.4</span> Select variables</h2>
 <p>A single vp file contains a data frame with heights as rows and variables as columns:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(vp_files[[<span class="dv">1</span>]]$data)</code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    25 obs. of  16 variables:
@@ -199,37 +203,139 @@ vp_file_paths &lt;-<span class="st"> </span>bioRad::<span class="kw">retrieve_vp
 ##  $ sd_vvp   : num  NA 5.06 4.99 4.64 4.52 ...
 ##  $ n_all    : num  0 4971 3973 2520 940 ...</code></pre>
 <p>We only select the variables (<code>HGHT</code>, <code>u</code>, <code>v</code>, <code>dens</code>, <code>sd_vpp</code>) and attributes (<code>date_time</code> and <code>radar_id</code>) we need (<em>vertical selection</em>). We retrieve those with the custom function <code>vp_to_df.R</code> after which we combine all data in one single data frame, sorted on <code>radar_id</code>, <code>date_time</code>, and <code>HGHT</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_data =<span class="st"> </span><span class="kw">list</span>()
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_data &lt;-<span class="st"> </span><span class="kw">list</span>()
 for (i in <span class="kw">seq_along</span>(vp_files)) {
   vp_data[[i]] &lt;-<span class="st"> </span><span class="kw">vp_to_df</span>(vp_files[[i]])
 }
 dplyr::<span class="kw">bind_rows</span>(vp_data) %&gt;%
 dplyr::<span class="kw">arrange</span>(radar_id, date_time, HGHT) -&gt;<span class="st"> </span>vp_data</code></pre></div>
-<p>That data frame contains <strong>400 records</strong>. Preview:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(vp_data)</code></pre></div>
-<pre><code>##   radar_id           date_time HGHT         u          v     dens   sd_vvp
-## 1    seang 2016-10-03 20:00:00    0        NA         NA       NA       NA
-## 2    seang 2016-10-03 20:00:00  200 -9.632832  -9.421702 35.59053 5.061423
-## 3    seang 2016-10-03 20:00:00  400 -8.461532  -8.746634 41.27831 4.992013
-## 4    seang 2016-10-03 20:00:00  600 -6.581830  -8.013961 18.10636 4.636142
-## 5    seang 2016-10-03 20:00:00  800 -6.643213  -9.764238 17.21185 4.517649
-## 6    seang 2016-10-03 20:00:00 1000 -6.028350 -10.171729 11.11173 4.500569</code></pre>
+<p>That data frame contains <strong>800 records</strong>. Preview:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(vp_data, <span class="dv">20</span>)</code></pre></div>
+<pre><code>##    radar_id           date_time HGHT         u          v     dens
+## 1     seang 2016-10-03 20:00:00    0        NA         NA       NA
+## 2     seang 2016-10-03 20:00:00  200 -9.632832  -9.421702 35.59053
+## 3     seang 2016-10-03 20:00:00  400 -8.461532  -8.746634 41.27831
+## 4     seang 2016-10-03 20:00:00  600 -6.581830  -8.013961 18.10636
+## 5     seang 2016-10-03 20:00:00  800 -6.643213  -9.764238 17.21185
+## 6     seang 2016-10-03 20:00:00 1000 -6.028350 -10.171729 11.11173
+## 7     seang 2016-10-03 20:00:00 1200        NA         NA       NA
+## 8     seang 2016-10-03 20:00:00 1400        NA         NA       NA
+## 9     seang 2016-10-03 20:00:00 1600        NA         NA       NA
+## 10    seang 2016-10-03 20:00:00 1800        NA         NA       NA
+## 11    seang 2016-10-03 20:00:00 2000        NA         NA       NA
+## 12    seang 2016-10-03 20:00:00 2200        NA         NA       NA
+## 13    seang 2016-10-03 20:00:00 2400        NA         NA       NA
+## 14    seang 2016-10-03 20:00:00 2600        NA         NA       NA
+## 15    seang 2016-10-03 20:00:00 2800        NA         NA       NA
+## 16    seang 2016-10-03 20:00:00 3000        NA         NA       NA
+## 17    seang 2016-10-03 20:00:00 3200        NA         NA       NA
+## 18    seang 2016-10-03 20:00:00 3400        NA         NA       NA
+## 19    seang 2016-10-03 20:00:00 3600        NA         NA       NA
+## 20    seang 2016-10-03 20:00:00 3800        NA         NA       NA
+##      sd_vvp
+## 1        NA
+## 2  5.061423
+## 3  4.992013
+## 4  4.636142
+## 5  4.517649
+## 6  4.500569
+## 7        NA
+## 8        NA
+## 9        NA
+## 10       NA
+## 11       NA
+## 12       NA
+## 13       NA
+## 14       NA
+## 15       NA
+## 16       NA
+## 17       NA
+## 18       NA
+## 19       NA
+## 20       NA</code></pre>
 </div>
-<div id="filter-out-specific-heights" class="section level2">
-<h2><span class="header-section-number">2.4</span> Filter out specific heights</h2>
-<p>…</p>
+<div id="select-heights" class="section level2">
+<h2><span class="header-section-number">2.5</span> Select heights</h2>
+<p>Select the heights that fall within the height range we defined for each radar in our settings (<em>horizontal_selection</em>), with minimum and maximum <em>inclusive</em>. If no height settings are defined for a radar, the <code>load_settings.R</code> function will use our general height settings for that radar<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Rather than using a complicated combination of AND and OR filters, we select</span>
+<span class="co"># data radar by radar, and store the selected rows in separate data frames</span>
+<span class="co"># (e.g. vp_data_temp$searl). We then combine and sort those back into a single </span>
+<span class="co"># data frame, which we store again as vp_data.</span>
+vp_data_temp &lt;-<span class="st"> </span><span class="kw">list</span>()
+for (radar in settings$radars) {
+  vp_data %&gt;%
+<span class="st">  </span>dplyr::<span class="kw">filter</span>(
+    radar_id ==<span class="st"> </span>radar$radar_id &amp;<span class="st"> </span>
+<span class="st">    </span>HGHT &gt;=<span class="st"> </span>radar$min_height &amp;<span class="st"> </span>
+<span class="st">    </span>HGHT &lt;=<span class="st"> </span>radar$max_height
+  ) -&gt;<span class="st"> </span>vp_data_temp[[radar$radar_id]]
+}
+
+dplyr::<span class="kw">bind_rows</span>(vp_data_temp) %&gt;%
+<span class="co"># Sorting the data is not really necessary, but we just do it for good measure.</span>
+dplyr::<span class="kw">arrange</span>(radar_id, date_time, HGHT) -&gt;<span class="st"> </span>vp_data</code></pre></div>
+<p>Our data frame now contains <strong>176 records</strong>. Preview:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(vp_data, <span class="dv">20</span>)</code></pre></div>
+<pre><code>##    radar_id           date_time HGHT         u          v      dens
+## 1     seang 2016-10-03 20:00:00  400 -8.461532  -8.746634 41.278313
+## 2     seang 2016-10-03 20:00:00  600 -6.581830  -8.013961 18.106361
+## 3     seang 2016-10-03 20:00:00  800 -6.643213  -9.764238 17.211851
+## 4     seang 2016-10-03 20:00:00 1000 -6.028350 -10.171729 11.111731
+## 5     seang 2016-10-03 20:00:00 1200        NA         NA        NA
+## 6     seang 2016-10-03 20:15:00  400 -6.434723  -9.015049 24.130861
+## 7     seang 2016-10-03 20:15:00  600 -5.169861  -9.228568 15.996179
+## 8     seang 2016-10-03 20:15:00  800 -6.063486  -9.740829 12.144248
+## 9     seang 2016-10-03 20:15:00 1000 -6.542680 -10.478687 10.325830
+## 10    seang 2016-10-03 20:15:00 1200        NA         NA        NA
+## 11    seang 2016-10-03 20:30:00  400 -6.797756  -7.848220 27.299721
+## 12    seang 2016-10-03 20:30:00  600 -5.817758  -8.979298 17.130468
+## 13    seang 2016-10-03 20:30:00  800 -5.468958  -8.262027 11.479380
+## 14    seang 2016-10-03 20:30:00 1000 -5.543563 -10.848226  7.716814
+## 15    seang 2016-10-03 20:30:00 1200        NA         NA        NA
+## 16    seang 2016-10-03 20:45:00  400 -6.222421  -8.254267 25.177910
+## 17    seang 2016-10-03 20:45:00  600 -6.093638  -9.176083 16.627899
+## 18    seang 2016-10-03 20:45:00  800 -5.579547  -9.358899 13.490577
+## 19    seang 2016-10-03 20:45:00 1000 -5.917903  -8.756528  9.188003
+## 20    seang 2016-10-03 20:45:00 1200        NA         NA        NA
+##      sd_vvp
+## 1  4.992013
+## 2  4.636142
+## 3  4.517649
+## 4  4.500569
+## 5        NA
+## 6  4.949915
+## 7  4.918064
+## 8  4.568855
+## 9  4.599748
+## 10       NA
+## 11 4.874985
+## 12 4.671036
+## 13 4.740903
+## 14 3.975209
+## 15       NA
+## 16 4.734104
+## 17 4.525342
+## 18 4.470928
+## 19 4.934006
+## 20       NA</code></pre>
 </div>
-<div id="filter-out-specific-dates" class="section level2">
-<h2><span class="header-section-number">2.5</span> Filter out specific dates</h2>
+<div id="select-specific-dates-per-radar" class="section level2">
+<h2><span class="header-section-number">2.6</span> Select specific dates per radar</h2>
 <p>…</p>
 </div>
 <div id="export-to-a-csv-file" class="section level2">
-<h2><span class="header-section-number">2.6</span> Export to a CSV file</h2>
-<p>Finally, we export the data to a CSV file:</p>
+<h2><span class="header-section-number">2.7</span> Export to a CSV file</h2>
+<p>Finally, we export the data to a CSV file<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.csv</span>(vp_data, <span class="dt">file =</span> <span class="st">&quot;../data/interim/vp_data.csv&quot;</span>, <span class="dt">na =</span> <span class="st">&quot;&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><em>Note: the data frame <code>vp_data</code> contains <code>NaN</code> and <code>NA</code> values, <a href="https://github.com/enram/timamp-etl/issues/10#issuecomment-302235736">which have a different meaning</a>. That difference gets lost in the CSV file: all are treated as blank (= <code>NA</code>) values, which is fine for visualizations. If you want to keep that difference, you need work further with <code>vp_data</code>.</em></p>
 
 </div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="2">
+<li id="fn2"><p>We can specify <code>min_height</code>, <code>max_height</code>, both or none for a radar. If the value is something other than an integer, the general <code>min_height</code> or <code>max_height</code> is used instead. That means we don’t need to filter the data on the general height range, as those will be applied for each radar already.<a href="extract-vp.html#fnref2">↩</a></p></li>
+<li id="fn3"><p>The data frame <code>vp_data</code> contains <code>NaN</code> and <code>NA</code> values, <a href="https://github.com/enram/timamp-etl/issues/10#issuecomment-302235736">which have a different meaning</a>. That difference gets lost in the CSV file: all are treated as blank (= <code>NA</code>) values, which is fine for visualizations. If you want to keep that difference, you need work further with <code>vp_data</code>._<a href="extract-vp.html#fnref3">↩</a></p></li>
+</ol>
 </div>
             </section>
 
@@ -237,7 +343,7 @@ dplyr::<span class="kw">arrange</span>(radar_id, date_time, HGHT) -&gt;<span cla
         </div>
       </div>
 <a href="setup.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="vp-to-flowviz.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="vp-to-timamp.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
