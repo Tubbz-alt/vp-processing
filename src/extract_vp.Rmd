@@ -65,11 +65,11 @@ A single vp file contains a data frame with heights as rows and variables as col
 str(vp_files[[1]]$data)
 ```
 
-We only select the variables (`HGHT`, `u`, `v`, `dens`, `dd`, `ff`) and attributes (`date_time` and `radar_id`) we need (_vertical selection_). We retrieve those with the custom function `vp_to_df.R` after which we combine all data in one single data frame, sorted on `radar_id`, `date_time`, and `HGHT`:
+We only need a couple of variables (`HGHT`, `u`, `v`, `dens`, `dd`, `ff`) and attributes (`date_time` and `radar_id`) from the vp_files (_vertical selection_). We retrieve those with the custom function `vp_to_df()` after which we combine all data in one single data frame, sorted on `radar_id`, `date_time`, and `HGHT`:
 
 ```{r extact_select_columns_and_sort}
 vp_data <- list()
-variables = c("HGHT", "u", "v", "dens", "dd", "ff")
+variables = c("u", "v", "dens", "dd", "ff") # HGHT is added by default in vp_to_df()
 for (i in seq_along(vp_files)) {
   vp_data[[i]] <- vp_to_df(vp_files[[i]], variables)
 }

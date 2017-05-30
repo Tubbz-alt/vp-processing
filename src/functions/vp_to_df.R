@@ -2,7 +2,7 @@
 #' @description This function creates a data frame from a vertical bird profile
 #' (vp). The data frame contains:
 #' * `vp$attributes$what`: NOD:radar_id, date_time (repeated for every HGHT)
-#' * `vp$data`: select variables like HGHT, u, v, dens
+#' * `vp$data`: select variables like HGHT (added by default), u, v, dens
 #'
 #' For documentation on vp attributes, see:
 #' https://github.com/adokter/vol2bird/wiki/ODIM-bird-profile-format-specification
@@ -15,6 +15,9 @@
 #' vp_to_df(vp)
 #' }
 vp_to_df <- function(vp, variables) {
+  # Add HGHT as default variable
+  variables <- c("HGHT", variables)
+
   # Select data from the vp$data
   df <- subset(vp$data, select = variables)
 
