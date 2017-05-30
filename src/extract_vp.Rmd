@@ -85,9 +85,10 @@ head(vp_data, 20)
 
 ## Select heights
 
-Select the heights that fall within the height range we defined for each radar in our settings (_horizontal_selection_), with minimum and maximum _inclusive_. If no height settings are defined for a radar, the `load_settings.R` function will use our general height settings for that radar[^1]:
+Select the heights that fall within the height range we defined for each radar in our settings (_horizontal_selection_), with minimum and maximum _inclusive_. If no height settings are defined for a radar, the `load_settings.R` function will use our general height settings for that radar[^2].
 
-[^1]: We can specify `min_height`, `max_height`, both or none for a radar. If the value is something other than an integer, the general `min_height` or `max_height` is used instead. That means we don't need to filter the data on the general height range, as those will be applied for each radar already.
+[^2]: We can specify `min_height`, `max_height`, both or none for a radar. If the value is something other than an integer, the general `min_height` or `max_height` is used instead. That means we don't need to filter the data on the general height range, as those will be applied for each radar already.
+
 
 ```{r extract_select_heights}
 # Rather than using a complicated combination of AND and OR filters, we select
@@ -121,10 +122,10 @@ head(vp_data, 20)
 
 ## Export to a CSV file
 
-Finally, we export the data to a CSV file:
+Finally, we export the data to a CSV file[^3]:
 
 ```{r extract_vp_export}
 write.csv(vp_data, file = "../data/interim/vp_data.csv", na = "", row.names = FALSE)
 ```
 
-_Note: the data frame `vp_data` contains `NaN` and `NA` values, [which have a different meaning](https://github.com/enram/timamp-etl/issues/10#issuecomment-302235736). That difference gets lost in the CSV file: all are treated as blank (= `NA`) values, which is fine for visualizations. If you want to keep that difference, you need work further with `vp_data`._
+[^3]: The data frame `vp_data` contains `NaN` and `NA` values, [which have a different meaning](https://github.com/enram/timamp-etl/issues/10#issuecomment-302235736). That difference gets lost in the CSV file: all are treated as blank (= `NA`) values, which is fine for visualizations. If you want to keep that difference, you need work further with `vp_data`.
