@@ -4,10 +4,14 @@ general:
   include_heights: [200, 1200]
 radars:
   seang:
-    include_heights: [400, NA]
+    include_heights: [400, NA] # NA will be replaced by general min/max height
+    exclude_datetimes:
+    - [NA, "2016-10-03 20:29"] # NA will be replaced by general min/max date
+    - ["2016-10-03 20:45", "2016-10-03 20:59"]
   searl:
-#  sease:
-#  sehud:
-aggregation:
+    exclude_datetimes:
+    - ["2016-10-03", "2016-10-03"]
+  sease:
+#  sehud: # Comment out a radar to exclude it
 timamp:
 flowviz:
