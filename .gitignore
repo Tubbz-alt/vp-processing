@@ -37,8 +37,8 @@ vignettes/*.pdf
 .DS_Store
 
 # Raw data files
-data/raw/
-data/se-sample/
+data/raw/*
+!data/raw/example/
 
 # Interim data files
 data/interim/
