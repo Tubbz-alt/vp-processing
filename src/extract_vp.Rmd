@@ -9,6 +9,7 @@ In this chapter we'll select, read, combine, filter and export data from vp file
 ```{r extract_load_libraries, results="hide"}
 library(bioRad)
 library(dplyr)
+library(loopr)
 library(lubridate)
 source("functions/vp_to_df.R")
 source("functions/load_settings.R")
@@ -102,36 +103,45 @@ Preview:
 head(vp_data, 20)
 ```
 
-## Select heights
+## Filter out heights
 
-Select the heights that fall within the height range we defined for each radar in our settings (_horizontal_selection_), with minimum and maximum _inclusive_. If no height settings are defined for a radar, the `load_settings.R` function will use our general height settings for that radar[^2].
+For each radar we only want to select the data above 200m above ground level (AGL) (_row selection_). Since the heights in the data are expressed in above sea level (ASL), the height range to exclude is the _altitude of the radar + 100m_, which differs from radar to radar. Those height ranges are defined in our settings (see \@ref(settings)).
 
-[^2]: We can specify `min_height`, `max_height`, both or none for a radar. If the value is something other than an integer, the general `min_height` or `max_height` is used instead. That means we don't need to filter the data on the general height range, as those will be applied for each radar already.
+To do this, we take the `include_heights` range for each radar[^2] and set the data outside that range to `NA`.
 
+[^2]: For a radar the `include_heights` range can contain a `min_height`, `max_height`, both or none for a radar. If the value is something other than an integer, the general `min_height` or `max_height` is used instead.
 
-```{r extract_select_heights}
-# Rather than using a complicated combination of AND and OR filters, we select
-# data radar by radar, and store the selected rows in separate data frames
-# (e.g. vp_data_temp$searl). We then combine and sort those back into a single 
-# data frame, which we store again as vp_data.
-vp_data_temp <- list()
-for (radar in settings$radars) {
-  vp_data %>%
-  dplyr::filter(
-    radar_id == radar$radar_id & 
-    HGHT >= radar$min_height & 
-    HGHT <= radar$max_height
-  ) -> vp_data_temp[[radar$radar_id]]
+```{r extract_filter_heights}
+for (radar in settings$radars) { # For each radar
+  # Create height subset for that radar
+  subset = 
+    vp_data %>%
+    filter(
+      radar_id == radar$radar_id & # Specific radar
+      (HGHT < radar$min_height |   # Below min heignt
+       HGHT > radar$max_height)    # Above max height
+    ) %>%
+    # Set variables to NA
+    mutate(u = NA, v = NA, dens = NA, dd = NA, ff = NA, mtr = NA) %>%
+    # Mention that the row was excluded because of height
+    mutate(exclusion_reason = "height")
+  
+  # Insert subset back into vp_data
+  insert(vp_data, subset, by = "id") -> vp_data
 }
-
-dplyr::bind_rows(vp_data_temp) %>%
-# Sorting the data is not really necessary, but we just do it for good measure.
-dplyr::arrange(radar_id, date_time, HGHT) -> vp_data
 ```
 
-Our data frame now contains **`r nrow(vp_data)` records**. Preview:
+Preview:
 
-```{r extract_select_heights_preview}
+```{r extract_filter_heights_preview}
+head(vp_data, 20)
+```
+
+}
+```
+
+
+```{r extract_filter_datetimes_preview}
 head(vp_data, 20)
 ```
 

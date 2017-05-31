@@ -15,6 +15,7 @@ install.packages(c(
   "devtools",  # To install packages from GitHub
   "yaml",      # To read processing settings
   "dplyr",     # To process dataframes
+  "loopr",     # To process dataframes with loops
   "lubridate", # To process dates
   "bookdown"   # To generate this documentation
 ))
