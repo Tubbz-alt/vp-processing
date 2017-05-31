@@ -36,7 +36,7 @@ vignettes/*.pdf
 # OS X files
 .DS_Store
 
-# Raw data files
+# Raw data files (except example)
 data/raw/*
 !data/raw/example/
 
