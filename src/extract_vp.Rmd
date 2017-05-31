@@ -137,17 +137,44 @@ Preview:
 head(vp_data, 20)
 ```
 
+## Filter out datetimes
+
+For some radars certain datetime ranges need to be excluded due to (remaining) rain clutter (_row selection_). Those datetime ranges were discovered during manual inspection and are defined in our settings (see \@ref(settings))._
+
+To do this, we take the `exclude_datetimes` range for each radar and set the data inside that range to `NA`.
+
+```{r extract_filter_datetimes}
+vp_data_temp <- vp_data
+for (radar in settings$radars) { # For each radar
+  for (i in seq_along(radar$exclude_datetime_from)) { # For each exclude_datetime
+    # Create datetime subset for that radar
+    subset = 
+      vp_data_temp %>%
+      filter(
+        radar_id == radar$radar_id & # Specific radar
+        between(
+          datetime,
+          radar$exclude_datetime_from[[i]], # From this datetime
+          radar$exclude_datetime_to[[i]]    # Until this datetime
+        )
+      ) %>%
+      # Set variables to NA
+      mutate(u = NA, v = NA, dens = NA, dd = NA, ff = NA, mtr = NA) %>%
+      # Mention that the row was excluded because of datetime
+      # This will overwrite any previous "height" reason
+      mutate(exclusion_reason = "datetime")
+      
+    # Insert subset back into vp_data
+    insert(vp_data, subset, by = "id") -> vp_data
+  }
 }
 ```
 
+Preview:
 
 ```{r extract_filter_datetimes_preview}
 head(vp_data, 20)
 ```
-
-## Select specific dates per radar
-
-...
 
 ## Export to a CSV file
 
