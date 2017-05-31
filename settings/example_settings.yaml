@@ -1,17 +1,32 @@
 # Ranges are [min, max], with both inclusive
 general:
+  # include_heights = min/max height for all radars. Both min and max are required
+  include_heights: [200, 2000] # Use integers
+
+  # include_dates = min/max date for all radars. Both min and max are required
   include_dates: ["2016-10-03", "2016-10-03"] # Use YYYY-MM-DD format
-  include_heights: [200, 1200]
+
 radars:
   seang:
-    include_heights: [400, NA] # NA will be replaced by general min/max height
+    # NA in include_heights will be replaced by general min/max height
+    # Use it if you do not want to set an lower/upper limit
+    include_heights: [400, NA]
+
+     # NA in exclude_heights will be replaced by general min/max date
+     # Use it to extend the range to the beginning or end of the full date range
     exclude_datetimes:
-    - [NA, "2016-10-03 20:29"] # NA will be replaced by general min/max date
-    - ["2016-10-03 20:45", "2016-10-03 20:59"]
+    - ["2016-10-03 20:00", "2016-10-03 20:29"] # Use YYYY-MM-DD HH:MM format
+    - ["2016-10-03 20:45", NA]
+
   searl:
     exclude_datetimes:
+     # This following will be replaced by 2016-10-03 00:00
     - ["2016-10-03", "2016-10-03"]
+
   sease:
-#  sehud: # Comment out a radar to exclude it
+
+# sehud: # Comment out a radar if you want to exclude it
+
 timamp:
+
 flowviz:
