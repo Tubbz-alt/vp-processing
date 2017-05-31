@@ -26,7 +26,7 @@ Found **`r length(settings$general$radar_ids_5char)` radars from `r length(setti
 
 ## Select date range & radars
 
-Select vp files on the date range and radars we defined in our settings (_horizontal_selection_):
+Select vp files on the date range and radars we defined in our settings (_file selection_):
 
 ```{r extract_get_file_paths}
 vp_file_paths <- bioRad::retrieve_vp_paths(
@@ -65,7 +65,7 @@ A single vp file contains a data frame with heights as rows and variables as col
 str(vp_files[[1]]$data)
 ```
 
-We only need a couple of variables (`HGHT`, `u`, `v`, `dens`, `dd`, `ff`) and attributes (`date_time` and `radar_id`) from the vp_files (_vertical selection_). We retrieve those with the custom function `vp_to_df()` after which we combine all data in one single data frame, sorted on `radar_id`, `date_time`, and `HGHT`:
+We only need a couple of variables (`HGHT`, `u`, `v`, `dens`, `dd`, `ff`) and attributes (`date_time` and `radar_id`) from the vp_files (_column selection_). We retrieve those with the custom function `vp_to_df()` after which we combine all data in one single data frame, sorted on `radar_id`, `date_time`, and `HGHT`:
 
 ```{r extact_select_columns_and_sort}
 vp_data <- list()
@@ -81,7 +81,7 @@ That data frame contains **`r nrow(vp_data)` records**.
 
 ## Calculate MTR per height
 
-We also want migration traffic rate (mtr) per height for further analysis, so we calculate and add it here as an extra column:
+We also want migration traffic rate (mtr) per height for further analysis, so we calculate and add it as an extra column:
 
 ```{r extract_calculate_mtr}
 vp_data$mtr <- vp_data$ff * vp_data$dens / 5
