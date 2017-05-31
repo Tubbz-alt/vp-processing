@@ -22,10 +22,13 @@ vp_to_df <- function(vp, variables) {
   df <- subset(vp$data, select = variables)
 
   # Select metadata from vp$attributes/what/
-  # Get radar_id "seang" from "NOD:seang", which is the first element in
-  # attributes/what/source
-  source <- unlist(strsplit(vp$attributes$what$source, ","))
-  radar_id <- unlist(strsplit(source[1], ":"))[2]
+  source <- vp$attributes$what$source
+  # Extract NOD code (e.g. "NOD:seang") from attributes/what/source
+  nod_code <- regmatches(source, regexpr("NOD:[a-z]{5}", source))
+  # Extract last 5 characters (e.g. "seang")
+  radar_id <- substring(nod_code, 5, nchar(nod_code))
+  # Throw an error if no nod_code was found
+  if (identical(nod_code, character(0))) stop(paste0("No NOD code found in what$attributes: ", source))
 
   # Get and combine attributes/what/date & attributes/what/time
   datetime_string <- paste0(vp$attributes$what$date, vp$attributes$what$time)
