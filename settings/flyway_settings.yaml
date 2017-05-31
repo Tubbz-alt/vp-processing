@@ -1,0 +1,223 @@
+# Ranges are [min, max], with both inclusive
+general:
+  include_dates: ["2016-09-19", "2016-10-09"] # Use YYYY-MM-DD format
+  include_heights: [200, 4000]
+
+radars:
+  seang:
+    include_heights: [309, NA] #altitude cut off at 1500 in raw data
+   
+  searl:
+    include_heights: [174, NA]
+    exclude_datetimes: 
+    - ["2016-09-21 03:30", "2016-09-21 04:30"]
+    - ["2016-09-22 03:15", "2016-09-22 04:45"]
+    - ["2016-09-23 13:00", "2016-09-23 18:00"]
+    - ["2016-09-28 07:00", "2016-09-28 09:45"]
+    - ["2016-09-29 08:00", "2016-09-29 16:00"]
+    - ["2016-10-09 01:00", "2016-10-09 07:00"]
+  
+  sease:
+    include_heights: [185, NA]
+    exclude_datetimes: 
+    - ["2016-09-29 16:00", "2016-10-29 18:00"]  
+ 
+  sehud:
+    include_heights: [489, NA]
+    exclude_datetimes: 
+    - ["2016-09-28 00:30", "2016-09-28 01:30"]
+    - ["2016-09-29 08:00", "2016-09-29 18:00"]
+
+  sevar:
+    include_heights: [264, NA] #altitude cut off at 1500 in raw data
+    exclude_datetimes: 
+    - ["2016-09-27 01:00", "2016-09-27 06:00"]
+    - ["2016-09-28 14:30", "2016-09-28 15:00"]
+    - ["2016-09-28 21:45", "2016-09-28 00:00"]
+    - ["2016-09-29 03:00", "2016-09-29 23:00"]
+    - ["2016-09-30 10:45", "2016-09-30 12:00"]
+
+  selek:
+    include_heights: [557, NA]
+    exclude_datetimes: 
+    - ["2016-09-21 03:00", "2016-09-21	05:00"]
+    - ["2016-09-27 23:00", "2016-09-27	00:00"]
+    - ["2016-09-28 00:00", "2016-09-28	03:00"]
+    - ["2016-09-29 07:00", "2016-09-29	14:30"]
+
+  sekkr:
+    include_heights: [223, NA]
+ 
+  sevil:
+    include_heights: [323, NA]
+ 
+  seosu:
+    include_heights: [566, NA]
+
+  seovi:
+    include_heights: [622, NA]
+
+  selul:
+    include_heights: [168, NA]
+
+  sekir:
+    include_heights: [747, NA]
+
+  filuo:
+    include_heights: [633, NA]
+
+  fiuta:
+    include_heights: [218, NA]
+    exclude_datetimes: 
+    - ["2016-10-01 08:30","2016-10-01 15:00"]
+    - ["2016-10-03 11:30","2016-10-03 15:30"]
+
+  fivim:
+    include_heights: [300, NA]
+    exclude_datetimes: 
+    - ["2016-09-23 23:00", "2016-09-23 00:00"]
+    - ["2016-09-24 00:00", "2016-09-24 13:00"]
+  
+  fikuo:
+    include_heights: [368, NA]
+    exclude_datetimes: 
+    - ["2016-09-23 12:00","2016-09-23	00:00"]
+    - ["2016-09-24 08:00","2016-09-24	13:00"]
+    - ["2016-09-25 04:00","2016-09-25	05:30"]
+    - ["2016-09-25 08:30","2016-09-25	16:00"]
+
+  fikes:
+    include_heights: [274, NA]
+    exclude_datetimes: 
+    - ["2016-09-28 02:00","2016-09-28	04:00"]
+
+  fipet:
+    include_heights: [371, NA]
+
+  fiika:
+    include_heights: [253, NA]
+  
+  fianj:
+    include_heights: [239, NA]
+    exclude_datetimes: 
+    - ["2016-09-23 13:00","2016-09-23 22:00"]
+    - ["2016-09-25 07:00","2016-09-25	12:00"]
+    - ["2016-09-28 14:00","2016-09-28	17:00"]
+    - ["2016-09-29 13:00","2016-09-29	19:00"]
+
+  fivan:
+    include_heights: [182, NA]
+    exclude_datetimes: 
+    - ["2016-09-29 16:00","2016-09-29 17:00"]
+  
+  fikor:
+    include_heights: [161, NA]
+
+  nldbl:
+    include_heights: [144, NA]
+ 
+  nldhl:
+    include_heights: [151, NA]
+    exclude_datetimes: 
+    - ["2016-10-02 05:00", "2016-10-02 20:00"]
+
+  czbrd:
+    include_heights: [1016, NA]
+ 
+  czska:
+    include_heights: [867, NA]
+
+  frabb:
+    include_heights: [170, NA]
+    exclude_datetimes: 
+    - ["2016-09-29 18:00","2016-09-29 21:00"]
+ 
+  frale:
+    include_heights: [150, NA]
+ 
+  frave:
+    include_heights: [290, NA]
+ 
+  frbla:
+    include_heights: [690, NA]
+  
+  frbol:
+    include_heights: [410, NA]
+ 
+  frbor:
+    include_heights: [150, NA]
+  
+  frbou:
+    include_heights: [260, NA]
+ 
+  frcae:
+    include_heights: [260, NA]
+    exclude_datetimes: 
+    - ["2016-09-26 22:00","2016-09-27 00:00"]
+    - ["2016-09-29 17:30","2016-09-29 18:30"]
+    - ["2016-09-30 19:45","2016-09-30 19:45"]
+    - ["2016-10-01 19:45","2016-10-01 19:45"]
+    - ["2016-10-08 22:00","2016-10-09 08:00"]
+
+  frche:
+    include_heights: [260, NA]
+    exclude_datetimes: 
+    - ["2016-09-30 20:30","2016-09-30 20:30"]
+ 
+  frcol:
+    include_heights: [740, NA]
+    
+  frgre:
+    include_heights: [450, NA]
+
+  frlep:
+    include_heights: [1220, NA]
+
+  frmcl:
+    include_heights: [770, NA]
+ 
+  frmom:
+    include_heights: [230, NA]
+ 
+  frmtc:
+    include_heights: [1010, NA]
+
+  frnan:
+    include_heights: [390, NA]
+ 
+  frnim:
+    include_heights: [170, NA]
+
+  frniz:
+    include_heights: [1010, NA]
+    exclude_datetimes: 
+    - ["2016-10-01 14:00","2016-10-02 00:30"]  
+ 
+  fropo:
+    include_heights: [800, NA]
+ 
+  frpla:
+    include_heights: [200, NA]
+ 
+  frtou:
+    include_heights: [260, NA]
+    exclude_datetimes: 
+    - ["2016-10-01 19:30","2016-10-01 19:30"]  
+    - ["2016-10-01 21:00","2016-10-01 21:00"]  
+
+  frtra:
+    include_heights: [270, NA]
+    exclude_datetimes: 
+    - ["2016-09-30 12:00","2016-10-01 03:00"]  
+ 
+  frtre:
+    include_heights: [170, NA]
+
+  frtro:
+    include_heights: [260, NA]
+    exclude_datetimes: 
+    - ["2016-09-30 12:00","2016-10-01 12:00"]      
+    - ["2016-10-01 12:00","2016-10-01 22:00"]      
+
+timamp:
+flowviz:
