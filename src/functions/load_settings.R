@@ -80,8 +80,16 @@ load_settings <- function(settings_file) {
 
       # Cast to POSIXct with UTC timezone. There is no pretty error handling if
       # none datetime formats are used in the settings
-      exclude_datetime_from_list[[i]] <- as.POSIXct(exclude_datetime_from, tz = "UTC")
-      exclude_datetime_to_list[[i]] <- as.POSIXct(exclude_datetime_to, tz = "UTC")
+      exclude_datetime_from <- as.POSIXct(exclude_datetime_from, tz = "UTC")
+      exclude_datetime_to <- as.POSIXct(exclude_datetime_to, tz = "UTC")
+
+      # If datetime_to has no time component (e.g. 2016-03-01), extend it to
+      # 23:59:59, so we cover until the end of the day
+      if (format(exclude_datetime_to, format = "%H:%M:%S") == "00:00:00")
+        exclude_datetime_to <- exclude_datetime_to + hours(23) + minutes(59) + seconds(59)
+
+      exclude_datetime_from_list[[i]] <- exclude_datetime_from
+      exclude_datetime_to_list[[i]] <- exclude_datetime_to
     }
 
     # Save radar datatime settings (if there were any exclude_datetimes defined)
