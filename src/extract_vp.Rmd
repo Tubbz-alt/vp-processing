@@ -34,6 +34,9 @@ vp_file_paths <- bioRad::retrieve_vp_paths(
   start_date = settings$general$start_date,
   end_date = settings$general$end_date,
   radar = settings$general$radar_ids_3char,
+  # Since 3 letter radar codes are not always unique across countries, 
+  # we select on countries as well
+  country = settings$general$countries,
   path = raw_data_dir
 )
 ```
