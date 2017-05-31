@@ -77,6 +77,12 @@ dplyr::bind_rows(vp_data) %>%
 dplyr::arrange(radar_id, datetime, HGHT) -> vp_data
 ```
 
+To uniquely reference records later, we add an `id` column:
+
+```{r}
+vp_data <- cbind("id" = seq.int(nrow(vp_data)), vp_data)
+```
+
 That data frame contains **`r nrow(vp_data)` records**.
 
 ## Calculate MTR per height
@@ -135,6 +141,7 @@ head(vp_data, 20)
 Finally, we export the data to a CSV file[^3]:
 
 ```{r extract_vp_export}
+vp_data %>% select(-id) -> vp_data # Remove id column
 write.csv(vp_data, file = "../data/interim/vp_data.csv", na = "", row.names = FALSE)
 ```
 
