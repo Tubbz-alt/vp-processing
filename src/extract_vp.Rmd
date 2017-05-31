@@ -182,7 +182,7 @@ Finally, we export the data to a CSV file[^3]:
 
 ```{r extract_vp_export}
 vp_data %>% select(-id) -> vp_data # Remove id column
-write.csv(vp_data, file = "../data/interim/vp_data.csv", na = "", row.names = FALSE)
+write.csv(vp_data, file = paste0(processed_data_dir, "vp_data.csv"), na = "", row.names = FALSE)
 ```
 
 [^3]: The data frame `vp_data` contains `NaN` and `NA` values, [which have a different meaning](https://github.com/enram/timamp-etl/issues/10#issuecomment-302235736). That difference gets lost in the CSV file: all are treated as blank (= `NA`) values, which is fine for visualizations. If you want to keep that difference, you need work further with `vp_data`.
