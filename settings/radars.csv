@@ -1,90 +1,90 @@
-﻿location	country	ODIMcode	ODIMcode_3char	site_code_h5	sunrise_01oct	sunset_01oct	lon	lat	site_height_asl	low_alt_cut_asl	high_alt_cut_asl
-Jabbeke	be	bejab	jab								
-Wideumont	be	bewid	wid								
-Zaventem	be	bezav	zav								
-Brdy-Praha	cz	czbrd	brd	czbrd	05:08	16:39	13.8178	49.6583	916	1016	4000
-Skalky	cz	czska	ska	czska	04:56	16:27	16.7885	49.5011	767	867	4000
-Boostedt	de	deboo	boo								
-Dresden	de	dedrs	drs								
-Eisberg	de	deeis	eis								
-Emden	de	deemd	emd								
-Essen	de	deess	ess								
-Feldberg	de	defbg	fbg								
-Flechtdorf	de	defld	fld								
-Hannover	de	dehnr	hnr								
-Isen/Munchen	de	deisn	isn								
-Memminggen	de	demem	mem								
-Neuheilenbach	de	denhb	nhb								
-Neuhaus	de	deneu	neu								
-Offethal	de	deoft	oft								
-Pritzel/Berlin	de	depro	pro								
-Rostock	de	deros	ros								
-Tuerkheim	de	detur	tur								
-Ummendorf	de	deumd	umd								
-Bornholm	dk	dkbor	bor	DN44	05:07	16:31	55.1128	14.8875	171	271	4000
-Romö	dk	dkrom	rom	DN42	05:33	16:57	55.1731	8.552	15	115	4000
-Sindal	dk	dksin	sin	DN43	05:28	16:49	57.4893	10.1365	109	209	4000
-Stevns	dk	dkste	ste	DN41	05:17	16:41	55.3262	12.4493	53	153	4000
-Virring	dk	dkvir	vir	DN45	05:28	16:50	56.024	10.0246	142	242	4000
-Anjalankoski	fi	fianj	anj	FI44	04:23	15:38	27.1081	60.9039	139	239	4000
-Ikaalinen	fi	fiika	ika	FI43	04:40	15:53	23.0764	61.7673	153	253	4000
-Kesälahti	fi	fikes	kes	FI50	04:14	15:26	29.7977	61.907	174	274	4000
-Korpo	fi	fikor	kor	FI46	04:44	16:00	21.6434	60.1285	61	161	4000
-Kuopio	fi	fikuo	kuo	FI45	04:24	15:35	27.3815	62.8626	268	368	4000
-Lousto	fi	filuo	luo	FI48	04:32	15:31	26.8969	67.1391	533	633	4000
-Petäjävesi	fi	fipet	pet	FI51	04:31	15:43	25.4401	62.3045	271	371	4000
-Utajärvi	fi	fiuta	uta	FI47	04:31	15:37	26.3189	64.7749	118	218	4000
-Vantaa	fi	fivan	van	FI42	04:32	15:47	24.869	60.2706	82	182	4000
-Vimpeli	fi	fivim	vim	FI49	04:39	15:49	23.8209	63.1048	200	300	4000
-Abbeville	fr	frabb	abb	FR40	05:57	17:27	1.8347	50.1358	70	170	4000
-Aléria	fr	frale	ale	FR61	05:22	17:00	9.4964	42.1297	50	150	4000
-Avesnes	fr	frave	ave	FR63	05:49	17:19	3.8119	50.1283	190	290	4000
-Blaisy-haut	fr	frbla	bla	FR65	05:43	17:16	4.7758	47.3553	590	690	4000
-Bollène	fr	frbol	bol	FR55	05:42	17:18	4.7622	44.3231	310	410	4000
-Bordeaux	fr	frbor	bor	FR41	06:04	17:39	-0.6917	44.8314	50	150	4000
-Bourges	fr	frbou	bou	FR42	05:53	17:26	2.3594	47.0586	160	260	4000
-Falaise	fr	frcae	cae	FR45	06:04	17:35	-0.1494	48.9272	160	260	4000
-Cherves	fr	frche	che	FR64	06:02	17:36	0.0656	46.6986	160	260	4000
-Collobrières	fr	frcol	col	FR59	05:35	17:12	6.3728	43.2167	640	740	4000
-Grezes	fr	frgre	gre	FR44	05:56	17:31	1.3694	45.1044	350	450	4000
-Sembadel	fr	frlep	lep	FR53	05:47	17:22	3.7094	45.29	1120	1220	4000
-Montclar	fr	frmcl	mcl	FR62	05:50	17:27	2.6097	43.9906	670	770	4000
-Momuy	fr	frmom	mom	FR66	06:03	17:40	-0.6092	43.6247	130	230	4000
-Montancy	fr	frmtc	mtc	FR67	05:34	17:07	7.0192	47.3686	910	1010	4000
-Nancy	fr	frnan	nan	FR47	05:37	17:08	6.5817	48.7158	290	390	4000
-Nîmes	fr	frnim	nim	FR49	05:43	17:19	4.5028	43.8061	70	170	4000
-Saint Nizier	fr	frniz	niz	FR58	05:44	17:18	4.4453	46.0678	910	1010	4000
-Opoul	fr	fropo	opo	FR57	05:49	17:26	2.865	42.9183	700	800	4000
-Plabennec	fr	frpla	pla	FR56	06:21	17:53	-4.43	48.4608	100	200	4000
-Toulouse	fr	frtou	tou	FR50	05:55	17:32	1.3761	43.5744	160	260	4000
-Trappes	fr	frtra	tra	FR51	05:55	17:27	2.0075	48.7739	170	270	4000
-Treilleres	fr	frtre	tre	FR54	06:09	17:42	-1.6564	47.3375	70	170	4000
-Arcis-sur-aube	fr	frtro	tro	FR52	05:46	17:18	4.3094	48.4622	160	260	4000
-Bilogora	hr	hrbil	bil	RH42	04:53	16:27	45.8835	17.2009	258	358	4000
-Osijek	hr	hrosi	osi	RH43	04:47	16:22	45.5027	18.5613	105	205	4000
-De bilt	nl	nldbl	dbl	NL50	05:44	17:12	5.1783	52.1017	44	144	4000
-Den helder	nl	nldhl	dhl	NL51	05:46	17:13	4.79	52.9533	51.5	151.5	4000
-Brzuchania	pl	plbrz	brz	plbrz	04:44	16:14	50.39417	20.07972	453	553	4000
-Gdansk	pl	plgda	gda	plgda	04:53	16:18	54.38425	18.45631	158	258	4000
-Legionowo	pl	plleg	leg	plleg	04:41	16:09	52.405219	20.960911	119	219	4000
-Poznan	pl	plpoz	poz	plpoz	04:58	16:26	52.41326	16.79706	130	230	4000
-Ramna	pl	plram	ram	plram	04:49	16:19	50.15167	18.72667	358	458	4000
-Rzeszów	pl	plrze	rze	plrze	04:36	16:06	50.11409	22.03704	235	335	4000
-Swidwin	pl	plswi	swi	plswi	05:03	16:29	53.79028	15.83111	146	246	4000
-Loule/Cavalos do Caldeirão	pt	ptfar	far								
-Coruche/Cruz do Leão	pt	ptlis	lis								
-Arouca/Pico do Gralheiro	pt	ptprt	prt								
-Ängelholm	se	seang	ang	SE50	05:17	16:39	12.8517	56.3675	209	309	4000
-Arlanda	se	searl	arl	SE46	04:59	16:16	17.9463	59.6544	74	174	4000
-Ase	se	sease	ase	SE47	04:55	16:16	18.4001	57.3035	85	185	4000
-Hudriksvall	se	sehud	hud	SE44	05:06	16:19	16.7144	61.5771	389	489	4000
-Kiruna	se	sekir	kir	SE40	04:58	15:55	20.6178	67.7088	647	747	4000
-Karlskrona	se	sekkr	kkr	SE51	05:05	16:28	15.6103	56.2955	123	223	4000
-Leksand	se	selek	lek	SE45	05:12	16:27	14.8776	60.723	457	557	4000
-Luleå	se	selul	lul	SE41	04:49	15:54	21.865	65.4309	68	168	4000
-Östersund	se	seosu	osu	SE42	05:15	16:25	14.7591	63.295	466	566	4000
-Örnsköldsvik	se	seovi	ovi	SE43	05:01	16:10	18.4019	63.6395	522	622	4000
-Vara	se	sevar	var	SE49	05:18	16:37	12.826	58.2556	164	264	4000
-Vilebo	se	sevil	vil	SE48	05:06	16:25	15.9363	58.1059	223	323	4000
-Lisca	si	silis	lis	SI41	05:01	16:35	46.0678	15.2849	950	1050	4000
-Pasja ravan	si	sipas	pas	SI42	05:05	16:39	46.098	14.2282	1043	1143	4000
+odim_code,country,odim_code_3char,vp_radar,location,latitude,longitude,site_altitude_asl,min_height_cut_asl,max_height_cut_asl,sunrise_20161001,sunset_20161001
+bejab,be,jab,,Jabbeke,,,,,,,
+bewid,be,wid,,Wideumont,,,,,,,
+bezav,be,zav,,Zaventem,,,,,,,
+czbrd,cz,brd,czbrd,Brdy-Praha,49.6583,13.8178,916,1016,4000,05:08,16:39
+czska,cz,ska,czska,Skalky,49.5011,16.7885,767,867,4000,04:56,16:27
+deboo,de,boo,,Boostedt,,,,,,,
+dedrs,de,drs,,Dresden,,,,,,,
+deeis,de,eis,,Eisberg,,,,,,,
+deemd,de,emd,,Emden,,,,,,,
+deess,de,ess,,Essen,,,,,,,
+defbg,de,fbg,,Feldberg,,,,,,,
+defld,de,fld,,Flechtdorf,,,,,,,
+dehnr,de,hnr,,Hannover,,,,,,,
+deisn,de,isn,,Isen/Munchen,,,,,,,
+demem,de,mem,,Memminggen,,,,,,,
+denhb,de,nhb,,Neuheilenbach,,,,,,,
+deneu,de,neu,,Neuhaus,,,,,,,
+deoft,de,oft,,Offethal,,,,,,,
+depro,de,pro,,Pritzel/Berlin,,,,,,,
+deros,de,ros,,Rostock,,,,,,,
+detur,de,tur,,Tuerkheim,,,,,,,
+deumd,de,umd,,Ummendorf,,,,,,,
+dkbor,dk,bor,DN44,Bornholm,14.8875,55.1128,171,271,4000,05:07,16:31
+dkrom,dk,rom,DN42,Romö,8.552,55.1731,15,115,4000,05:33,16:57
+dksin,dk,sin,DN43,Sindal,10.1365,57.4893,109,209,4000,05:28,16:49
+dkste,dk,ste,DN41,Stevns,12.4493,55.3262,53,153,4000,05:17,16:41
+dkvir,dk,vir,DN45,Virring,10.0246,56.024,142,242,4000,05:28,16:50
+fianj,fi,anj,FI44,Anjalankoski,60.9039,27.1081,139,239,4000,04:23,15:38
+fiika,fi,ika,FI43,Ikaalinen,61.7673,23.0764,153,253,4000,04:40,15:53
+fikes,fi,kes,FI50,Kesälahti,61.907,29.7977,174,274,4000,04:14,15:26
+fikor,fi,kor,FI46,Korpo,60.1285,21.6434,61,161,4000,04:44,16:00
+fikuo,fi,kuo,FI45,Kuopio,62.8626,27.3815,268,368,4000,04:24,15:35
+filuo,fi,luo,FI48,Lousto,67.1391,26.8969,533,633,4000,04:32,15:31
+fipet,fi,pet,FI51,Petäjävesi,62.3045,25.4401,271,371,4000,04:31,15:43
+fiuta,fi,uta,FI47,Utajärvi,64.7749,26.3189,118,218,4000,04:31,15:37
+fivan,fi,van,FI42,Vantaa,60.2706,24.869,82,182,4000,04:32,15:47
+fivim,fi,vim,FI49,Vimpeli,63.1048,23.8209,200,300,4000,04:39,15:49
+frabb,fr,abb,FR40,Abbeville,50.1358,1.8347,70,170,4000,05:57,17:27
+frale,fr,ale,FR61,Aléria,42.1297,9.4964,50,150,4000,05:22,17:00
+frave,fr,ave,FR63,Avesnes,50.1283,3.8119,190,290,4000,05:49,17:19
+frbla,fr,bla,FR65,Blaisy-haut,47.3553,4.7758,590,690,4000,05:43,17:16
+frbol,fr,bol,FR55,Bollène,44.3231,4.7622,310,410,4000,05:42,17:18
+frbor,fr,bor,FR41,Bordeaux,44.8314,-0.6917,50,150,4000,06:04,17:39
+frbou,fr,bou,FR42,Bourges,47.0586,2.3594,160,260,4000,05:53,17:26
+frcae,fr,cae,FR45,Falaise,48.9272,-0.1494,160,260,4000,06:04,17:35
+frche,fr,che,FR64,Cherves,46.6986,0.0656,160,260,4000,06:02,17:36
+frcol,fr,col,FR59,Collobrières,43.2167,6.3728,640,740,4000,05:35,17:12
+frgre,fr,gre,FR44,Grezes,45.1044,1.3694,350,450,4000,05:56,17:31
+frlep,fr,lep,FR53,Sembadel,45.29,3.7094,1120,1220,4000,05:47,17:22
+frmcl,fr,mcl,FR62,Montclar,43.9906,2.6097,670,770,4000,05:50,17:27
+frmom,fr,mom,FR66,Momuy,43.6247,-0.6092,130,230,4000,06:03,17:40
+frmtc,fr,mtc,FR67,Montancy,47.3686,7.0192,910,1010,4000,05:34,17:07
+frn,fr,n,FR47,ncy,48.7158,6.5817,290,390,4000,05:37,17:08
+frnim,fr,nim,FR49,Nîmes,43.8061,4.5028,70,170,4000,05:43,17:19
+frniz,fr,niz,FR58,Saint Nizier,46.0678,4.4453,910,1010,4000,05:44,17:18
+fropo,fr,opo,FR57,Opoul,42.9183,2.865,700,800,4000,05:49,17:26
+frpla,fr,pla,FR56,Plabennec,48.4608,-4.43,100,200,4000,06:21,17:53
+frtou,fr,tou,FR50,Toulouse,43.5744,1.3761,160,260,4000,05:55,17:32
+frtra,fr,tra,FR51,Trappes,48.7739,2.0075,170,270,4000,05:55,17:27
+frtre,fr,tre,FR54,Treilleres,47.3375,-1.6564,70,170,4000,06:09,17:42
+frtro,fr,tro,FR52,Arcis-sur-aube,48.4622,4.3094,160,260,4000,05:46,17:18
+hrbil,hr,bil,RH42,Bilogora,17.2009,45.8835,258,358,4000,04:53,16:27
+hrosi,hr,osi,RH43,Osijek,18.5613,45.5027,105,205,4000,04:47,16:22
+nldbl,nl,dbl,NL50,De bilt,52.1017,5.1783,44,144,4000,05:44,17:12
+nldhl,nl,dhl,NL51,Den helder,52.9533,4.79,51,151,4000,05:46,17:13
+plbrz,pl,brz,plbrz,Brzuchania,20.07972,50.39417,453,553,4000,04:44,16:14
+plgda,pl,gda,plgda,Gdansk,18.45631,54.38425,158,258,4000,04:53,16:18
+plleg,pl,leg,plleg,Legionowo,20.960911,52.405219,119,219,4000,04:41,16:09
+plpoz,pl,poz,plpoz,Pozn,16.79706,52.41326,130,230,4000,04:58,16:26
+plram,pl,ram,plram,Ram,18.72667,50.15167,358,458,4000,04:49,16:19
+plrze,pl,rze,plrze,Rzeszów,22.03704,50.11409,235,335,4000,04:36,16:06
+plswi,pl,swi,plswi,Swidwin,15.83111,53.79028,146,246,4000,05:03,16:29
+ptfar,pt,far,,Loule/Cavalos do Caldeirão,,,,,,,
+ptlis,pt,lis,,Coruche/Cruz do Leão,,,,,,,
+ptprt,pt,prt,,Arouca/Pico do Gralheiro,,,,,,,
+seang,se,ang,SE50,Ängelholm,56.3675,12.8517,209,309,4000,05:17,16:39
+searl,se,arl,SE46,Arlanda,59.6544,17.9463,74,174,4000,04:59,16:16
+sease,se,ase,SE47,Ase,57.3035,18.4001,85,185,4000,04:55,16:16
+sehud,se,hud,SE44,Hudriksvall,61.5771,16.7144,389,489,4000,05:06,16:19
+sekir,se,kir,SE40,Kiru,67.7088,20.6178,647,747,4000,04:58,15:55
+sekkr,se,kkr,SE51,Karlskro,56.2955,15.6103,123,223,4000,05:05,16:28
+selek,se,lek,SE45,Leksand,60.723,14.8776,457,557,4000,05:12,16:27
+selul,se,lul,SE41,Luleå,65.4309,21.865,68,168,4000,04:49,15:54
+seosu,se,osu,SE42,Östersund,63.295,14.7591,466,566,4000,05:15,16:25
+seovi,se,ovi,SE43,Örnsköldsvik,63.6395,18.4019,522,622,4000,05:01,16:10
+sevar,se,var,SE49,Vara,58.2556,12.826,164,264,4000,05:18,16:37
+sevil,se,vil,SE48,Vilebo,58.1059,15.9363,223,323,4000,05:06,16:25
+silis,si,lis,SI41,Lisca,15.2849,46.0678,950,1050,4000,05:01,16:35
+sipas,si,pas,SI42,Pasja ravan,14.2282,46.098,1043,1143,4000,05:05,16:39

@@ -20,7 +20,7 @@ source("functions/load_settings.R")
 All of the filtering options we'll use here are defined in **yaml settings file**, which we pointed to in `setup.Rmd` (see \@ref(settings)). Let's load those:
 
 ```{r extract_load_settings}
-settings <- load_settings(settings_file)
+settings <- load_settings(settings_file, radars_metadata_file)
 ```
 
 Found **`r length(settings$general$radar_ids_5char)` radars from `r length(settings$general$countries)` countries** in the settings.
@@ -80,7 +80,7 @@ dplyr::arrange(radar_id, datetime, HGHT) -> vp_data
 
 To uniquely reference records later, we add an `id` column:
 
-```{r}
+```{r extract_add_id_column}
 vp_data <- cbind("id" = seq.int(nrow(vp_data)), vp_data)
 ```
 
@@ -181,8 +181,19 @@ head(vp_data, 20)
 Finally, we export the data to a CSV file[^3]:
 
 ```{r extract_vp_export}
-vp_data %>% select(-id) -> vp_data # Remove id column
-write.csv(vp_data, file = paste0(processed_data_dir, "vp_data.csv"), na = "", row.names = FALSE)
+# Remove id column
+vp_data %>% select(-id) -> vp_data
+
+# Create filename
+filename_metadata <- paste(
+  length(settings$general$radar_ids_5char),
+  "radars",
+  gsub("-", "", settings$general$start_date),
+  gsub("-", "", settings$general$end_date),
+  sep = "_")
+
+# Write data to file
+write.csv(vp_data, file = paste0(processed_data_dir, "vp_data_", filename_metadata, ".csv"), na = "", row.names = FALSE)
 ```
 
 [^3]: The data frame `vp_data` contains `NaN` and `NA` values, [which have a different meaning](https://github.com/enram/timamp-etl/issues/10#issuecomment-302235736). That difference gets lost in the CSV file: all are treated as blank (= `NA`) values, which is fine for visualizations. If you want to keep that difference, you need work further with `vp_data`.
