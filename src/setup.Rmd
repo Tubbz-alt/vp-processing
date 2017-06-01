@@ -40,7 +40,7 @@ processed_data_dir <- "../data/processed/example/" # Make sure this folder exist
 # Your processing settings (needs a trailing slash):
 settings_file <- "../settings/example_settings.yaml"
 # The radar metadata (incl. coordinates):
-radars_file <- "../settings/radars.csv"
+radars_metadata_file <- "../settings/radars.csv"
 ```
 
 ## Run processing

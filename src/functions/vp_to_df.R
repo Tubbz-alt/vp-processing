@@ -28,7 +28,7 @@ vp_to_df <- function(vp, variables) {
   # Extract last 5 characters (e.g. "seang")
   radar_id <- substring(nod_code, 5, nchar(nod_code))
   # Throw an error if no nod_code was found
-  if (identical(nod_code, character(0))) stop(paste0("No NOD code found in what$attributes: ", source))
+  if (identical(nod_code, character(0))) stop(paste0("No NOD code found in vp file in what$attributes$source: ", source))
 
   # Get and combine attributes/what/date & attributes/what/time
   datetime_string <- paste0(vp$attributes$what$date, vp$attributes$what$time)

@@ -20,7 +20,7 @@ source("functions/load_settings.R")
 All of the filtering options we'll use here are defined in **yaml settings file**, which we pointed to in `setup.Rmd` (see \@ref(settings)). Let's load those:
 
 ```{r extract_load_settings}
-settings <- load_settings(settings_file)
+settings <- load_settings(settings_file, radars_metadata_file)
 ```
 
 Found **`r length(settings$general$radar_ids_5char)` radars from `r length(settings$general$countries)` countries** in the settings.

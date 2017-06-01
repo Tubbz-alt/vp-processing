@@ -1,25 +1,17 @@
 #' TODO: Need to add documentation
-load_settings <- function(settings_file) {
+load_settings <- function(settings_file, radars_metadata_file) {
   library(yaml)
   # It seems that the yaml library will try to interpret lists in a "smart" way
   # E.g. lists with multiple elements are interpreted as lists, while lists with
   # single elements are interpreted as vectors:
-  #
-  # exclude_datetimes:
-  # - ["start", "end"] # single list element
-  #
-  # Is interpreted as:
-  #
-  # $exclude_datetimes
-  # [1] c("start", "end")
-  #
+  # $exclude_datetimes = (c("start", "end"))
   # Which is annoying for looping, as we want all lists to be interpreted as
   # lists. So, we use a handler, which seems to do the job:
   yaml_settings <- yaml.load_file(settings_file, handlers = list(seq = function(x) { x }))
   settings <- list()
 
-  # Copy original settings
-  # settings[["raw_settings"]] <- yaml_settings
+  # Read metadata
+  metadata <- read.csv(radars_metadata_file, encoding = "UTF8")
 
   # Get general settings
   general_start_date_string <- yaml_settings$general$include_dates[[1]]
@@ -46,6 +38,22 @@ load_settings <- function(settings_file) {
     # Although we already have that as the key for a radar, it's easier to
     # retrieve later if it's also a value
     settings$radars[[radar_id]]$radar_id <- radar_id
+
+    # Lookup radar metadata
+    metadata %>% filter(odim_code == radar_id) -> radar_metadata
+    # Throw error if radar ID cannot be found in metadata
+    if (nrow(radar_metadata) == 0) stop(paste0("Radar \"", radar_id, "\" not listed in: ", radars_metadata_file))
+
+    # Get latitude & longitude
+    latitude <- radar_metadata$latitude
+    longitude <- radar_metadata$longitude
+
+    # Throw error if latitude or longitude are empty
+    if(is.na(latitude) | is.na(longitude)) stop(paste0("Latitude or longitude not populated for \"", radar_id, "\" in: ", radars_metadata_file))
+
+    # Save latitude & longitude
+    settings$radars[[radar_id]]$latitude <- latitude
+    settings$radars[[radar_id]]$longitude <- longitude
 
     # Get radar height settings
     radar_min_height <- yaml_settings$radars[[radar_id]]$include_heights[[1]]
