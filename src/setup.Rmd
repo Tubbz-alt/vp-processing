@@ -37,10 +37,10 @@ The processing requires a number of settings we need to define. If you want to [
 raw_data_dir <- "../data/raw/example/"
 # Where it should write the processed data.
 processed_data_dir <- "../data/processed/example/" # Make sure this folder exists!
-# Your processing settings:
+# Your processing settings (needs a trailing slash):
 settings_file <- "../settings/example_settings.yaml"
 # The radar metadata (incl. coordinates):
-radars_file <- "../settings/example_radars.csv"
+radars_file <- "../settings/radars.csv"
 ```
 
 ## Run processing
