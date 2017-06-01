@@ -80,7 +80,7 @@ dplyr::arrange(radar_id, datetime, HGHT) -> vp_data
 
 To uniquely reference records later, we add an `id` column:
 
-```{r}
+```{r extract_add_id_column}
 vp_data <- cbind("id" = seq.int(nrow(vp_data)), vp_data)
 ```
 
