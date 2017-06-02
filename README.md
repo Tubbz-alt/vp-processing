@@ -1,3 +1,11 @@
-# Data processing pipeline to transform h5 bird profile data for TIMAMP
+# Vertical profile data processing for analyses and visualizations
 
-This ETL (Extract, Transform and Load) process is mainly set up to be able to visualize flyway data with [TIMAMP](https://github.com/enram/timamp).
+This repository contains the code and documentation to process **vertical profile (vp) data** for further analysis and visualizations such as [bird migration flow visualization](http://enram.github.io/bird-migration-flow-visualization/viz/) and [TIMAMP](http://timamp.github.io/).
+
+## Documentation
+
+http://enram.github.io/vp-processing
+
+## License
+
+The MIT License ([LICENSE](LICENSE))
