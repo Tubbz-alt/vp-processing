@@ -97,7 +97,8 @@ vp_data$mtr <- vp_data$ff * vp_data$dens / 5
 variables <- c(variables, "mtr")
 ```
 
-## Add sday/night information
+## Add day/night information
+
 To add day/night information, we first create a sunrise/sunset dataframe for each radar/date combination, using the latitude/longitude from our radar metadata and the `suntime()` function in bioRad:
 
 ```{r}
@@ -238,4 +239,4 @@ filename_metadata <- paste(
 write.csv(vp_data, file = paste0(processed_data_dir, "vp_data_", filename_metadata, ".csv"), na = "", row.names = FALSE)
 ```
 
-[^3]: The data frame `vp_data` contains `NaN` and `NA` values, [which have a different meaning](https://github.com/enram/timamp-etl/issues/10#issuecomment-302235736). That difference gets lost in the CSV file: all are treated as blank (= `NA`) values, which is fine for visualizations. If you want to keep that difference, you need work further with `vp_data`.
+[^3]: The data frame `vp_data` contains `NaN` and `NA` values, [which have a different meaning](https://github.com/enram/vp-processing/issues/10#issuecomment-302235736). That difference gets lost in the CSV file: all are treated as blank (= `NA`) values, which is fine for visualizations. If you want to keep that difference, you need work further with `vp_data`.

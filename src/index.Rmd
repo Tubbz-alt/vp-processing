@@ -1,5 +1,5 @@
 --- 
-title: "Process vertical profile data for visualizations"
+title: "Vertical profile (vp) data processing for analyses and visualizations"
 author: "Peter Desmet"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -7,18 +7,18 @@ output:
   bookdown::gitbook:
     split_by: chapter
     config:
-      edit: https://github.com/enram/timamp-etl/blob/master/src/%s
+      edit: https://github.com/enram/vp-processing/blob/master/src/%s
       search: no
       sharing:
         facebook: no
         twitter: yes
         all: []
-github-repo: enram/timamp-etl
+github-repo: enram/vp-processing
 ---
 
 # Preface {-}
 
-This document describes how we process **vertical profile (vp) data**[^1] for the visualizations [bird migration flow visualization](http://enram.github.io/bird-migration-flow-visualization/viz/) and [TIMAMP](http://timamp.github.io/). You can also use it to just download or extract vp data for further analysis.
+This document describes how we process **vertical profile (vp) data**[^1] for further analysis and visualizations such as [bird migration flow visualization](http://enram.github.io/bird-migration-flow-visualization/viz/) and [TIMAMP](http://timamp.github.io/).
 
 [^1]: Vertical profiles of birds generated from weather radar volume scans by [vol2bird](https://github.com/adokter/vol2bird).
 

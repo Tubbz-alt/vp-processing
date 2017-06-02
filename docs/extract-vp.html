@@ -5,20 +5,20 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Process vertical profile data for visualizations</title>
+  <title>Vertical profile (vp) data processing for analyses and visualizations</title>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  <meta name="description" content="Process vertical profile data for visualizations">
+  <meta name="description" content="Vertical profile (vp) data processing for analyses and visualizations">
   <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
 
-  <meta property="og:title" content="Process vertical profile data for visualizations" />
+  <meta property="og:title" content="Vertical profile (vp) data processing for analyses and visualizations" />
   <meta property="og:type" content="book" />
   
   
   
-  <meta name="github-repo" content="enram/timamp-etl" />
+  <meta name="github-repo" content="enram/vp-processing" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Process vertical profile data for visualizations" />
+  <meta name="twitter:title" content="Vertical profile (vp) data processing for analyses and visualizations" />
   
   
   
@@ -26,7 +26,7 @@
 <meta name="author" content="Peter Desmet">
 
 
-<meta name="date" content="2017-06-01">
+<meta name="date" content="2017-06-02">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -123,7 +123,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="2.3" data-path="extract-vp.html"><a href="extract-vp.html#read-vp-files"><i class="fa fa-check"></i><b>2.3</b> Read vp files</a></li>
 <li class="chapter" data-level="2.4" data-path="extract-vp.html"><a href="extract-vp.html#select-variables"><i class="fa fa-check"></i><b>2.4</b> Select variables</a></li>
 <li class="chapter" data-level="2.5" data-path="extract-vp.html"><a href="extract-vp.html#calculate-mtr-per-height"><i class="fa fa-check"></i><b>2.5</b> Calculate MTR per height</a></li>
-<li class="chapter" data-level="2.6" data-path="extract-vp.html"><a href="extract-vp.html#add-sdaynight-information"><i class="fa fa-check"></i><b>2.6</b> Add sday/night information</a></li>
+<li class="chapter" data-level="2.6" data-path="extract-vp.html"><a href="extract-vp.html#add-daynight-information"><i class="fa fa-check"></i><b>2.6</b> Add day/night information</a></li>
 <li class="chapter" data-level="2.7" data-path="extract-vp.html"><a href="extract-vp.html#filter-out-heights"><i class="fa fa-check"></i><b>2.7</b> Filter out heights</a></li>
 <li class="chapter" data-level="2.8" data-path="extract-vp.html"><a href="extract-vp.html#filter-out-datetimes"><i class="fa fa-check"></i><b>2.8</b> Filter out datetimes</a></li>
 <li class="chapter" data-level="2.9" data-path="extract-vp.html"><a href="extract-vp.html#export-to-a-csv-file"><i class="fa fa-check"></i><b>2.9</b> Export to a CSV file</a></li>
@@ -137,7 +137,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Process vertical profile data for visualizations</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Vertical profile (vp) data processing for analyses and visualizations</a>
           </h1>
         </div>
 
@@ -225,8 +225,8 @@ dplyr::<span class="kw">arrange</span>(radar_id, datetime, HGHT) -&gt;<span clas
 <span class="co"># Add our new mtr to variables</span>
 variables &lt;-<span class="st"> </span><span class="kw">c</span>(variables, <span class="st">&quot;mtr&quot;</span>)</code></pre></div>
 </div>
-<div id="add-sdaynight-information" class="section level2">
-<h2><span class="header-section-number">2.6</span> Add sday/night information</h2>
+<div id="add-daynight-information" class="section level2">
+<h2><span class="header-section-number">2.6</span> Add day/night information</h2>
 <p>To add day/night information, we first create a sunrise/sunset dataframe for each radar/date combination, using the latitude/longitude from our radar metadata and the <code>suntime()</code> function in bioRad:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_data %&gt;%
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">as.Date</span>(datetime)) %&gt;%
@@ -484,7 +484,7 @@ filename_metadata &lt;-<span class="st"> </span><span class="kw">paste</span>(
 <hr />
 <ol start="2">
 <li id="fn2"><p>For a radar the <code>include_heights</code> range can contain a <code>min_height</code>, <code>max_height</code>, both or none for a radar. If the value is something other than an integer, the general <code>min_height</code> or <code>max_height</code> is used instead.<a href="extract-vp.html#fnref2">↩</a></p></li>
-<li id="fn3"><p>The data frame <code>vp_data</code> contains <code>NaN</code> and <code>NA</code> values, <a href="https://github.com/enram/timamp-etl/issues/10#issuecomment-302235736">which have a different meaning</a>. That difference gets lost in the CSV file: all are treated as blank (= <code>NA</code>) values, which is fine for visualizations. If you want to keep that difference, you need work further with <code>vp_data</code>.<a href="extract-vp.html#fnref3">↩</a></p></li>
+<li id="fn3"><p>The data frame <code>vp_data</code> contains <code>NaN</code> and <code>NA</code> values, <a href="https://github.com/enram/vp-processing/issues/10#issuecomment-302235736">which have a different meaning</a>. That difference gets lost in the CSV file: all are treated as blank (= <code>NA</code>) values, which is fine for visualizations. If you want to keep that difference, you need work further with <code>vp_data</code>.<a href="extract-vp.html#fnref3">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -521,7 +521,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/enram/timamp-etl/blob/master/src/extract_vp.Rmd",
+"link": "https://github.com/enram/vp-processing/blob/master/src/extract_vp.Rmd",
 "text": "Edit"
 },
 "download": null,

@@ -24,7 +24,7 @@ devtools::install_github("adokter/bioRad", ref="master") # To process vp data
 
 ## Download code
 
-To run or adapt the code in this document, fork or clone this repository: https://github.com/enram/timamp-etl.
+To run or adapt the code in this document, fork or clone this repository: https://github.com/enram/vp-processing.
 
 ## Define processing settings {#settings}
 
@@ -45,17 +45,17 @@ radars_metadata_file <- "../settings/radars.csv"
 
 ## Run processing
 
-The processing of the vp data is done in four steps. Each has its own chapter and [`Rmd file`](https://github.com/enram/timamp-etl/tree/master/src):
+The processing of the vp data is done in four steps. Each has its own chapter and [`Rmd file`](https://github.com/enram/vp-processing/tree/master/src):
 
 1. [Get started](setup.html) (`setup.Rmd`) = this chapter
 3. [Extract vp data](extract-vp.html) (`extract_vp.Rmd`)
 4. [Process vp data for the Bird migration flow visualization](vp-to-flowviz.html) (`vp_to_flowviz.Rmd`)
 5. [Process vp data for TIMAMP](vp-to-timamp.html) (`vp_to_timamp.Rmd`)
 
-The repository comes with [example settings](https://github.com/enram/timamp-etl/tree/master/settings) and [data](https://github.com/enram/timamp-etl/tree/master/data) for all steps, so you can run the processing out of the box:
+The repository comes with [example settings](https://github.com/enram/vp-processing/tree/master/settings) and [data](https://github.com/enram/vp-processing/tree/master/data) for all steps, so you can run the processing out of the box:
 
 1. Go the `src` directory of the downloaded code
-2. Open `timamp-etl.Rproj` in RStudio
+2. Open `vp-processing.Rproj` in RStudio
 
 ### Run all steps
 
@@ -114,13 +114,13 @@ Once done, [run all steps of the processing](#run-all-steps). There should be no
 
 ## Update code
 
-If the processing doesn't fit your needs, you can update the code by editing the relevant file in `src` and running it (see \@ref(run-individual-steps)). If you encounter a bug in the original code, please let us know by [filing an issue](https://github.com/enram/timamp-etl/issues/new) or submitting a pull request.
+If the processing doesn't fit your needs, you can update the code by editing the relevant file in `src` and running it (see \@ref(run-individual-steps)). If you encounter a bug in the original code, please let us know by [filing an issue](https://github.com/enram/vp-processing/issues/new) or submitting a pull request.
 
 ## Update documentation
 
 What your are reading here (in your browser) is in fact all generated from the `.Rmd` files in the `src` directory, using the R package [bookdown](https://bookdown.org/yihui/bookdown/).
 
-If you notice a typo in this documentation, you can correct it by clicking the pencil icon in the menu at the top, which will take you straight to the correct `.Rmd` file in the [original repository on GitHub](https://github.com/enram/timamp-etl). If you click the pencil icon on that GitHub page, you will be able to edit right away or create a copy (a fork) of the repository to do so, depending on your access rights.
+If you notice a typo in this documentation, you can correct it by clicking the pencil icon in the menu at the top, which will take you straight to the correct `.Rmd` file in the [original repository on GitHub](https://github.com/enram/vp-processing). If you click the pencil icon on that GitHub page, you will be able to edit right away or create a copy (a fork) of the repository to do so, depending on your access rights.
 
 If you want to generate your own fancy documentation 📕 from the adapted `.Rmd` files, then just [run all steps](#run-all-steps). The build process will create your documentation in the `docs` repository. Open `index.html` in your browser to see it.
 

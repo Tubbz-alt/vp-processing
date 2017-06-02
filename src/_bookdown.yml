@@ -1,7 +1,7 @@
-# To build the book, open src/timamp-etl.Rproj and then src/index.Rmd in RStudio.
+# To build the book, open src/vp-processing.Rproj and then src/index.Rmd in RStudio.
 # Click the "Build > Build book" button in RStudio to build the book.
 # While building, the following temp file will be created:
-book_filename: timamp-etl.Rmd
+book_filename: vp-processing.Rmd
 
 # The output will be generated in the docs directory:
 output_dir: ../docs
