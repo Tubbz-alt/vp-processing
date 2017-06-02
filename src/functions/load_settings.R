@@ -112,5 +112,15 @@ load_settings <- function(settings_file, radars_metadata_file) {
   settings$general$radar_ids_3char <- substr(radar_ids,3,5) # e.g. "arl" from "searl"
   settings$general$countries <- unique(substr(radar_ids,1,2)) # e.g. "se" from "searl" (unique values only)
 
+  # Create output filename
+  settings$general$vp_output_file <- paste0(
+    "vp_data_",
+    length(radar_ids), # Number of radars
+    "_radars_",
+    gsub("-", "", general_start_date_string), # YYYYMMDD
+    "_",
+    gsub("-", "", general_end_date_string), # YYYYMMDD
+    ".csv")
+
   return(settings)
 }
