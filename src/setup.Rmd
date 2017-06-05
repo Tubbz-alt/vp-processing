@@ -45,12 +45,14 @@ radars_metadata_file <- "../settings/radars.csv"
 
 ## Run processing
 
-The processing of the vp data is done in four steps. Each has its own chapter and [`Rmd file`](https://github.com/enram/vp-processing/tree/master/src):
+The processing of the vp data is done in several steps. Each has its own chapter and [`Rmd file`](https://github.com/enram/vp-processing/tree/master/src):
 
 1. [Get started](setup.html) (`setup.Rmd`) = this chapter
-3. [Extract vp data](extract-vp.html) (`extract_vp.Rmd`)
-4. [Process vp data for the Bird migration flow visualization](vp-to-flowviz.html) (`vp_to_flowviz.Rmd`)
-5. [Process vp data for TIMAMP](vp-to-timamp.html) (`vp_to_timamp.Rmd`)
+2. [Extract vp data and process for further analyses](extract-vp.html) (`extract_vp.Rmd`)
+3. [Process vp data for the Bird migration flow visualization](vp-to-flowviz.html) (`vp_to_flowviz.Rmd`)
+4. [Process vp data for TIMAMP](vp-to-timamp.html) (`vp_to_timamp.Rmd`)
+
+_Step 3 and 4 are currently not yet implemented._
 
 The repository comes with [example settings](https://github.com/enram/vp-processing/tree/master/settings) and [data](https://github.com/enram/vp-processing/tree/master/data) for all steps, so you can run the processing out of the box:
 

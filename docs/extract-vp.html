@@ -229,13 +229,13 @@ variables &lt;-<span class="st"> </span><span class="kw">c</span>(variables, <sp
 <h2><span class="header-section-number">2.6</span> Add day/night information</h2>
 <p>To add day/night information, we first create a sunrise/sunset dataframe for each radar/date combination, using the latitude/longitude from our radar metadata and the <code>suntime()</code> function in bioRad:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_data %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">as.Date</span>(datetime)) %&gt;%
-<span class="st">  </span><span class="kw">group_by</span>(radar_id, date) %&gt;%
-<span class="st">  </span><span class="kw">summarize</span>() %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">latitude =</span> settings$radars[[radar_id]]$latitude) %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">longitude =</span> settings$radars[[radar_id]]$longitude) %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sunrise =</span> bioRad::<span class="kw">suntime</span>(<span class="dt">date =</span> date, <span class="dt">lat =</span> latitude, <span class="dt">lon =</span> longitude, <span class="dt">rise =</span> <span class="ot">TRUE</span>)) %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sunset =</span> bioRad::<span class="kw">suntime</span>(<span class="dt">date =</span> date, <span class="dt">lat =</span> latitude, <span class="dt">lon =</span> longitude, <span class="dt">rise =</span> <span class="ot">FALSE</span>)) -&gt;<span class="st"> </span>radars_sunriset
+<span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">as.Date</span>(datetime)) %&gt;%
+<span class="kw">group_by</span>(radar_id, date) %&gt;%
+<span class="kw">summarize</span>() %&gt;%
+<span class="kw">mutate</span>(<span class="dt">latitude =</span> settings$radars[[radar_id]]$latitude) %&gt;%
+<span class="kw">mutate</span>(<span class="dt">longitude =</span> settings$radars[[radar_id]]$longitude) %&gt;%
+<span class="kw">mutate</span>(<span class="dt">sunrise =</span> bioRad::<span class="kw">suntime</span>(<span class="dt">date =</span> date, <span class="dt">lat =</span> latitude, <span class="dt">lon =</span> longitude, <span class="dt">rise =</span> <span class="ot">TRUE</span>)) %&gt;%
+<span class="kw">mutate</span>(<span class="dt">sunset =</span> bioRad::<span class="kw">suntime</span>(<span class="dt">date =</span> date, <span class="dt">lat =</span> latitude, <span class="dt">lon =</span> longitude, <span class="dt">rise =</span> <span class="ot">FALSE</span>)) -&gt;<span class="st"> </span>radars_sunriset
 
 <span class="kw">head</span>(radars_sunriset, <span class="dv">5</span>)</code></pre></div>
 <pre><code>## Source: local data frame [3 x 6]
@@ -249,26 +249,26 @@ variables &lt;-<span class="st"> </span><span class="kw">c</span>(variables, <sp
 ## # ... with 1 more variables: sunset &lt;dttm&gt;</code></pre>
 <p>We then combine this sunrise/sunset information with our vp data, to figure out if it is day or night and to which date they belong (<code>date_of_sunset</code>). For the latter, we consider night timestamps between midnight and sunrise as belonging to the previous date:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_data %&gt;%
-<span class="st">  </span><span class="co"># Combine vp data with radar_sunriset information</span>
-<span class="st">  </span><span class="kw">right_join</span>(radars_sunriset, <span class="dt">by =</span> <span class="st">&quot;radar_id&quot;</span>) %&gt;%
-<span class="st">  </span><span class="co"># Define nights as starting before sunrise and after sunset</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">day_night =</span> <span class="kw">if_else</span>(
-    datetime &lt;<span class="st"> </span>sunrise |<span class="st"> </span>datetime &gt;<span class="st"> </span>sunset,
-    <span class="st">&quot;night&quot;</span>,
-    <span class="st">&quot;day&quot;</span>
-  )) %&gt;%
-<span class="st">  </span><span class="co"># Calculate the date of sunrise:</span>
-<span class="st">  </span><span class="co"># For days: keep the date of the datetime</span>
-<span class="st">  </span><span class="co"># For nights: rewind the time with 12 hours, so that night timestamps between</span>
-<span class="st">  </span><span class="co">#             midnight and sunrise are considered belonging to previous day.</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date_of_sunset =</span> <span class="kw">if_else</span>(
-    day_night ==<span class="st"> &quot;night&quot;</span>,
-    datetime -<span class="st"> </span><span class="kw">hours</span>(<span class="dv">12</span>),
-    datetime
-  )) %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date_of_sunset =</span> <span class="kw">format</span>(date_of_sunset, <span class="dt">format =</span> <span class="st">&quot;%Y%m%d&quot;</span>)) %&gt;%
-<span class="st">  </span><span class="co"># Remove unneeded columns</span>
-<span class="st">  </span><span class="kw">select</span>(-date, -latitude, -longitude, -sunrise, -sunset) -&gt;<span class="st"> </span>vp_data</code></pre></div>
+<span class="co"># Combine vp data with radar_sunriset information</span>
+<span class="kw">right_join</span>(radars_sunriset, <span class="dt">by =</span> <span class="st">&quot;radar_id&quot;</span>) %&gt;%
+<span class="co"># Define nights as starting before sunrise and after sunset</span>
+<span class="kw">mutate</span>(<span class="dt">day_night =</span> <span class="kw">if_else</span>(
+  datetime &lt;<span class="st"> </span>sunrise |<span class="st"> </span>datetime &gt;<span class="st"> </span>sunset,
+  <span class="st">&quot;night&quot;</span>,
+  <span class="st">&quot;day&quot;</span>
+)) %&gt;%
+<span class="co"># Calculate the date of sunrise:</span>
+<span class="co"># For days: keep the date of the datetime</span>
+<span class="co"># For nights: rewind the time with 12 hours, so that night timestamps between</span>
+<span class="co">#             midnight and sunrise are considered belonging to previous day.</span>
+<span class="kw">mutate</span>(<span class="dt">date_of_sunset =</span> <span class="kw">if_else</span>(
+  day_night ==<span class="st"> &quot;night&quot;</span>,
+  datetime -<span class="st"> </span><span class="kw">hours</span>(<span class="dv">12</span>),
+  datetime
+)) %&gt;%
+<span class="kw">mutate</span>(<span class="dt">date_of_sunset =</span> <span class="kw">format</span>(date_of_sunset, <span class="dt">format =</span> <span class="st">&quot;%Y%m%d&quot;</span>)) %&gt;%
+<span class="co"># Remove unneeded columns</span>
+<span class="kw">select</span>(-date, -latitude, -longitude, -sunrise, -sunset) -&gt;<span class="st"> </span>vp_data</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(vp_data, <span class="dv">20</span>)</code></pre></div>
 <pre><code>##    id radar_id            datetime HGHT         u          v     dens
@@ -459,16 +459,8 @@ for (radar in settings$radars) { <span class="co"># For each radar</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Remove id column</span>
 vp_data %&gt;%<span class="st"> </span><span class="kw">select</span>(-id) -&gt;<span class="st"> </span>vp_data
 
-<span class="co"># Create filename</span>
-filename_metadata &lt;-<span class="st"> </span><span class="kw">paste</span>(
-  <span class="kw">length</span>(settings$general$radar_ids_5char),
-  <span class="st">&quot;radars&quot;</span>,
-  <span class="kw">gsub</span>(<span class="st">&quot;-&quot;</span>, <span class="st">&quot;&quot;</span>, settings$general$start_date),
-  <span class="kw">gsub</span>(<span class="st">&quot;-&quot;</span>, <span class="st">&quot;&quot;</span>, settings$general$end_date),
-  <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>)
-
-<span class="co"># Write data to file</span>
-<span class="kw">write.csv</span>(vp_data, <span class="dt">file =</span> <span class="kw">paste0</span>(processed_data_dir, <span class="st">&quot;vp_data_&quot;</span>, filename_metadata, <span class="st">&quot;.csv&quot;</span>), <span class="dt">na =</span> <span class="st">&quot;&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<span class="co"># Write data to file (filename is dynamically created by load_settings)</span>
+<span class="kw">write.csv</span>(vp_data, <span class="dt">file =</span> <span class="kw">paste0</span>(processed_data_dir, settings$general$vp_output_file), <span class="dt">na =</span> <span class="st">&quot;&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</code></pre></div>
 
 </div>
 </div>

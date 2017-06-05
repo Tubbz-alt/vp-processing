@@ -22,4 +22,4 @@ This document describes how we process **vertical profile (vp) data**[^1] for fu
 
 [^1]: Vertical profiles of birds generated from weather radar volume scans by [vol2bird](https://github.com/adokter/vol2bird).
 
-![Bird migration flow visualization for Sweden.](images/flow_viz_se.png)
+![First attempt at visualizing the Western flyway with the bird migration flow visualization.](images/flowviz_flyway.png)

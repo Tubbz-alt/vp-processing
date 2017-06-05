@@ -101,15 +101,15 @@ variables <- c(variables, "mtr")
 
 To add day/night information, we first create a sunrise/sunset dataframe for each radar/date combination, using the latitude/longitude from our radar metadata and the `suntime()` function in bioRad:
 
-```{r}
+```{r extract_get_day_and_night}
 vp_data %>%
-  mutate(date = as.Date(datetime)) %>%
-  group_by(radar_id, date) %>%
-  summarize() %>%
-  mutate(latitude = settings$radars[[radar_id]]$latitude) %>%
-  mutate(longitude = settings$radars[[radar_id]]$longitude) %>%
-  mutate(sunrise = bioRad::suntime(date = date, lat = latitude, lon = longitude, rise = TRUE)) %>%
-  mutate(sunset = bioRad::suntime(date = date, lat = latitude, lon = longitude, rise = FALSE)) -> radars_sunriset
+mutate(date = as.Date(datetime)) %>%
+group_by(radar_id, date) %>%
+summarize() %>%
+mutate(latitude = settings$radars[[radar_id]]$latitude) %>%
+mutate(longitude = settings$radars[[radar_id]]$longitude) %>%
+mutate(sunrise = bioRad::suntime(date = date, lat = latitude, lon = longitude, rise = TRUE)) %>%
+mutate(sunset = bioRad::suntime(date = date, lat = latitude, lon = longitude, rise = FALSE)) -> radars_sunriset
 
 head(radars_sunriset, 5)
 ```
@@ -118,26 +118,26 @@ We then combine this sunrise/sunset information with our vp data, to figure out 
 
 ```{r extract_calculate_sunriset}
 vp_data %>%
-  # Combine vp data with radar_sunriset information
-  right_join(radars_sunriset, by = "radar_id") %>%
-  # Define nights as starting before sunrise and after sunset
-  mutate(day_night = if_else(
-    datetime < sunrise | datetime > sunset,
-    "night",
-    "day"
-  )) %>%
-  # Calculate the date of sunrise:
-  # For days: keep the date of the datetime
-  # For nights: rewind the time with 12 hours, so that night timestamps between
-  #             midnight and sunrise are considered belonging to previous day.
-  mutate(date_of_sunset = if_else(
-    day_night == "night",
-    datetime - hours(12),
-    datetime
-  )) %>%
-  mutate(date_of_sunset = format(date_of_sunset, format = "%Y%m%d")) %>%
-  # Remove unneeded columns
-  select(-date, -latitude, -longitude, -sunrise, -sunset) -> vp_data
+# Combine vp data with radar_sunriset information
+right_join(radars_sunriset, by = "radar_id") %>%
+# Define nights as starting before sunrise and after sunset
+mutate(day_night = if_else(
+  datetime < sunrise | datetime > sunset,
+  "night",
+  "day"
+)) %>%
+# Calculate the date of sunrise:
+# For days: keep the date of the datetime
+# For nights: rewind the time with 12 hours, so that night timestamps between
+#             midnight and sunrise are considered belonging to previous day.
+mutate(date_of_sunset = if_else(
+  day_night == "night",
+  datetime - hours(12),
+  datetime
+)) %>%
+mutate(date_of_sunset = format(date_of_sunset, format = "%Y%m%d")) %>%
+# Remove unneeded columns
+select(-date, -latitude, -longitude, -sunrise, -sunset) -> vp_data
 ```
 
 Preview:
@@ -227,16 +227,8 @@ Finally, we export the data to a CSV file[^3]:
 # Remove id column
 vp_data %>% select(-id) -> vp_data
 
-# Create filename
-filename_metadata <- paste(
-  length(settings$general$radar_ids_5char),
-  "radars",
-  gsub("-", "", settings$general$start_date),
-  gsub("-", "", settings$general$end_date),
-  sep = "_")
-
-# Write data to file
-write.csv(vp_data, file = paste0(processed_data_dir, "vp_data_", filename_metadata, ".csv"), na = "", row.names = FALSE)
+# Write data to file (filename is dynamically created by load_settings)
+write.csv(vp_data, file = paste0(processed_data_dir, settings$general$vp_output_file), na = "", row.names = FALSE)
 ```
 
 [^3]: The data frame `vp_data` contains `NaN` and `NA` values, [which have a different meaning](https://github.com/enram/vp-processing/issues/10#issuecomment-302235736). That difference gets lost in the CSV file: all are treated as blank (= `NA`) values, which is fine for visualizations. If you want to keep that difference, you need work further with `vp_data`.

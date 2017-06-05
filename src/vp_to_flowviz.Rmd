@@ -4,4 +4,107 @@
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-To be completed...
+```{r extract_load_libraries, results="hide"}
+library(bioRad)
+library(dplyr)
+library(lubridate)
+library(circular)
+source("functions/load_settings.R")
+```
+
+```{r extract_load_settings}
+#settings <- load_settings(settings_file, radars_metadata_file)
+settings <- load_settings("../settings/flyway_settings.yaml", radars_metadata_file)
+```
+
+```{r}
+#vp_data <- read.csv(paste0(processed_data_dir, settings$general$vp_output_file))
+vp_data <- read.csv("../data/processed/flyway/vp_data_50_radars_20161003_20161003.csv")
+head(vp_data)
+```
+
+## Add time bins per hour
+
+dplyr::mutate(date_time_bin = format(floor_date(date_time, unit = "hour"), "%Y%m%d %H%M")) %>%
+
+
+
+```{r}
+vp_data %>%
+mutate(time_bin = cut(as.POSIXct(datetime, tz = "UTC"), "hour")) -> vp_data
+```
+
+## Add height bins
+
+```{r}
+vp_data %>%
+mutate(altitude_bin = case_when(
+  .$HGHT >= 200 & .$HGHT < 2000 ~ "1",
+  .$HGHT >= 2000 ~ "2"
+)) -> vp_data
+```
+
+## Filter out data
+
+```{r}
+vp_data %>%
+filter(exclusion_reason == "") -> vp_data
+```
+
+
+## Aggregate
+
+```{r}
+vp_data %>%
+group_by(radar_id, time_bin, altitude_bin) %>%
+summarize(
+  avg_u = mean(u, na.rm = TRUE),
+  avg_v = mean(v, na.rm = TRUE),
+  avg_dens = mean(dens, na.rm = TRUE),
+#  avg_dd = mean.circular(circular(dd, units = "degrees"), na.rm = TRUE)[[1]],
+  avg_ff = mean(ff, na.rm = TRUE),
+  avg_mtr = mean(mtr, na.rm = TRUE)
+) -> vp_data
+```
+
+How circular mean works fine:
+
+```{r}
+# directions <- c(0, 10, 290, 280, 15)
+directions <- c(220.8976, 212.9395, NA)
+circular_mean <- mean.circular(circular(directions, units = "degrees"), na.rm = TRUE)[[1]]
+circular_mean <- if (circular_mean < 0) 360 + circular_mean else circular_mean
+circular_mean
+```
+
+## Rename columns
+
+```{r}
+# Visualization needs "+00" for dates
+vp_data %>%
+ungroup() %>%
+rename(
+  interval_start_time = time_bin,
+  altitude_band = altitude_bin,
+  avg_u_speed = avg_u,
+  avg_v_speed = avg_v
+) %>%
+mutate(interval_start_time = paste0(as.character(interval_start_time), "+00")) %>%
+mutate(avg_u_speed = ifelse(is.finite(avg_u_speed), avg_u_speed, NA)) %>%
+mutate(avg_v_speed = ifelse(is.finite(avg_v_speed), avg_v_speed, NA)) %>%
+select(radar_id, interval_start_time, altitude_band, avg_u_speed, avg_v_speed) -> vp_data_flowviz
+head(vp_data_flowviz)
+```
+
+```{r}
+write.csv(vp_data_flowviz, file = "../data/processed/flyway/birds.csv", na = "", row.names = FALSE)
+```
+
+## Create metadata
+
+```{r}
+library(jsonlite)
+x <- list(status = "SUCCESS", code = "200", 
+    output = list(studentid = "1001", name = "Kevin"))
+toJSON(x, pretty = TRUE, auto_unbox = TRUE)
+```
