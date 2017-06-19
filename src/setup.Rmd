@@ -19,7 +19,10 @@ install.packages(c(
   "lubridate", # To process dates
   "bookdown"   # To generate this documentation
 ))
-devtools::install_github("adokter/bioRad", ref="master") # To process vp data
+```
+
+```{r setup_install_bioRad, eval=FALSE}
+devtools::install_github("enram/bioRad", ref="master") # To process vp data
 ```
 
 ## Download code
