@@ -6,9 +6,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Vertical profile (vp) data processing for analyses and visualizations</title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <meta name="description" content="Vertical profile (vp) data processing for analyses and visualizations">
-  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.4 and GitBook 2.6.7">
 
   <meta property="og:title" content="Vertical profile (vp) data processing for analyses and visualizations" />
   <meta property="og:type" content="book" />
@@ -26,7 +25,7 @@
 <meta name="author" content="Peter Desmet">
 
 
-<meta name="date" content="2017-06-02">
+<meta name="date" content="2017-06-19">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,7 +33,6 @@
   
   
 <link rel="prev" href="setup.html">
-
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -92,6 +90,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </head>
 
 <body>
+
 
 
   <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
@@ -211,6 +210,7 @@ variables =<span class="st"> </span><span class="kw">c</span>(<span class="st">&
 for (i in <span class="kw">seq_along</span>(vp_files)) {
   vp_data[[i]] &lt;-<span class="st"> </span><span class="kw">vp_to_df</span>(vp_files[[i]], variables)
 }
+
 dplyr::<span class="kw">bind_rows</span>(vp_data) %&gt;%
 dplyr::<span class="kw">arrange</span>(radar_id, datetime, HGHT) -&gt;<span class="st"> </span>vp_data</code></pre></div>
 <p>To uniquely reference records later, we add an <code>id</code> column:</p>
@@ -224,39 +224,96 @@ dplyr::<span class="kw">arrange</span>(radar_id, datetime, HGHT) -&gt;<span clas
 
 <span class="co"># Add our new mtr to variables</span>
 variables &lt;-<span class="st"> </span><span class="kw">c</span>(variables, <span class="st">&quot;mtr&quot;</span>)</code></pre></div>
+<p>Preview</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(vp_data, <span class="dv">20</span>)</code></pre></div>
+<pre><code>##    id radar_id            datetime HGHT         u          v     dens
+## 1   1    seang 2016-10-03 20:00:00    0        NA         NA       NA
+## 2   2    seang 2016-10-03 20:00:00  200 -9.632832  -9.421702 35.59053
+## 3   3    seang 2016-10-03 20:00:00  400 -8.461532  -8.746634 41.27831
+## 4   4    seang 2016-10-03 20:00:00  600 -6.581830  -8.013961 18.10636
+## 5   5    seang 2016-10-03 20:00:00  800 -6.643213  -9.764238 17.21185
+## 6   6    seang 2016-10-03 20:00:00 1000 -6.028350 -10.171729 11.11173
+## 7   7    seang 2016-10-03 20:00:00 1200        NA         NA       NA
+## 8   8    seang 2016-10-03 20:00:00 1400        NA         NA       NA
+## 9   9    seang 2016-10-03 20:00:00 1600        NA         NA       NA
+## 10 10    seang 2016-10-03 20:00:00 1800        NA         NA       NA
+## 11 11    seang 2016-10-03 20:00:00 2000        NA         NA       NA
+## 12 12    seang 2016-10-03 20:00:00 2200        NA         NA       NA
+## 13 13    seang 2016-10-03 20:00:00 2400        NA         NA       NA
+## 14 14    seang 2016-10-03 20:00:00 2600        NA         NA       NA
+## 15 15    seang 2016-10-03 20:00:00 2800        NA         NA       NA
+## 16 16    seang 2016-10-03 20:00:00 3000        NA         NA       NA
+## 17 17    seang 2016-10-03 20:00:00 3200        NA         NA       NA
+## 18 18    seang 2016-10-03 20:00:00 3400        NA         NA       NA
+## 19 19    seang 2016-10-03 20:00:00 3600        NA         NA       NA
+## 20 20    seang 2016-10-03 20:00:00 3800        NA         NA       NA
+##          dd       ff       mtr
+## 1        NA       NA        NA
+## 2  225.6348 13.47442  95.91232
+## 3  224.0508 12.16968 100.46878
+## 4  219.3961 10.37035  37.55384
+## 5  214.2299 11.80985  40.65388
+## 6  210.6534 11.82392  26.27684
+## 7        NA       NA        NA
+## 8        NA       NA        NA
+## 9        NA       NA        NA
+## 10       NA       NA        NA
+## 11       NA       NA        NA
+## 12       NA       NA        NA
+## 13       NA       NA        NA
+## 14       NA       NA        NA
+## 15       NA       NA        NA
+## 16       NA       NA        NA
+## 17       NA       NA        NA
+## 18       NA       NA        NA
+## 19       NA       NA        NA
+## 20       NA       NA        NA</code></pre>
 </div>
 <div id="add-daynight-information" class="section level2">
 <h2><span class="header-section-number">2.6</span> Add day/night information</h2>
 <p>To add day/night information, we first create a sunrise/sunset dataframe for each radar/date combination, using the latitude/longitude from our radar metadata and the <code>suntime()</code> function in bioRad:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_data %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a simple dataframe from the settings with radar, latitude, longitude</span>
+<span class="kw">bind_rows</span>(<span class="kw">lapply</span>(settings$radars, data.frame)) %&gt;%
+<span class="kw">select</span>(radar_id, latitude, longitude) -&gt;<span class="st"> </span>radars_lat_long
+
+<span class="co"># Group vp_data by radar and date</span>
+vp_data %&gt;%
 <span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">as.Date</span>(datetime)) %&gt;%
 <span class="kw">group_by</span>(radar_id, date) %&gt;%
 <span class="kw">summarize</span>() %&gt;%
-<span class="kw">mutate</span>(<span class="dt">latitude =</span> settings$radars[[radar_id]]$latitude) %&gt;%
-<span class="kw">mutate</span>(<span class="dt">longitude =</span> settings$radars[[radar_id]]$longitude) %&gt;%
-<span class="kw">mutate</span>(<span class="dt">sunrise =</span> bioRad::<span class="kw">suntime</span>(<span class="dt">date =</span> date, <span class="dt">lat =</span> latitude, <span class="dt">lon =</span> longitude, <span class="dt">rise =</span> <span class="ot">TRUE</span>)) %&gt;%
-<span class="kw">mutate</span>(<span class="dt">sunset =</span> bioRad::<span class="kw">suntime</span>(<span class="dt">date =</span> date, <span class="dt">lat =</span> latitude, <span class="dt">lon =</span> longitude, <span class="dt">rise =</span> <span class="ot">FALSE</span>)) -&gt;<span class="st"> </span>radars_sunriset
 
-<span class="kw">head</span>(radars_sunriset, <span class="dv">5</span>)</code></pre></div>
-<pre><code>## Source: local data frame [3 x 6]
-## Groups: radar_id [3]
-## 
+<span class="co"># Join with radar_lat_long to get the latitude and longitude column</span>
+<span class="kw">left_join</span>(radars_lat_long, <span class="dt">by =</span> <span class="st">&quot;radar_id&quot;</span>) %&gt;%
+
+<span class="co"># Use bioRad to add sunrise/sunset information</span>
+<span class="kw">mutate</span>(<span class="dt">sunrise =</span> bioRad::<span class="kw">suntime</span>(<span class="dt">date =</span> date, <span class="dt">lat =</span> latitude, <span class="dt">lon =</span> longitude, <span class="dt">rise =</span> <span class="ot">TRUE</span>)) %&gt;%
+<span class="kw">mutate</span>(<span class="dt">sunset =</span> bioRad::<span class="kw">suntime</span>(<span class="dt">date =</span> date, <span class="dt">lat =</span> latitude, <span class="dt">lon =</span> longitude, <span class="dt">rise =</span> <span class="ot">FALSE</span>)) -&gt;<span class="st"> </span>radars_dates_sunriset
+
+<span class="co"># Preview</span>
+<span class="kw">head</span>(radars_dates_sunriset, <span class="dv">5</span>)</code></pre></div>
+<pre><code>## # A tibble: 3 x 6
+## # Groups:   radar_id [3]
 ##   radar_id       date latitude longitude             sunrise
 ##      &lt;chr&gt;     &lt;date&gt;    &lt;dbl&gt;     &lt;dbl&gt;              &lt;dttm&gt;
 ## 1    seang 2016-10-03  56.3675   12.8517 2016-10-03 05:21:06
 ## 2    searl 2016-10-03  59.6544   17.9463 2016-10-03 05:04:02
 ## 3    sease 2016-10-03  57.3035   18.4001 2016-10-03 04:59:47
 ## # ... with 1 more variables: sunset &lt;dttm&gt;</code></pre>
-<p>We then combine this sunrise/sunset information with our vp data, to figure out if it is day or night and to which date they belong (<code>date_of_sunset</code>). For the latter, we consider night timestamps between midnight and sunrise as belonging to the previous date:</p>
+<p>We then combine this sunrise/sunset information back with our vp data, to figure out if it is day or night and to which date they belong (<code>date_of_sunset</code>). For the latter, we consider night timestamps between midnight and sunrise as belonging to the previous date:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_data %&gt;%
+<span class="co"># A date (not datetime) column to match with radars_sunriset</span>
+<span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">as.Date</span>(datetime)) %&gt;%
+
 <span class="co"># Combine vp data with radar_sunriset information</span>
-<span class="kw">right_join</span>(radars_sunriset, <span class="dt">by =</span> <span class="st">&quot;radar_id&quot;</span>) %&gt;%
+<span class="kw">right_join</span>(radars_dates_sunriset, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;radar_id&quot;</span> =<span class="st"> &quot;radar_id&quot;</span>, <span class="st">&quot;date&quot;</span> =<span class="st"> &quot;date&quot;</span>)) %&gt;%
+<span class="st">  </span>
 <span class="co"># Define nights as starting before sunrise and after sunset</span>
 <span class="kw">mutate</span>(<span class="dt">day_night =</span> <span class="kw">if_else</span>(
   datetime &lt;<span class="st"> </span>sunrise |<span class="st"> </span>datetime &gt;<span class="st"> </span>sunset,
   <span class="st">&quot;night&quot;</span>,
   <span class="st">&quot;day&quot;</span>
 )) %&gt;%
+<span class="st">  </span>
 <span class="co"># Calculate the date of sunrise:</span>
 <span class="co"># For days: keep the date of the datetime</span>
 <span class="co"># For nights: rewind the time with 12 hours, so that night timestamps between</span>
@@ -267,6 +324,7 @@ variables &lt;-<span class="st"> </span><span class="kw">c</span>(variables, <sp
   datetime
 )) %&gt;%
 <span class="kw">mutate</span>(<span class="dt">date_of_sunset =</span> <span class="kw">format</span>(date_of_sunset, <span class="dt">format =</span> <span class="st">&quot;%Y%m%d&quot;</span>)) %&gt;%
+
 <span class="co"># Remove unneeded columns</span>
 <span class="kw">select</span>(-date, -latitude, -longitude, -sunrise, -sunset) -&gt;<span class="st"> </span>vp_data</code></pre></div>
 <p>Preview:</p>
@@ -486,7 +544,8 @@ vp_data %&gt;%<span class="st"> </span><span class="kw">select</span>(-id) -&gt;
       </div>
 <a href="setup.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-
+    </div>
+  </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
