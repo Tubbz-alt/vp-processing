@@ -4,7 +4,7 @@ general:
   include_heights: [200, 2000] # Use integers
 
   # include_dates = min/max date for all radars. Both min and max are required
-  include_dates: ["2016-10-03", "2016-10-03"] # Use YYYY-MM-DD format
+  include_dates: ["2016-10-03", "2016-10-04"] # Use YYYY-MM-DD format
 
 radars:
   seang:
@@ -20,7 +20,7 @@ radars:
 
   searl:
     exclude_datetimes:
-     # This following will be replaced by 2016-10-03 00:00
+     # The following will be replaced by 2016-10-03 00:00
     - ["2016-10-03", "2016-10-03"]
 
   sease:
