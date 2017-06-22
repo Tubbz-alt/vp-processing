@@ -170,7 +170,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 )</code></pre></div>
 <p>The file paths we get back only start from the data directory, so we need to append those with the path to the data directory itself:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_file_paths &lt;-<span class="st"> </span><span class="kw">paste0</span>(raw_data_dir, vp_file_paths)</code></pre></div>
-<p>There are <strong>48 vp files</strong> that meet our criteria. Preview:</p>
+<p>There are <strong>75 vp files</strong> that meet our criteria. Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(vp_file_paths, <span class="dv">5</span>)</code></pre></div>
 <pre><code>## [1] &quot;../data/raw/example/seang_vp_20161003T2000Z.h5&quot;
 ## [2] &quot;../data/raw/example/seang_vp_20161003T2015Z.h5&quot;
@@ -215,7 +215,7 @@ dplyr::<span class="kw">bind_rows</span>(vp_data) %&gt;%
 dplyr::<span class="kw">arrange</span>(radar_id, datetime, HGHT) -&gt;<span class="st"> </span>vp_data</code></pre></div>
 <p>To uniquely reference records later, we add an <code>id</code> column:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_data &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;id&quot;</span> =<span class="st"> </span><span class="kw">seq.int</span>(<span class="kw">nrow</span>(vp_data)), vp_data)</code></pre></div>
-<p>That data frame contains <strong>1200 records</strong>.</p>
+<p>That data frame contains <strong>1740 records</strong>.</p>
 </div>
 <div id="calculate-mtr-per-height" class="section level2">
 <h2><span class="header-section-number">2.5</span> Calculate MTR per height</h2>
@@ -291,13 +291,15 @@ vp_data %&gt;%
 
 <span class="co"># Preview</span>
 <span class="kw">head</span>(radars_dates_sunriset, <span class="dv">5</span>)</code></pre></div>
-<pre><code>## # A tibble: 3 x 6
+<pre><code>## # A tibble: 5 x 6
 ## # Groups:   radar_id [3]
 ##   radar_id       date latitude longitude             sunrise
 ##      &lt;chr&gt;     &lt;date&gt;    &lt;dbl&gt;     &lt;dbl&gt;              &lt;dttm&gt;
 ## 1    seang 2016-10-03  56.3675   12.8517 2016-10-03 05:21:06
-## 2    searl 2016-10-03  59.6544   17.9463 2016-10-03 05:04:02
-## 3    sease 2016-10-03  57.3035   18.4001 2016-10-03 04:59:47
+## 2    seang 2016-10-04  56.3675   12.8517 2016-10-04 05:23:08
+## 3    searl 2016-10-03  59.6544   17.9463 2016-10-03 05:04:02
+## 4    searl 2016-10-04  59.6544   17.9463 2016-10-04 05:06:23
+## 5    sease 2016-10-03  57.3035   18.4001 2016-10-03 04:59:47
 ## # ... with 1 more variables: sunset &lt;dttm&gt;</code></pre>
 <p>We then combine this sunrise/sunset information back with our vp data, to figure out if it is day or night and to which date they belong (<code>date_of_sunset</code>). For the latter, we consider night timestamps between midnight and sunrise as belonging to the previous date:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_data %&gt;%
