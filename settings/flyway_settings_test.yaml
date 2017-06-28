@@ -1,0 +1,24 @@
+# Ranges are [min, max], with both inclusive
+general:
+  include_dates: ["2016-09-19", "2016-09-20"]
+  include_heights: [200, 1000]
+
+radars:
+#Sweden
+  seang:
+    include_heights: [309, NA] # altitude cut off at 1500 in raw data
+
+  searl:
+    include_heights: [174, NA]
+    exclude_datetimes:
+    - ["2016-09-21 03:30", "2016-09-21 04:30"]
+    - ["2016-09-22 03:15", "2016-09-22 04:45"]
+    - ["2016-09-23 13:00", "2016-09-23 18:00"]
+    - ["2016-09-28 07:00", "2016-09-28 09:45"]
+    - ["2016-09-29 08:00", "2016-09-29 16:00"]
+    - ["2016-10-09 01:00", "2016-10-09 07:00"]
+
+  sease:
+    include_heights: [185, NA]
+    exclude_datetimes:
+    - ["2016-09-29 16:00", "2016-10-29 18:00"]
