@@ -1,10 +1,10 @@
 # Ranges are [min, max], with both inclusive
 general:
-  include_dates: ["2016-10-09", "2016-10-09"]
+  include_dates: ["2016-10-06", "2016-10-10"]
   include_heights: [200, 4000]
 
 radars:
-# Sweden
+#Sweden
   seang:
     include_heights: [309, NA] # altitude cut off at 1500 in raw data
 
@@ -17,6 +17,7 @@ radars:
     - ["2016-09-28 07:00", "2016-09-28 09:45"]
     - ["2016-09-29 08:00", "2016-09-29 16:00"]
     - ["2016-10-09 01:00", "2016-10-09 07:00"]
+
   sease:
     include_heights: [185, NA]
     exclude_datetimes:
@@ -48,12 +49,10 @@ radars:
   sekkr:
     include_heights: [223, NA]
 
-# Excluded, major issue
-# sevil:
+# sevil: # Excluded, major issue (large hole)
 #    include_heights: [323, NA]
 
-# Excluded, major issue
-#  seosu:
+#  seosu: # Excluded, major issue (data missing, altitude cuts, opposite directions(?))
 #    include_heights: [566, NA]
 
   seovi:
@@ -72,8 +71,8 @@ radars:
   fiuta:
     include_heights: [218, NA]
     exclude_datetimes:
-    - ["2016-10-01 08:30","2016-10-01 15:00"]
-    - ["2016-10-03 11:30","2016-10-03 15:30"]
+    - ["2016-10-01 08:30", "2016-10-01 15:00"]
+    - ["2016-10-03 11:30", "2016-10-03 15:30"]
 
   fivim:
     include_heights: [300, NA]
@@ -94,8 +93,7 @@ radars:
     exclude_datetimes:
     - ["2016-09-28 02:00", "2016-09-28 04:00"]
 
-#Excluded, major issue
-#  fipet:
+#  fipet: #Excluded, major issue (days missing, altitude cuts, holes)
 #    include_heights: [371, NA]
 
   fiika:
@@ -112,7 +110,7 @@ radars:
   fivan:
     include_heights: [182, NA]
     exclude_datetimes:
-    - ["2016-09-29 16:00","2016-09-29 17:00"]
+    - ["2016-09-29 16:00", "2016-09-29 17:00"]
 
   fikor:
     include_heights: [161, NA]
@@ -139,8 +137,7 @@ radars:
     exclude_datetimes:
     - ["2016-09-29 18:00", "2016-09-29 21:00"]
 
-#Excluded, major issue
-#  frale:
+#  frale: #Excluded, major issue (Sband, no birds, altitude cut)
 #    include_heights: [150, NA]
 
   frave:
@@ -149,15 +146,13 @@ radars:
   frbla:
     include_heights: [690, NA]
 
-#Excluded, major issue
-#  frbol:
+#  frbol: #Excluded, major issue (Sband, no birds, altitude cut)
 #    include_heights: [410, NA]
 
   frbor:
     include_heights: [150, NA]
 
-#Excluded, major issue
-#  frbou:
+#  frbou: #Excluded, major issue (altitude cut)
 #    include_heights: [260, NA]
 
   frcae:
@@ -174,43 +169,41 @@ radars:
     exclude_datetimes:
     - ["2016-09-30 20:00", "2016-09-30 21:00"]
 
-  frcol:
-    include_heights: [740, NA]
+#  frcol: #Excluded, probably S-band
+#    include_heights: [740, NA]
 
-# Excluded, major issue
-#  frgre:
+#  frgre: # Excluded, major issue (many holes)
 #    include_heights: [450, NA]
 
   frlep:
     include_heights: [1220, NA]
 
-# Excluded, major issue
-#  frmcl:
+#  frmcl: # Excluded, major issue (holes)
 #    include_heights: [770, NA]
 
   frmom:
     include_heights: [230, NA]
+    exclude_datetimes:
     - ["2016-09-30 18:45", "2016-09-30 19:00"]
 
   frmtc:
     include_heights: [1010, NA]
+    exclude_datetimes:
     - ["2016-10-01 05:30", "2016-10-01 05:30"]
     - ["2016-10-01 12:00", "2016-01-02 12:00"]
 
-#Excluded, major issue
-#  frnan:
+#  frnan: #Excluded, major issue (altitude cuts, holes)
 #    include_heights: [390, NA]
 
-  frnim:
-    include_heights: [170, NA]
+#  frnim:  #Excluded, probably S-band
+#    include_heights: [170, NA]
 
   frniz:
     include_heights: [1010, NA]
     exclude_datetimes:
     - ["2016-10-01 14:00", "2016-10-02 00:30"]
 
-#Excluded, major issue
-#  fropo:
+#  fropo: #Excluded, major issue (Sband, altitude cuts)
 #    include_heights: [800, NA]
 
   frpla:
@@ -227,8 +220,7 @@ radars:
     exclude_datetimes:
     - ["2016-09-30 12:00", "2016-10-01 03:00"]
 
-# Excluded, major issue
-#  frtre:
+#  frtre: # Excluded, major issue (missing days)
 #    include_heights: [170, NA]
 
   frtro:
@@ -238,7 +230,6 @@ radars:
     - ["2016-10-01 12:00", "2016-10-01 22:00"]
 
 #Germany
-
   deboo:
     include_heights: [224.6, NA]
     exclude_datetimes:
@@ -278,8 +269,7 @@ radars:
     - ["2016-10-05 10:00", "2016-10-07 12:00"]
     - ["2016-10-08 04:30", "2016-10-09 12:00"]
 
-# Excluded, no data
-# deemd:
+# deemd: # Excluded, no data
 #    include_heights: [XXX, NA]
 
   deess:
@@ -391,15 +381,15 @@ radars:
     - ["2016-10-05 12:00", "2016-10-06 12:00"]
     - ["2016-10-06 12:00", "2016-10-07 12:00"]
 
-  deros:
-    include_heights: [137, NA]
-    exclude_datetimes:
-    - ["2016-09-21 00:00", "2016-09-21 05:00"]
-    - ["2016-09-26 02:00", "2016-09-27 12:00"]
-    - ["2016-09-27 12:00", "2016-09-28 12:00"]
-    - ["2016-09-29 12:00", "2016-09-29 23:00"]
-    - ["2016-10-01 12:00", "2016-10-01 21:45"]
-    - ["2016-10-02 12:00", "2016-10-02 20:45"]
+#  deros: # excluded, missing days
+#    include_heights: [137, NA]
+#    exclude_datetimes:
+#    - ["2016-09-21 00:00", "2016-09-21 05:00"]
+#    - ["2016-09-26 02:00", "2016-09-27 12:00"]
+#    - ["2016-09-27 12:00", "2016-09-28 12:00"]
+#    - ["2016-09-29 12:00", "2016-09-29 23:00"]
+#    - ["2016-10-01 12:00", "2016-10-01 21:45"]
+#    - ["2016-10-02 12:00", "2016-10-02 20:45"]
 
   detur:
     include_heights: [867.62, NA]
