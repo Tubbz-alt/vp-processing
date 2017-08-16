@@ -1,10 +1,10 @@
 # Process vp data for the Bird migration flow visualization {#vp-to-flowviz}
 
-```{r flowviz_rmd_settings, include=FALSE}
+```{r flowviz_rmd_settings, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-```{r extract_load_libraries, results="hide"}
+```{r extract_load_libraries, results = "hide"}
 library(bioRad)
 library(dplyr)
 library(lubridate)

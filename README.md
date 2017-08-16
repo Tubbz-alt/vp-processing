@@ -6,6 +6,10 @@ This repository contains the code and documentation to process **vertical profil
 
 http://enram.github.io/vp-processing
 
+## Contributors
+
+[List of contributors](https://github.com/enram/vp-processing/contributors)
+
 ## License
 
-The MIT License ([LICENSE](LICENSE))
+[MIT LICENSE](LICENSE)
