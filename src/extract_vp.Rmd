@@ -92,7 +92,8 @@ That data frame contains **`r nrow(vp_data)` records**.
 We also want migration traffic rate (mtr) per height for further analysis, so we calculate and add it as an extra column:
 
 ```{r extract_calculate_mtr}
-vp_data$mtr <- vp_data$ff * vp_data$dens / 5
+# Calculate mtr: times 3.6 to convert ff from m/s to km/h, divide by 5 because 200m bins
+vp_data$mtr <- vp_data$ff * 3.6 * vp_data$dens / 5
 
 # Add our new mtr to variables
 variables <- c(variables, "mtr")

@@ -25,7 +25,7 @@
 <meta name="author" content="Peter Desmet">
 
 
-<meta name="date" content="2017-06-22">
+<meta name="date" content="2017-08-16">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -220,7 +220,8 @@ dplyr::<span class="kw">arrange</span>(radar_id, datetime, HGHT) -&gt;<span clas
 <div id="calculate-mtr-per-height" class="section level2">
 <h2><span class="header-section-number">2.5</span> Calculate MTR per height</h2>
 <p>We also want migration traffic rate (mtr) per height for further analysis, so we calculate and add it as an extra column:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_data$mtr &lt;-<span class="st"> </span>vp_data$ff *<span class="st"> </span>vp_data$dens /<span class="st"> </span><span class="dv">5</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate mtr: times 3.6 to convert ff from m/s to km/h, divide by 5 because 200m bins</span>
+vp_data$mtr &lt;-<span class="st"> </span>vp_data$ff *<span class="st"> </span><span class="fl">3.6</span> *<span class="st"> </span>vp_data$dens /<span class="st"> </span><span class="dv">5</span>
 
 <span class="co"># Add our new mtr to variables</span>
 variables &lt;-<span class="st"> </span><span class="kw">c</span>(variables, <span class="st">&quot;mtr&quot;</span>)</code></pre></div>
@@ -249,11 +250,11 @@ variables &lt;-<span class="st"> </span><span class="kw">c</span>(variables, <sp
 ## 20 20    seang 2016-10-03 20:00:00 3800        NA         NA       NA
 ##          dd       ff       mtr
 ## 1        NA       NA        NA
-## 2  225.6348 13.47442  95.91232
-## 3  224.0508 12.16968 100.46878
-## 4  219.3961 10.37035  37.55384
-## 5  214.2299 11.80985  40.65388
-## 6  210.6534 11.82392  26.27684
+## 2  225.6348 13.47442 345.28437
+## 3  224.0508 12.16968 361.68759
+## 4  219.3961 10.37035 135.19384
+## 5  214.2299 11.80985 146.35399
+## 6  210.6534 11.82392  94.59664
 ## 7        NA       NA        NA
 ## 8        NA       NA        NA
 ## 9        NA       NA        NA
@@ -287,10 +288,9 @@ vp_data %&gt;%
 
 <span class="co"># Use bioRad to add sunrise/sunset information</span>
 <span class="kw">mutate</span>(<span class="dt">sunrise =</span> bioRad::<span class="kw">suntime</span>(<span class="dt">date =</span> date, <span class="dt">lat =</span> latitude, <span class="dt">lon =</span> longitude, <span class="dt">rise =</span> <span class="ot">TRUE</span>)) %&gt;%
-<span class="kw">mutate</span>(<span class="dt">sunset =</span> bioRad::<span class="kw">suntime</span>(<span class="dt">date =</span> date, <span class="dt">lat =</span> latitude, <span class="dt">lon =</span> longitude, <span class="dt">rise =</span> <span class="ot">FALSE</span>)) -&gt;<span class="st"> </span>radars_dates_sunriset
-
-<span class="co"># Preview</span>
-<span class="kw">head</span>(radars_dates_sunriset, <span class="dv">5</span>)</code></pre></div>
+<span class="kw">mutate</span>(<span class="dt">sunset =</span> bioRad::<span class="kw">suntime</span>(<span class="dt">date =</span> date, <span class="dt">lat =</span> latitude, <span class="dt">lon =</span> longitude, <span class="dt">rise =</span> <span class="ot">FALSE</span>)) -&gt;<span class="st"> </span>radars_dates_sunriset</code></pre></div>
+<p>Preview</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(radars_dates_sunriset, <span class="dv">5</span>)</code></pre></div>
 <pre><code>## # A tibble: 5 x 6
 ## # Groups:   radar_id [3]
 ##   radar_id       date latitude longitude             sunrise
@@ -354,11 +354,11 @@ vp_data %&gt;%
 ## 20 20    seang 2016-10-03 20:00:00 3800        NA         NA       NA
 ##          dd       ff       mtr day_night date_of_sunset
 ## 1        NA       NA        NA     night       20161003
-## 2  225.6348 13.47442  95.91232     night       20161003
-## 3  224.0508 12.16968 100.46878     night       20161003
-## 4  219.3961 10.37035  37.55384     night       20161003
-## 5  214.2299 11.80985  40.65388     night       20161003
-## 6  210.6534 11.82392  26.27684     night       20161003
+## 2  225.6348 13.47442 345.28437     night       20161003
+## 3  224.0508 12.16968 361.68759     night       20161003
+## 4  219.3961 10.37035 135.19384     night       20161003
+## 5  214.2299 11.80985 146.35399     night       20161003
+## 6  210.6534 11.82392  94.59664     night       20161003
 ## 7        NA       NA        NA     night       20161003
 ## 8        NA       NA        NA     night       20161003
 ## 9        NA       NA        NA     night       20161003
@@ -421,10 +421,10 @@ vp_data %&gt;%
 ##          dd       ff       mtr day_night date_of_sunset exclusion_reason
 ## 1        NA       NA        NA     night       20161003           height
 ## 2        NA       NA        NA     night       20161003           height
-## 3  224.0508 12.16968 100.46878     night       20161003             &lt;NA&gt;
-## 4  219.3961 10.37035  37.55384     night       20161003             &lt;NA&gt;
-## 5  214.2299 11.80985  40.65388     night       20161003             &lt;NA&gt;
-## 6  210.6534 11.82392  26.27684     night       20161003             &lt;NA&gt;
+## 3  224.0508 12.16968 361.68759     night       20161003             &lt;NA&gt;
+## 4  219.3961 10.37035 135.19384     night       20161003             &lt;NA&gt;
+## 5  214.2299 11.80985 146.35399     night       20161003             &lt;NA&gt;
+## 6  210.6534 11.82392  94.59664     night       20161003             &lt;NA&gt;
 ## 7        NA       NA        NA     night       20161003             &lt;NA&gt;
 ## 8        NA       NA        NA     night       20161003             &lt;NA&gt;
 ## 9        NA       NA        NA     night       20161003             &lt;NA&gt;
