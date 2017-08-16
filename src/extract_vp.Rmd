@@ -125,8 +125,11 @@ left_join(radars_lat_long, by = "radar_id") %>%
 # Use bioRad to add sunrise/sunset information
 mutate(sunrise = bioRad::suntime(date = date, lat = latitude, lon = longitude, rise = TRUE)) %>%
 mutate(sunset = bioRad::suntime(date = date, lat = latitude, lon = longitude, rise = FALSE)) -> radars_dates_sunriset
+```
 
-# Preview
+Preview
+
+```{r extract_day_and_night_preview}
 head(radars_dates_sunriset, 5)
 ```
 
