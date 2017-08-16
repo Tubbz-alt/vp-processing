@@ -37,11 +37,11 @@ The processing requires a number of settings we need to define. If you want to [
 # The following paths are relative to this script (i.e. to the src directory)
 
 # Where you store your raw data (needs a trailing slash)
-raw_data_dir <- "../data/raw/example/"
-# Where it should write the processed data.
-processed_data_dir <- "../data/processed/example/" # Make sure this folder exists!
-# Your processing settings (needs a trailing slash):
-settings_file <- "../settings/example_settings.yaml"
+raw_data_dir <- "../data/raw/all_flyway/"
+# Where it should write the processed data (needs a trailing slash).
+processed_data_dir <- "../data/processed/flyway/" # Make sure this folder exists!
+# Your processing settings:
+settings_file <- "../settings/flyway_settings.yaml"
 # The radar metadata (incl. coordinates):
 radars_metadata_file <- "../settings/radars.csv"
 ```
