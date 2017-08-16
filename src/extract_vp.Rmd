@@ -1,12 +1,12 @@
 # Extract vp data {#extract-vp}
 
-```{r extract_rmd_settings, include=FALSE}
+```{r extract_rmd_settings, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 In this chapter we'll select, read, combine, filter and export data from vp files to a single, unaggregated CSV file.
 
-```{r extract_load_libraries, results="hide"}
+```{r extract_load_libraries, results = "hide"}
 library(bioRad)
 library(dplyr)
 library(loopr)

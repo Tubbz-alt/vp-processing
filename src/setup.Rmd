@@ -1,6 +1,6 @@
 # Get started {#setup}
 
-```{r setup_rmd_settings, include=FALSE}
+```{r setup_rmd_settings, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
@@ -10,7 +10,7 @@ This chapter explains how to get you up and running. It assumes you are working 
 
 First, you will need to install a number of R packages we will use:
 
-```{r setup_install_packages, eval=FALSE}
+```{r setup_install_packages, eval = FALSE}
 install.packages(c(
   "devtools",  # To install packages from GitHub
   "yaml",      # To read processing settings
@@ -21,7 +21,7 @@ install.packages(c(
 ))
 ```
 
-```{r setup_install_bioRad, eval=FALSE}
+```{r setup_install_bioRad, eval = FALSE}
 devtools::install_github("enram/bioRad", ref="master") # To process vp data
 ```
 
