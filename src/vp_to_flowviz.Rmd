@@ -182,4 +182,4 @@ write.csv(flowviz_data, file = paste0(processed_data_dir, "flowviz/birds.csv"), 
 
 ## Create metadata
 
-Not yet implemented, currently created manually.
+Not yet implemented, currently created manually (see [example](https://github.com/enram/bird-migration-flow-visualization/blob/master/viz/2/nl-be/radars.json)).
