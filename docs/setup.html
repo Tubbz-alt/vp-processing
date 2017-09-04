@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Vertical profile (vp) data processing for analyses and visualizations</title>
   <meta name="description" content="Vertical profile (vp) data processing for analyses and visualizations">
-  <meta name="generator" content="bookdown 0.4 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
 
   <meta property="og:title" content="Vertical profile (vp) data processing for analyses and visualizations" />
   <meta property="og:type" content="book" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Peter Desmet">
 
 
-<meta name="date" content="2017-08-16">
+<meta name="date" content="2017-09-04">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -127,6 +127,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="2.8" data-path="extract-vp.html"><a href="extract-vp.html#filter-out-datetimes"><i class="fa fa-check"></i><b>2.8</b> Filter out datetimes</a></li>
 <li class="chapter" data-level="2.9" data-path="extract-vp.html"><a href="extract-vp.html#export-to-a-csv-file"><i class="fa fa-check"></i><b>2.9</b> Export to a CSV file</a></li>
 </ul></li>
+<li class="chapter" data-level="3" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html"><i class="fa fa-check"></i><b>3</b> Process vp data for the bird migration flow visualization</a><ul>
+<li class="chapter" data-level="3.1" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#load-settings-1"><i class="fa fa-check"></i><b>3.1</b> Load settings</a></li>
+<li class="chapter" data-level="3.2" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#read-data-from-csv-file"><i class="fa fa-check"></i><b>3.2</b> Read data from CSV file</a></li>
+<li class="chapter" data-level="3.3" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#add-time-bins"><i class="fa fa-check"></i><b>3.3</b> Add time bins</a></li>
+<li class="chapter" data-level="3.4" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#add-height-bins"><i class="fa fa-check"></i><b>3.4</b> Add height bins</a></li>
+<li class="chapter" data-level="3.5" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#filter-out-excluded-data"><i class="fa fa-check"></i><b>3.5</b> Filter out excluded data</a></li>
+<li class="chapter" data-level="3.6" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#aggregate-data"><i class="fa fa-check"></i><b>3.6</b> Aggregate data</a></li>
+<li class="chapter" data-level="3.7" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#filter-out-empty-rows"><i class="fa fa-check"></i><b>3.7</b> Filter out empty rows</a></li>
+<li class="chapter" data-level="3.8" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#rename-and-select-columns"><i class="fa fa-check"></i><b>3.8</b> Rename and select columns</a></li>
+<li class="chapter" data-level="3.9" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#export-to-a-csv-file-1"><i class="fa fa-check"></i><b>3.9</b> Export to a CSV file</a></li>
+<li class="chapter" data-level="3.10" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#create-metadata"><i class="fa fa-check"></i><b>3.10</b> Create metadata</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -156,6 +168,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <span class="st">&quot;dplyr&quot;</span>,     <span class="co"># To process dataframes</span>
   <span class="st">&quot;loopr&quot;</span>,     <span class="co"># To process dataframes with loops</span>
   <span class="st">&quot;lubridate&quot;</span>, <span class="co"># To process dates</span>
+  <span class="st">&quot;circular&quot;</span>,  <span class="co"># To calculate circular means</span>
   <span class="st">&quot;bookdown&quot;</span>   <span class="co"># To generate this documentation</span>
 ))</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">&quot;enram/bioRad&quot;</span>, <span class="dt">ref=</span><span class="st">&quot;master&quot;</span>) <span class="co"># To process vp data</span></code></pre></div>
@@ -171,9 +184,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <span class="co"># Where you store your raw data (needs a trailing slash)</span>
 raw_data_dir &lt;-<span class="st"> &quot;../data/raw/example/&quot;</span>
-<span class="co"># Where it should write the processed data.</span>
+<span class="co"># Where it should write the processed data (needs a trailing slash).</span>
 processed_data_dir &lt;-<span class="st"> &quot;../data/processed/example/&quot;</span> <span class="co"># Make sure this folder exists!</span>
-<span class="co"># Your processing settings (needs a trailing slash):</span>
+<span class="co"># Your processing settings:</span>
 settings_file &lt;-<span class="st"> &quot;../settings/example_settings.yaml&quot;</span>
 <span class="co"># The radar metadata (incl. coordinates):</span>
 radars_metadata_file &lt;-<span class="st"> &quot;../settings/radars.csv&quot;</span></code></pre></div>
@@ -281,7 +294,7 @@ bioRad::<span class="kw">download_vp</span>(
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
 <script>
-require(["gitbook"], function(gitbook) {
+gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,
