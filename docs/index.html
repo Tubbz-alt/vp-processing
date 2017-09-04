@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Vertical profile (vp) data processing for analyses and visualizations</title>
   <meta name="description" content="Vertical profile (vp) data processing for analyses and visualizations">
-  <meta name="generator" content="bookdown 0.4 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
 
   <meta property="og:title" content="Vertical profile (vp) data processing for analyses and visualizations" />
   <meta property="og:type" content="book" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Peter Desmet">
 
 
-<meta name="date" content="2017-08-16">
+<meta name="date" content="2017-09-04">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -127,6 +127,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="2.8" data-path="extract-vp.html"><a href="extract-vp.html#filter-out-datetimes"><i class="fa fa-check"></i><b>2.8</b> Filter out datetimes</a></li>
 <li class="chapter" data-level="2.9" data-path="extract-vp.html"><a href="extract-vp.html#export-to-a-csv-file"><i class="fa fa-check"></i><b>2.9</b> Export to a CSV file</a></li>
 </ul></li>
+<li class="chapter" data-level="3" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html"><i class="fa fa-check"></i><b>3</b> Process vp data for the bird migration flow visualization</a><ul>
+<li class="chapter" data-level="3.1" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#load-settings-1"><i class="fa fa-check"></i><b>3.1</b> Load settings</a></li>
+<li class="chapter" data-level="3.2" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#read-data-from-csv-file"><i class="fa fa-check"></i><b>3.2</b> Read data from CSV file</a></li>
+<li class="chapter" data-level="3.3" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#add-time-bins"><i class="fa fa-check"></i><b>3.3</b> Add time bins</a></li>
+<li class="chapter" data-level="3.4" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#add-height-bins"><i class="fa fa-check"></i><b>3.4</b> Add height bins</a></li>
+<li class="chapter" data-level="3.5" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#filter-out-excluded-data"><i class="fa fa-check"></i><b>3.5</b> Filter out excluded data</a></li>
+<li class="chapter" data-level="3.6" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#aggregate-data"><i class="fa fa-check"></i><b>3.6</b> Aggregate data</a></li>
+<li class="chapter" data-level="3.7" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#filter-out-empty-rows"><i class="fa fa-check"></i><b>3.7</b> Filter out empty rows</a></li>
+<li class="chapter" data-level="3.8" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#rename-and-select-columns"><i class="fa fa-check"></i><b>3.8</b> Rename and select columns</a></li>
+<li class="chapter" data-level="3.9" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#export-to-a-csv-file-1"><i class="fa fa-check"></i><b>3.9</b> Export to a CSV file</a></li>
+<li class="chapter" data-level="3.10" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#create-metadata"><i class="fa fa-check"></i><b>3.10</b> Create metadata</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -147,7 +159,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Vertical profile (vp) data processing for analyses and visualizations</h1>
 <h4 class="author"><em>Peter Desmet</em></h4>
-<h4 class="date"><em>2017-08-16</em></h4>
+<h4 class="date"><em>2017-09-04</em></h4>
 </div>
 <div id="preface" class="section level1 unnumbered">
 <h1>Preface</h1>
@@ -181,7 +193,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
 <script>
-require(["gitbook"], function(gitbook) {
+gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,

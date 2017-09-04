@@ -1,6 +1,6 @@
 # Ranges are [min, max], with both inclusive
 general:
-  include_dates: ["2016-10-06", "2016-10-10"]
+  include_dates: ["2016-10-01", "2016-10-09"]
   include_heights: [200, 4000]
 
 radars:
@@ -70,28 +70,24 @@ radars:
 
   fiuta:
     include_heights: [218, NA]
-    exclude_datetimes:
-    - ["2016-10-01 08:30", "2016-10-01 15:00"]
-    - ["2016-10-03 11:30", "2016-10-03 15:30"]
 
   fivim:
     include_heights: [300, NA]
     exclude_datetimes:
     - ["2016-09-23 23:00", "2016-09-23 00:00"]
     - ["2016-09-24 00:00", "2016-09-24 13:00"]
+    - ["2016-09-29 16:00", "2016-09-29 20:00"]
 
   fikuo:
     include_heights: [368, NA]
     exclude_datetimes:
-    - ["2016-09-23 12:00", "2016-09-23 00:00"]
-    - ["2016-09-24 08:00", "2016-09-24 13:00"]
-    - ["2016-09-25 04:00", "2016-09-25 05:30"]
-    - ["2016-09-25 08:30", "2016-09-25 16:00"]
+    - ["2016-09-29 19:00", "2016-09-29 20:00"]
 
   fikes:
     include_heights: [274, NA]
     exclude_datetimes:
-    - ["2016-09-28 02:00", "2016-09-28 04:00"]
+    - ["2016-09-29 03:00", "2016-09-29 04:00"]
+    - ["2016-09-29 16:00", "2016-09-29 23:00"]
 
 #  fipet: #Excluded, major issue (days missing, altitude cuts, holes)
 #    include_heights: [371, NA]
@@ -102,15 +98,12 @@ radars:
   fianj:
     include_heights: [239, NA]
     exclude_datetimes:
-    - ["2016-09-23 13:00", "2016-09-23 22:00"]
-    - ["2016-09-25 07:00", "2016-09-25 12:00"]
-    - ["2016-09-28 14:00", "2016-09-28 17:00"]
+    - ["2016-09-28 16:00", "2016-09-28 17:00"]
     - ["2016-09-29 13:00", "2016-09-29 19:00"]
+    - ["2016-10-08 20:00", "2016-10-08 23:50"]
 
   fivan:
     include_heights: [182, NA]
-    exclude_datetimes:
-    - ["2016-09-29 16:00", "2016-09-29 17:00"]
 
   fikor:
     include_heights: [161, NA]
@@ -410,3 +403,36 @@ radars:
     - ["2016-10-01 03:00", "2016-10-01 12:00"]
     - ["2016-10-03 00:00", "2016-10-03 12:00"]
     - ["2016-10-03 12:00", "2016-10-04 04:00"]
+
+#Poland
+  plgda:
+    include_heights: [258, NA]
+    exclude_datetimes:
+    - ["2016-09-28 03:00", "2016-09-28 10:00"]
+
+  plswi:
+    include_heights: [246, NA]
+    exclude_datetimes:
+    - ["2016-10-09 02:00", "2016-10-09 05:00"]
+
+  plpoz:
+    include_heights: [230, NA]
+    exclude_datetimes:
+    - ["2016-10-05 20:00", "2016-10-05 21:00"]
+    - ["2016-10-06 03:00", "2016-10-06 04:00"]
+
+  plleg:
+    include_heights: [230, NA]
+    exclude_datetimes:
+    - ["2016-09-28 14:00", "2016-09-28 23:00"]
+
+  plram:
+    include_heights: [458, NA]
+    exclude_datetimes:
+    - ["2016-10-05 12:00", "2016-10-05 15:00"]
+
+  plbrz:
+    include_heights: [553, NA]
+
+#  plbrze: #No data
+#    include_heights: [335, NA]
