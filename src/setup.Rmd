@@ -17,6 +17,7 @@ install.packages(c(
   "dplyr",     # To process dataframes
   "loopr",     # To process dataframes with loops
   "lubridate", # To process dates
+  "circular",  # To calculate circular means
   "bookdown"   # To generate this documentation
 ))
 ```
