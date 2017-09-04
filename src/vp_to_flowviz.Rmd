@@ -33,9 +33,10 @@ processed_data_file = paste0(processed_data_dir, settings$general$vp_output_file
 processed_data_file
 ```
 
-```{r flowviz_read_data}
-vp_data <- read.csv(processed_data_file)
-head(vp_data)
+Preview:
+
+```{r flowviz_preview}
+head(flowviz_data)
 ```
 
 ## Add time bins
@@ -43,8 +44,8 @@ head(vp_data)
 Add time bins per hour:
 
 ```{r flowviz_add_time_bins}
-vp_data %>%
-  mutate(datetime_bin = floor_date(as.POSIXct(datetime, tz = "UTC"), "hour")) -> vp_data
+flowviz_data %>%
+  mutate(datetime_bin = floor_date(as.POSIXct(datetime, tz = "UTC"), "hour")) -> flowviz_data
 ```
 
 ## Add height bins
@@ -52,17 +53,17 @@ vp_data %>%
 Add two height bins: `200-2000` and `above 2000`:
 
 ```{r flowviz_add_height_bins}
-vp_data %>%
+flowviz_data %>%
 mutate(height_bin = case_when(
   .$HGHT >= 200 & .$HGHT < 2000 ~ "1",
   .$HGHT >= 2000 ~ "2"
-)) -> vp_data
+)) -> flowviz_data
 ```
 
 Preview:
 
 ```{r flowviz_preview_bins}
-head(vp_data, 20)
+head(flowviz_data, 20)
 ```
 
 ## Filter out excluded data
@@ -70,8 +71,8 @@ head(vp_data, 20)
 Only keep data that should not be excluded:
 
 ```{r flowviz_filter_excluded}
-vp_data %>%
-filter(exclusion_reason == "") -> vp_data
+flowviz_data %>%
+filter(exclusion_reason == "") -> flowviz_data
 ```
 
 ## Aggregate data
@@ -95,7 +96,7 @@ circular_mean_degrees <- function(directions) {
 Aggregate data:
 
 ```{r flowviz_aggregate}
-vp_data %>%
+flowviz_data %>%
 group_by(radar_id, datetime_bin, height_bin) %>%
 summarize(
   avg_u = mean(u, na.rm = TRUE),
@@ -105,13 +106,13 @@ summarize(
   avg_ff = mean(ff, na.rm = TRUE),
   avg_mtr = mean(mtr, na.rm = TRUE)
 ) %>%
-ungroup() -> vp_data
+ungroup() -> flowviz_data
 ```
 
 Preview:
 
 ```{r flowviz_preview_aggregate}
-head(data.frame(vp_data))
+head(data.frame(flowviz_data))
 ```
 
 ## Filter out empty rows
@@ -119,7 +120,7 @@ head(data.frame(vp_data))
 Only keep data where at least one of the calculated values is not `NA`:
 
 ```{r flowviz_filter_not_na}
-vp_data %>%
+flowviz_data %>%
   filter(
     !is.na(avg_u) | 
     !is.na(avg_v) | 
@@ -127,14 +128,14 @@ vp_data %>%
     !is.na(avg_dd) | 
     !is.na(avg_ff) |
     !is.na(avg_mtr)
-  ) -> vp_data
+  ) -> flowviz_data
 
 ```
 
 Preview:
 
 ```{r flowviz_preview_not_na}
-head(data.frame(vp_data))
+head(data.frame(flowviz_data))
 ```
 
 ## Rename and select columns
@@ -142,7 +143,7 @@ head(data.frame(vp_data))
 Rename and select the columns required by the flowviz:
 
 ```{r flowviz_rename}
-vp_data %>%
+flowviz_data %>%
 rename(
   interval_start_time = datetime_bin,
   altitude_band = height_bin,
@@ -152,13 +153,13 @@ rename(
 # Use NA for all non-finite values (e.g. NaN -> NA):
 mutate(avg_u_speed = ifelse(is.finite(avg_u_speed), avg_u_speed, NA)) %>% 
 mutate(avg_v_speed = ifelse(is.finite(avg_v_speed), avg_v_speed, NA)) %>%
-select(radar_id, interval_start_time, altitude_band, avg_u_speed, avg_v_speed) -> vp_data_flowviz
+select(radar_id, interval_start_time, altitude_band, avg_u_speed, avg_v_speed) -> flowviz_data
 ```
 
 Preview:
 
 ```{r flowviz_preview_rename}
-head(vp_data_flowviz)
+head(flowviz_data)
 ```
 
 ## Export to a CSV file
@@ -166,7 +167,7 @@ head(vp_data_flowviz)
 Export the data to a flowviz data file:
 
 ```{r}
-write.csv(vp_data_flowviz, file = paste0(processed_data_dir, "flowviz/birds.csv"), na = "", row.names = FALSE)
+write.csv(flowviz_data, file = paste0(processed_data_dir, "flowviz/birds.csv"), na = "", row.names = FALSE)
 ```
 
 ## Create metadata
