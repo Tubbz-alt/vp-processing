@@ -364,7 +364,7 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
 <div id="export-to-a-csv-file-1" class="section level2">
 <h2><span class="header-section-number">3.9</span> Export to a CSV file</h2>
 <p>Export the data to a flowviz data file:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.csv</span>(flowviz_data, <span class="dt">file =</span> <span class="kw">paste0</span>(processed_data_dir, <span class="st">&quot;flowviz/birds.csv&quot;</span>), <span class="dt">na =</span> <span class="st">&quot;&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.csv</span>(flowviz_data, <span class="dt">file =</span> <span class="kw">paste0</span>(flowviz_data_dir, <span class="st">&quot;birds.csv&quot;</span>), <span class="dt">na =</span> <span class="st">&quot;&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</code></pre></div>
 </div>
 <div id="create-metadata" class="section level2">
 <h2><span class="header-section-number">3.10</span> Create metadata</h2>
