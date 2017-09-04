@@ -345,6 +345,10 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
   <span class="dt">avg_u_speed =</span> avg_u,
   <span class="dt">avg_v_speed =</span> avg_v
 ) %&gt;%
+<span class="st">  </span>
+<span class="co"># Add +00 for interval_start_time:</span>
+<span class="kw">mutate</span>(<span class="dt">interval_start_time =</span> <span class="kw">paste0</span>(interval_start_time, <span class="st">&quot;+00&quot;</span>)) %&gt;%
+<span class="st">  </span>
 <span class="co"># Use NA for all non-finite values (e.g. NaN -&gt; NA):</span>
 <span class="kw">mutate</span>(<span class="dt">avg_u_speed =</span> <span class="kw">ifelse</span>(<span class="kw">is.finite</span>(avg_u_speed), avg_u_speed, <span class="ot">NA</span>)) %&gt;%<span class="st"> </span>
 <span class="kw">mutate</span>(<span class="dt">avg_v_speed =</span> <span class="kw">ifelse</span>(<span class="kw">is.finite</span>(avg_v_speed), avg_v_speed, <span class="ot">NA</span>)) %&gt;%
@@ -352,14 +356,14 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(flowviz_data)</code></pre></div>
 <pre><code>## # A tibble: 6 x 5
-##   radar_id interval_start_time altitude_band avg_u_speed avg_v_speed
-##     &lt;fctr&gt;              &lt;dttm&gt;         &lt;chr&gt;       &lt;dbl&gt;       &lt;dbl&gt;
-## 1    seang 2016-10-03 20:00:00             1   -5.907009   -8.984443
-## 2    searl 2016-10-04 00:00:00             1  -15.580950  -12.816457
-## 3    searl 2016-10-04 00:00:00             2          NA          NA
-## 4    searl 2016-10-04 01:00:00             1  -15.095386  -10.596541
-## 5    searl 2016-10-04 01:00:00             2          NA          NA
-## 6    searl 2016-10-04 02:00:00             1  -16.583335   -9.175908</code></pre>
+##   radar_id    interval_start_time altitude_band avg_u_speed avg_v_speed
+##     &lt;fctr&gt;                  &lt;chr&gt;         &lt;chr&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+## 1    seang 2016-10-03 20:00:00+00             1   -5.907009   -8.984443
+## 2    searl 2016-10-04 00:00:00+00             1  -15.580950  -12.816457
+## 3    searl 2016-10-04 00:00:00+00             2          NA          NA
+## 4    searl 2016-10-04 01:00:00+00             1  -15.095386  -10.596541
+## 5    searl 2016-10-04 01:00:00+00             2          NA          NA
+## 6    searl 2016-10-04 02:00:00+00             1  -16.583335   -9.175908</code></pre>
 </div>
 <div id="export-to-a-csv-file-1" class="section level2">
 <h2><span class="header-section-number">3.9</span> Export to a CSV file</h2>

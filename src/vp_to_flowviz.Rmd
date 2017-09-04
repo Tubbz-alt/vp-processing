@@ -160,6 +160,10 @@ rename(
   avg_u_speed = avg_u,
   avg_v_speed = avg_v
 ) %>%
+  
+# Add +00 for interval_start_time:
+mutate(interval_start_time = paste0(interval_start_time, "+00")) %>%
+  
 # Use NA for all non-finite values (e.g. NaN -> NA):
 mutate(avg_u_speed = ifelse(is.finite(avg_u_speed), avg_u_speed, NA)) %>% 
 mutate(avg_v_speed = ifelse(is.finite(avg_v_speed), avg_v_speed, NA)) %>%
