@@ -1,10 +1,12 @@
-# Process vp data for the Bird migration flow visualization {#vp-to-flowviz}
+# Process vp data for the bird migration flow visualization {#vp-to-flowviz}
 
 ```{r flowviz_rmd_settings, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-```{r extract_load_libraries, results = "hide"}
+In this chapter we'll process the vp data (CSV file) and metadata for the [bird migration flow visualization](http://enram.github.io/bird-migration-flow-visualization/viz/).
+
+```{r flowviz_load_libraries, results = "hide"}
 library(bioRad)
 library(dplyr)
 library(lubridate)
@@ -12,99 +14,176 @@ library(circular)
 source("functions/load_settings.R")
 ```
 
-```{r extract_load_settings}
-#settings <- load_settings(settings_file, radars_metadata_file)
-settings <- load_settings("../settings/flyway_settings.yaml", radars_metadata_file)
+## Load settings
+
+Load the same settings we defined and used before (see \@ref(settings)):
+
+```{r flowviz_load_settings}
+settings <- load_settings(settings_file, radars_metadata_file)
 ```
 
-```{r}
-#vp_data <- read.csv(paste0(processed_data_dir, settings$general$vp_output_file))
-vp_data <- read.csv("../data/processed/flyway/vp_data_50_radars_20161003_20161003.csv")
-head(vp_data)
+Found **`r length(settings$general$radar_ids_5char)` radars from `r length(settings$general$countries)` countries** in the settings.
+
+## Read data from CSV file
+
+To allow this chapter to run without having to process all the vp data, we'll load the data from the CSV file(s) rather than from the dataframe created in \@ref(extract-vp).
+
+Search in the defined processed data directory for csv files:
+
+```{r flowviz_get_csv_files}
+processed_data_dir_no_slash <- substr(processed_data_dir, 1, nchar(processed_data_dir)-1) 
+csv_files <- dir(processed_data_dir_no_slash, pattern = "\\.csv", full.names = TRUE, recursive = FALSE)
+csv_files
 ```
 
-## Add time bins per hour
+Read and concatenate files:
 
-dplyr::mutate(date_time_bin = format(floor_date(date_time, unit = "hour"), "%Y%m%d %H%M")) %>%
+```{r flowviz_read_csv_files}
+csv_data <- lapply(csv_files, read.csv)
+flowviz_data <- bind_rows(csv_data)
+```
 
+Preview:
 
+```{r flowviz_preview}
+head(flowviz_data)
+```
 
-```{r}
-vp_data %>%
-mutate(time_bin = cut(as.POSIXct(datetime, tz = "UTC"), "hour")) -> vp_data
+## Add time bins
+
+Add time bins per hour:
+
+```{r flowviz_add_time_bins}
+flowviz_data %>%
+  mutate(datetime_bin = floor_date(as.POSIXct(datetime, tz = "UTC"), "hour")) -> flowviz_data
 ```
 
 ## Add height bins
 
-```{r}
-vp_data %>%
-mutate(altitude_bin = case_when(
+Add two height bins: `200-2000` and `above 2000`:
+
+```{r flowviz_add_height_bins}
+flowviz_data %>%
+mutate(height_bin = case_when(
   .$HGHT >= 200 & .$HGHT < 2000 ~ "1",
   .$HGHT >= 2000 ~ "2"
-)) -> vp_data
+)) -> flowviz_data
 ```
 
-## Filter out data
+Preview:
 
-```{r}
-vp_data %>%
-filter(exclusion_reason == "") -> vp_data
+```{r flowviz_preview_bins}
+head(flowviz_data, 20)
 ```
 
+## Filter out excluded data
 
-## Aggregate
+Only keep data that should not be excluded:
 
-```{r}
-vp_data %>%
-group_by(radar_id, time_bin, altitude_bin) %>%
+```{r flowviz_filter_excluded}
+flowviz_data %>%
+filter(exclusion_reason == "") -> flowviz_data
+```
+
+## Aggregate data
+
+Aggregate the data by datetime and height bin, taking the mean for every value. For the direction `dd` we need to calculate the circular mean, with a little helper function:
+
+```{r flowviz_circular_mean}
+circular_mean_degrees <- function(directions) {
+  # If all directions are NA, mean.circular will throw an error, so we test it beforehand:
+  if (all(is.na(directions))) {
+    circular_mean = NA
+  } else {
+    circular_mean <- mean.circular(circular(directions, units = "degrees"), na.rm = TRUE)[[1]]
+    # Convert negative to positive degrees (e.g. -45 = 315):
+    circular_mean <- if (circular_mean < 0) 360 + circular_mean else circular_mean
+  }
+  return(circular_mean)
+}
+```
+
+Aggregate data:
+
+```{r flowviz_aggregate}
+flowviz_data %>%
+group_by(radar_id, datetime_bin, height_bin) %>%
 summarize(
   avg_u = mean(u, na.rm = TRUE),
   avg_v = mean(v, na.rm = TRUE),
   avg_dens = mean(dens, na.rm = TRUE),
-#  avg_dd = mean.circular(circular(dd, units = "degrees"), na.rm = TRUE)[[1]],
+  avg_dd = circular_mean_degrees(dd),
   avg_ff = mean(ff, na.rm = TRUE),
   avg_mtr = mean(mtr, na.rm = TRUE)
-) -> vp_data
+) %>%
+ungroup() -> flowviz_data
 ```
 
-How circular mean works fine:
+Preview:
 
-```{r}
-# directions <- c(0, 10, 290, 280, 15)
-directions <- c(220.8976, 212.9395, NA)
-circular_mean <- mean.circular(circular(directions, units = "degrees"), na.rm = TRUE)[[1]]
-circular_mean <- if (circular_mean < 0) 360 + circular_mean else circular_mean
-circular_mean
+```{r flowviz_preview_aggregate}
+head(data.frame(flowviz_data))
 ```
 
-## Rename columns
+## Filter out empty rows
 
-```{r}
-# Visualization needs "+00" for dates
-vp_data %>%
-ungroup() %>%
+Only keep data where at least one of the calculated values is not `NA`:
+
+```{r flowviz_filter_not_na}
+flowviz_data %>%
+  filter(
+    !is.na(avg_u) | 
+    !is.na(avg_v) | 
+    !is.na(avg_dens) | 
+    !is.na(avg_dd) | 
+    !is.na(avg_ff) |
+    !is.na(avg_mtr)
+  ) -> flowviz_data
+
+```
+
+Preview:
+
+```{r flowviz_preview_not_na}
+head(data.frame(flowviz_data))
+```
+
+## Rename and select columns
+
+Rename and select the columns required by the flowviz:
+
+```{r flowviz_rename}
+flowviz_data %>%
 rename(
-  interval_start_time = time_bin,
-  altitude_band = altitude_bin,
+  interval_start_time = datetime_bin,
+  altitude_band = height_bin,
   avg_u_speed = avg_u,
   avg_v_speed = avg_v
 ) %>%
-mutate(interval_start_time = paste0(as.character(interval_start_time), "+00")) %>%
-mutate(avg_u_speed = ifelse(is.finite(avg_u_speed), avg_u_speed, NA)) %>%
+  
+# Add +00 for interval_start_time:
+mutate(interval_start_time = paste0(interval_start_time, "+00")) %>%
+  
+# Use NA for all non-finite values (e.g. NaN -> NA):
+mutate(avg_u_speed = ifelse(is.finite(avg_u_speed), avg_u_speed, NA)) %>% 
 mutate(avg_v_speed = ifelse(is.finite(avg_v_speed), avg_v_speed, NA)) %>%
-select(radar_id, interval_start_time, altitude_band, avg_u_speed, avg_v_speed) -> vp_data_flowviz
-head(vp_data_flowviz)
+select(radar_id, interval_start_time, altitude_band, avg_u_speed, avg_v_speed) -> flowviz_data
 ```
 
+Preview:
+
+```{r flowviz_preview_rename}
+head(flowviz_data)
+```
+
+## Export to a CSV file
+
+Export the data to a flowviz data file:
+
 ```{r}
-write.csv(vp_data_flowviz, file = "../data/processed/flyway/birds.csv", na = "", row.names = FALSE)
+write.csv(flowviz_data, file = paste0(flowviz_data_dir, "birds.csv"), na = "", row.names = FALSE)
 ```
 
 ## Create metadata
 
-```{r}
-library(jsonlite)
-x <- list(status = "SUCCESS", code = "200", 
-    output = list(studentid = "1001", name = "Kevin"))
-toJSON(x, pretty = TRUE, auto_unbox = TRUE)
-```
+Not yet implemented, currently created manually (see [example](https://github.com/enram/bird-migration-flow-visualization/blob/master/viz/2/nl-be/radars.json)).

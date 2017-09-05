@@ -17,6 +17,7 @@ install.packages(c(
   "dplyr",     # To process dataframes
   "loopr",     # To process dataframes with loops
   "lubridate", # To process dates
+  "circular",  # To calculate circular means
   "bookdown"   # To generate this documentation
 ))
 ```
@@ -34,14 +35,22 @@ To run or adapt the code in this document, fork or clone this repository: https:
 The processing requires a number of settings we need to define. If you want to [run the processing with other data and settings](#own-processing), then **this is the only code you need to update** (in `setup.Rmd`):
 
 ```{r setup_define_settings}
-# The following paths are relative to this script (i.e. to the src directory)
+# Project name
+project_name <- "example"
+
+# Paths
+# The paths below use the project_name and are relative to this script 
+# (i.e. to the src directory). Make sure all directories exist!
 
 # Where you store your raw data (needs a trailing slash)
-raw_data_dir <- "../data/raw/all_flyway/"
-# Where it should write the processed data (needs a trailing slash).
-processed_data_dir <- "../data/processed/flyway/" # Make sure this folder exists!
+raw_data_dir <- paste0("../data/raw/", project_name, "/")
+# Where it processed vp data should go (needs a trailing slash)
+processed_data_dir <- paste0("../data/processed/", project_name, "/")
+# Where it processed flowviz data should go (needs a trailing slash)
+flowviz_data_dir <- paste0("../data/flowviz/", project_name, "/")
+
 # Your processing settings:
-settings_file <- "../settings/flyway_settings.yaml"
+settings_file <- paste0("../settings/", project_name, "_settings.yaml")
 # The radar metadata (incl. coordinates):
 radars_metadata_file <- "../settings/radars.csv"
 ```
