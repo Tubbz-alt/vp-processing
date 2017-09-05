@@ -114,8 +114,7 @@ summarize(
   avg_v = mean(v, na.rm = TRUE),
   avg_dens = mean(dens, na.rm = TRUE),
   avg_dd = circular_mean_degrees(dd),
-  avg_ff = mean(ff, na.rm = TRUE),
-  avg_mtr = mean(mtr, na.rm = TRUE)
+  avg_ff = mean(ff, na.rm = TRUE)
 ) %>%
 ungroup() -> flowviz_data
 ```
@@ -137,8 +136,7 @@ flowviz_data %>%
     !is.na(avg_v) | 
     !is.na(avg_dens) | 
     !is.na(avg_dd) | 
-    !is.na(avg_ff) |
-    !is.na(avg_mtr)
+    !is.na(avg_ff)
   ) -> flowviz_data
 
 ```

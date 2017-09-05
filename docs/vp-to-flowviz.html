@@ -286,8 +286,7 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
   <span class="dt">avg_v =</span> <span class="kw">mean</span>(v, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
   <span class="dt">avg_dens =</span> <span class="kw">mean</span>(dens, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
   <span class="dt">avg_dd =</span> <span class="kw">circular_mean_degrees</span>(dd),
-  <span class="dt">avg_ff =</span> <span class="kw">mean</span>(ff, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
-  <span class="dt">avg_mtr =</span> <span class="kw">mean</span>(mtr, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
+  <span class="dt">avg_ff =</span> <span class="kw">mean</span>(ff, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
 ) %&gt;%
 <span class="kw">ungroup</span>() -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 <p>Preview:</p>
@@ -297,11 +296,11 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
 ## 2    searl 2016-10-04 00:00:00          1 -10.453945  -5.888262  6.004195
 ## 3    searl 2016-10-04 01:00:00          1  -8.612792  -4.138238  5.963995
 ## 4    sease 2016-10-03 21:00:00          1 -13.687247 -13.377694  5.281600
-##     avg_dd    avg_ff   avg_mtr
-## 1 213.6003 10.793202 121.40683
-## 2 240.0404 12.022151  51.92406
-## 3 244.4419  9.562859  41.14837
-## 4 225.6885 19.141515  72.49778</code></pre>
+##     avg_dd    avg_ff
+## 1 213.6003 10.793202
+## 2 240.0404 12.022151
+## 3 244.4419  9.562859
+## 4 225.6885 19.141515</code></pre>
 </div>
 <div id="filter-out-empty-rows" class="section level2">
 <h2><span class="header-section-number">3.7</span> Filter out empty rows</h2>
@@ -312,8 +311,7 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
 <span class="st">    </span>!<span class="kw">is.na</span>(avg_v) |<span class="st"> </span>
 <span class="st">    </span>!<span class="kw">is.na</span>(avg_dens) |<span class="st"> </span>
 <span class="st">    </span>!<span class="kw">is.na</span>(avg_dd) |<span class="st"> </span>
-<span class="st">    </span>!<span class="kw">is.na</span>(avg_ff) |
-<span class="st">    </span>!<span class="kw">is.na</span>(avg_mtr)
+<span class="st">    </span>!<span class="kw">is.na</span>(avg_ff)
   ) -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">data.frame</span>(flowviz_data))</code></pre></div>
@@ -322,11 +320,11 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
 ## 2    searl 2016-10-04 00:00:00          1 -10.453945  -5.888262  6.004195
 ## 3    searl 2016-10-04 01:00:00          1  -8.612792  -4.138238  5.963995
 ## 4    sease 2016-10-03 21:00:00          1 -13.687247 -13.377694  5.281600
-##     avg_dd    avg_ff   avg_mtr
-## 1 213.6003 10.793202 121.40683
-## 2 240.0404 12.022151  51.92406
-## 3 244.4419  9.562859  41.14837
-## 4 225.6885 19.141515  72.49778</code></pre>
+##     avg_dd    avg_ff
+## 1 213.6003 10.793202
+## 2 240.0404 12.022151
+## 3 244.4419  9.562859
+## 4 225.6885 19.141515</code></pre>
 </div>
 <div id="rename-and-select-columns" class="section level2">
 <h2><span class="header-section-number">3.8</span> Rename and select columns</h2>
