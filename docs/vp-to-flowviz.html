@@ -25,7 +25,7 @@
 <meta name="author" content="Peter Desmet">
 
 
-<meta name="date" content="2017-09-04">
+<meta name="date" content="2017-09-05">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -132,7 +132,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3.2" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#read-data-from-csv-file"><i class="fa fa-check"></i><b>3.2</b> Read data from CSV file</a></li>
 <li class="chapter" data-level="3.3" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#add-time-bins"><i class="fa fa-check"></i><b>3.3</b> Add time bins</a></li>
 <li class="chapter" data-level="3.4" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#add-height-bins"><i class="fa fa-check"></i><b>3.4</b> Add height bins</a></li>
-<li class="chapter" data-level="3.5" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#filter-out-excluded-data"><i class="fa fa-check"></i><b>3.5</b> Filter out excluded data</a></li>
+<li class="chapter" data-level="3.5" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#filter-out-low-density-data"><i class="fa fa-check"></i><b>3.5</b> Filter out low density data</a></li>
 <li class="chapter" data-level="3.6" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#aggregate-data"><i class="fa fa-check"></i><b>3.6</b> Aggregate data</a></li>
 <li class="chapter" data-level="3.7" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#filter-out-empty-rows"><i class="fa fa-check"></i><b>3.7</b> Filter out empty rows</a></li>
 <li class="chapter" data-level="3.8" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#rename-and-select-columns"><i class="fa fa-check"></i><b>3.8</b> Rename and select columns</a></li>
@@ -257,10 +257,11 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
 ## 19       20161003         datetime 2016-10-03 20:00:00          2
 ## 20       20161003         datetime 2016-10-03 20:00:00          2</code></pre>
 </div>
-<div id="filter-out-excluded-data" class="section level2">
-<h2><span class="header-section-number">3.5</span> Filter out excluded data</h2>
-<p>Only keep data that should not be excluded:</p>
+<div id="filter-out-low-density-data" class="section level2">
+<h2><span class="header-section-number">3.5</span> Filter out low density data</h2>
+<p>Only keep data with a <strong>density above or equal to 5 (birds)</strong> and not marked to be excluded in <a href="extract-vp.html#extract-vp">2</a>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flowviz_data %&gt;%
+<span class="kw">filter</span>(dens &gt;=<span class="st"> </span><span class="dv">5</span>) %&gt;%
 <span class="kw">filter</span>(exclusion_reason ==<span class="st"> &quot;&quot;</span>) -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 </div>
 <div id="aggregate-data" class="section level2">
@@ -293,18 +294,14 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">data.frame</span>(flowviz_data))</code></pre></div>
 <pre><code>##   radar_id        datetime_bin height_bin      avg_u      avg_v  avg_dens
 ## 1    seang 2016-10-03 20:00:00          1  -5.907009  -8.984443 15.906596
-## 2    seang 2016-10-03 20:00:00          2        NaN        NaN       NaN
-## 3    searl 2016-10-04 00:00:00          1 -15.580950 -12.816457  1.737519
-## 4    searl 2016-10-04 00:00:00          2        NaN        NaN  0.000000
-## 5    searl 2016-10-04 01:00:00          1 -15.095386 -10.596541  1.131825
-## 6    searl 2016-10-04 01:00:00          2        NaN        NaN  0.000000
-##     avg_dd   avg_ff   avg_mtr
-## 1 213.6003 10.79320 121.40683
-## 2       NA      NaN       NaN
-## 3 231.5244 20.26966  33.45604
-## 4       NA      NaN       NaN
-## 5 235.9069 18.52150  21.75851
-## 6       NA      NaN       NaN</code></pre>
+## 2    searl 2016-10-04 00:00:00          1 -10.453945  -5.888262  6.004195
+## 3    searl 2016-10-04 01:00:00          1  -8.612792  -4.138238  5.963995
+## 4    sease 2016-10-03 21:00:00          1 -13.687247 -13.377694  5.281600
+##     avg_dd    avg_ff   avg_mtr
+## 1 213.6003 10.793202 121.40683
+## 2 240.0404 12.022151  51.92406
+## 3 244.4419  9.562859  41.14837
+## 4 225.6885 19.141515  72.49778</code></pre>
 </div>
 <div id="filter-out-empty-rows" class="section level2">
 <h2><span class="header-section-number">3.7</span> Filter out empty rows</h2>
@@ -320,20 +317,16 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
   ) -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">data.frame</span>(flowviz_data))</code></pre></div>
-<pre><code>##   radar_id        datetime_bin height_bin      avg_u      avg_v   avg_dens
-## 1    seang 2016-10-03 20:00:00          1  -5.907009  -8.984443 15.9065957
-## 2    searl 2016-10-04 00:00:00          1 -15.580950 -12.816457  1.7375185
-## 3    searl 2016-10-04 00:00:00          2        NaN        NaN  0.0000000
-## 4    searl 2016-10-04 01:00:00          1 -15.095386 -10.596541  1.1318248
-## 5    searl 2016-10-04 01:00:00          2        NaN        NaN  0.0000000
-## 6    searl 2016-10-04 02:00:00          1 -16.583335  -9.175908  0.9130726
-##     avg_dd   avg_ff   avg_mtr
-## 1 213.6003 10.79320 121.40683
-## 2 231.5244 20.26966  33.45604
-## 3       NA      NaN       NaN
-## 4 235.9069 18.52150  21.75851
-## 5       NA      NaN       NaN
-## 6 241.4842 19.06662  20.91206</code></pre>
+<pre><code>##   radar_id        datetime_bin height_bin      avg_u      avg_v  avg_dens
+## 1    seang 2016-10-03 20:00:00          1  -5.907009  -8.984443 15.906596
+## 2    searl 2016-10-04 00:00:00          1 -10.453945  -5.888262  6.004195
+## 3    searl 2016-10-04 01:00:00          1  -8.612792  -4.138238  5.963995
+## 4    sease 2016-10-03 21:00:00          1 -13.687247 -13.377694  5.281600
+##     avg_dd    avg_ff   avg_mtr
+## 1 213.6003 10.793202 121.40683
+## 2 240.0404 12.022151  51.92406
+## 3 244.4419  9.562859  41.14837
+## 4 225.6885 19.141515  72.49778</code></pre>
 </div>
 <div id="rename-and-select-columns" class="section level2">
 <h2><span class="header-section-number">3.8</span> Rename and select columns</h2>
@@ -355,15 +348,13 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
 <span class="kw">select</span>(radar_id, interval_start_time, altitude_band, avg_u_speed, avg_v_speed) -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(flowviz_data)</code></pre></div>
-<pre><code>## # A tibble: 6 x 5
+<pre><code>## # A tibble: 4 x 5
 ##   radar_id    interval_start_time altitude_band avg_u_speed avg_v_speed
 ##     &lt;fctr&gt;                  &lt;chr&gt;         &lt;chr&gt;       &lt;dbl&gt;       &lt;dbl&gt;
 ## 1    seang 2016-10-03 20:00:00+00             1   -5.907009   -8.984443
-## 2    searl 2016-10-04 00:00:00+00             1  -15.580950  -12.816457
-## 3    searl 2016-10-04 00:00:00+00             2          NA          NA
-## 4    searl 2016-10-04 01:00:00+00             1  -15.095386  -10.596541
-## 5    searl 2016-10-04 01:00:00+00             2          NA          NA
-## 6    searl 2016-10-04 02:00:00+00             1  -16.583335   -9.175908</code></pre>
+## 2    searl 2016-10-04 00:00:00+00             1  -10.453945   -5.888262
+## 3    searl 2016-10-04 01:00:00+00             1   -8.612792   -4.138238
+## 4    sease 2016-10-03 21:00:00+00             1  -13.687247  -13.377694</code></pre>
 </div>
 <div id="export-to-a-csv-file-1" class="section level2">
 <h2><span class="header-section-number">3.9</span> Export to a CSV file</h2>

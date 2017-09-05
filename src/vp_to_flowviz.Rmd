@@ -76,12 +76,13 @@ Preview:
 head(flowviz_data, 20)
 ```
 
-## Filter out excluded data
+## Filter out low density data
 
-Only keep data that should not be excluded:
+Only keep data with a **density above or equal to 5 (birds)** and not marked to be excluded in \@ref(extract-vp):
 
 ```{r flowviz_filter_excluded}
 flowviz_data %>%
+filter(dens >= 5) %>%
 filter(exclusion_reason == "") -> flowviz_data
 ```
 
