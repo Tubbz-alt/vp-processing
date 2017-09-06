@@ -25,7 +25,7 @@
 <meta name="author" content="Peter Desmet">
 
 
-<meta name="date" content="2017-09-05">
+<meta name="date" content="2017-09-06">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -339,10 +339,8 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
 <span class="st">  </span>
 <span class="co"># Add +00 for interval_start_time:</span>
 <span class="kw">mutate</span>(<span class="dt">interval_start_time =</span> <span class="kw">paste0</span>(interval_start_time, <span class="st">&quot;+00&quot;</span>)) %&gt;%
-<span class="st">  </span>
-<span class="co"># Use NA for all non-finite values (e.g. NaN -&gt; NA):</span>
-<span class="kw">mutate</span>(<span class="dt">avg_u_speed =</span> <span class="kw">ifelse</span>(<span class="kw">is.finite</span>(avg_u_speed), avg_u_speed, <span class="ot">NA</span>)) %&gt;%<span class="st"> </span>
-<span class="kw">mutate</span>(<span class="dt">avg_v_speed =</span> <span class="kw">ifelse</span>(<span class="kw">is.finite</span>(avg_v_speed), avg_v_speed, <span class="ot">NA</span>)) %&gt;%
+
+<span class="co"># Select columns</span>
 <span class="kw">select</span>(radar_id, interval_start_time, altitude_band, avg_u_speed, avg_v_speed) -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(flowviz_data)</code></pre></div>
