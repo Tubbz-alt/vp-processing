@@ -164,7 +164,7 @@ rename(
 mutate(interval_start_time = paste0(interval_start_time, "+00")) %>%
 
 # Select columns
-select(radar_id, interval_start_time, altitude_band, avg_u_speed, avg_v_speed) -> flowviz_data
+select(radar_id, interval_start_time, altitude_band, avg_u_speed, avg_v_speed, avg_dens) -> flowviz_data
 ```
 
 Preview:

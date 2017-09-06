@@ -341,16 +341,17 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
 <span class="kw">mutate</span>(<span class="dt">interval_start_time =</span> <span class="kw">paste0</span>(interval_start_time, <span class="st">&quot;+00&quot;</span>)) %&gt;%
 
 <span class="co"># Select columns</span>
-<span class="kw">select</span>(radar_id, interval_start_time, altitude_band, avg_u_speed, avg_v_speed) -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
+<span class="kw">select</span>(radar_id, interval_start_time, altitude_band, avg_u_speed, avg_v_speed, avg_dens) -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(flowviz_data)</code></pre></div>
-<pre><code>## # A tibble: 4 x 5
+<pre><code>## # A tibble: 4 x 6
 ##   radar_id    interval_start_time altitude_band avg_u_speed avg_v_speed
 ##     &lt;fctr&gt;                  &lt;chr&gt;         &lt;chr&gt;       &lt;dbl&gt;       &lt;dbl&gt;
 ## 1    seang 2016-10-03 20:00:00+00             1   -5.907009   -8.984443
 ## 2    searl 2016-10-04 00:00:00+00             1  -10.453945   -5.888262
 ## 3    searl 2016-10-04 01:00:00+00             1   -8.612792   -4.138238
-## 4    sease 2016-10-03 21:00:00+00             1  -13.687247  -13.377694</code></pre>
+## 4    sease 2016-10-03 21:00:00+00             1  -13.687247  -13.377694
+## # ... with 1 more variables: avg_dens &lt;dbl&gt;</code></pre>
 </div>
 <div id="export-to-a-csv-file-1" class="section level2">
 <h2><span class="header-section-number">3.9</span> Export to a CSV file</h2>
