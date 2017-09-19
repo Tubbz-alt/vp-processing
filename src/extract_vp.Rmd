@@ -75,8 +75,8 @@ for (i in seq_along(vp_files)) {
   vp_data[[i]] <- vp_to_df(vp_files[[i]], variables)
 }
 
-dplyr::bind_rows(vp_data) %>%
-dplyr::arrange(radar_id, datetime, HGHT) -> vp_data
+bind_rows(vp_data) %>%
+arrange(radar_id, datetime, HGHT) -> vp_data
 ```
 
 To uniquely reference records later, we add an `id` column:
@@ -187,7 +187,7 @@ for (radar in settings$radars) { # For each radar
     vp_data %>%
     filter(
       radar_id == radar$radar_id & # Specific radar
-      (HGHT < radar$min_height |   # Below min heignt
+      (HGHT < radar$min_height |   # Below min height
        HGHT > radar$max_height)    # Above max height
     ) %>%
     # Set variables to NA

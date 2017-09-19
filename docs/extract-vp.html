@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Vertical profile (vp) data processing for analyses and visualizations</title>
   <meta name="description" content="Vertical profile (vp) data processing for analyses and visualizations">
-  <meta name="generator" content="bookdown 0.4 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
 
   <meta property="og:title" content="Vertical profile (vp) data processing for analyses and visualizations" />
   <meta property="og:type" content="book" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Peter Desmet">
 
 
-<meta name="date" content="2017-08-16">
+<meta name="date" content="2017-09-19">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="setup.html">
-
+<link rel="next" href="vp-to-flowviz.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -127,6 +127,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="2.8" data-path="extract-vp.html"><a href="extract-vp.html#filter-out-datetimes"><i class="fa fa-check"></i><b>2.8</b> Filter out datetimes</a></li>
 <li class="chapter" data-level="2.9" data-path="extract-vp.html"><a href="extract-vp.html#export-to-a-csv-file"><i class="fa fa-check"></i><b>2.9</b> Export to a CSV file</a></li>
 </ul></li>
+<li class="chapter" data-level="3" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html"><i class="fa fa-check"></i><b>3</b> Process vp data for the bird migration flow visualization</a><ul>
+<li class="chapter" data-level="3.1" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#load-settings-1"><i class="fa fa-check"></i><b>3.1</b> Load settings</a></li>
+<li class="chapter" data-level="3.2" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#read-data-from-csv-file"><i class="fa fa-check"></i><b>3.2</b> Read data from CSV file</a></li>
+<li class="chapter" data-level="3.3" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#add-time-bins"><i class="fa fa-check"></i><b>3.3</b> Add time bins</a></li>
+<li class="chapter" data-level="3.4" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#add-height-bins"><i class="fa fa-check"></i><b>3.4</b> Add height bins</a></li>
+<li class="chapter" data-level="3.5" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#filter-out-low-density-data"><i class="fa fa-check"></i><b>3.5</b> Filter out low density data</a></li>
+<li class="chapter" data-level="3.6" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#aggregate-data"><i class="fa fa-check"></i><b>3.6</b> Aggregate data</a></li>
+<li class="chapter" data-level="3.7" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#filter-out-empty-rows"><i class="fa fa-check"></i><b>3.7</b> Filter out empty rows</a></li>
+<li class="chapter" data-level="3.8" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#rename-and-select-columns"><i class="fa fa-check"></i><b>3.8</b> Rename and select columns</a></li>
+<li class="chapter" data-level="3.9" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#export-to-a-csv-file-1"><i class="fa fa-check"></i><b>3.9</b> Export to a CSV file</a></li>
+<li class="chapter" data-level="3.10" data-path="vp-to-flowviz.html"><a href="vp-to-flowviz.html#create-metadata"><i class="fa fa-check"></i><b>3.10</b> Create metadata</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -211,8 +223,8 @@ for (i in <span class="kw">seq_along</span>(vp_files)) {
   vp_data[[i]] &lt;-<span class="st"> </span><span class="kw">vp_to_df</span>(vp_files[[i]], variables)
 }
 
-dplyr::<span class="kw">bind_rows</span>(vp_data) %&gt;%
-dplyr::<span class="kw">arrange</span>(radar_id, datetime, HGHT) -&gt;<span class="st"> </span>vp_data</code></pre></div>
+<span class="kw">bind_rows</span>(vp_data) %&gt;%
+<span class="kw">arrange</span>(radar_id, datetime, HGHT) -&gt;<span class="st"> </span>vp_data</code></pre></div>
 <p>To uniquely reference records later, we add an <code>id</code> column:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_data &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;id&quot;</span> =<span class="st"> </span><span class="kw">seq.int</span>(<span class="kw">nrow</span>(vp_data)), vp_data)</code></pre></div>
 <p>That data frame contains <strong>1740 records</strong>.</p>
@@ -384,7 +396,7 @@ vp_data %&gt;%
 <span class="st">    </span>vp_data %&gt;%
 <span class="st">    </span><span class="kw">filter</span>(
       radar_id ==<span class="st"> </span>radar$radar_id &amp;<span class="st"> </span><span class="co"># Specific radar</span>
-<span class="st">      </span>(HGHT &lt;<span class="st"> </span>radar$min_height |<span class="st">   </span><span class="co"># Below min heignt</span>
+<span class="st">      </span>(HGHT &lt;<span class="st"> </span>radar$min_height |<span class="st">   </span><span class="co"># Below min height</span>
 <span class="st">       </span>HGHT &gt;<span class="st"> </span>radar$max_height)    <span class="co"># Above max height</span>
     ) %&gt;%
 <span class="st">    </span><span class="co"># Set variables to NA</span>
@@ -524,14 +536,6 @@ vp_data %&gt;%<span class="st"> </span><span class="kw">select</span>(-id) -&gt;
 
 </div>
 </div>
-
-
-
-
-
-
-
-
 <div class="footnotes">
 <hr />
 <ol start="2">
@@ -544,8 +548,8 @@ vp_data %&gt;%<span class="st"> </span><span class="kw">select</span>(-id) -&gt;
           </div>
         </div>
       </div>
-<a href="setup.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="setup.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="vp-to-flowviz.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -556,7 +560,7 @@ vp_data %&gt;%<span class="st"> </span><span class="kw">select</span>(-id) -&gt;
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
 <script>
-require(["gitbook"], function(gitbook) {
+gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,
