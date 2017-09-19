@@ -23,7 +23,7 @@ install.packages(c(
 ```
 
 ```{r setup_install_bioRad, eval = FALSE}
-devtools::install_github("enram/bioRad", ref="master") # To process vp data
+devtools::install_github("adokter/bioRad", ref="master") # To process vp data
 ```
 
 ## Download code

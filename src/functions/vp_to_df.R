@@ -22,7 +22,7 @@ vp_to_df <- function(vp, variables) {
   df <- subset(vp$data, select = variables)
 
   # Get filename
-  filename <- basename(vp$filename)
+  filename <- basename(vp$attributes$what$vp_filename)
 
   # Extract radar_id (e.g. "seang") from start of filename
   radar_id <- regmatches(filename, regexpr("^[a-z]{5}", filename))
