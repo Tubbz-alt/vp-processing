@@ -434,5 +434,29 @@ radars:
   plbrz:
     include_heights: [553, NA]
 
-#  plbrze: #No data
-#    include_heights: [335, NA]
+  plbrze:
+    include_heights: [335, NA]
+    exclude_datetimes:
+    - ["2016-10-03 12:00", "2016-10-03 20:00"]
+    - ["2016-10-01 15:00", "2016-10-01 17:00"]
+    - ["2016-10-08 10:00", "2016-10-08 12:00"]
+
+#Belgium
+  bejab:
+    include_heights: [, NA]
+   
+  bewid:
+    include_heights: [, NA]
+  
+  bezav:
+    include_heights: [, NA]
+ 
+#Portugal
+  ptfar:
+    include_heights: [, NA]
+
+  ptlis:
+    include_heights: [, NA]
+ 
+  ptprt:
+    include_heights: [, NA]
