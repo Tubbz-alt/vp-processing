@@ -76,12 +76,13 @@ Preview:
 head(flowviz_data, 20)
 ```
 
-## Filter out excluded data
+## Filter out low density data
 
-Only keep data that should not be excluded:
+Only keep data with a **density above or equal to 5 (birds)** and not marked to be excluded in \@ref(extract-vp):
 
 ```{r flowviz_filter_excluded}
 flowviz_data %>%
+filter(dens >= 5) %>%
 filter(exclusion_reason == "") -> flowviz_data
 ```
 
@@ -113,8 +114,7 @@ summarize(
   avg_v = mean(v, na.rm = TRUE),
   avg_dens = mean(dens, na.rm = TRUE),
   avg_dd = circular_mean_degrees(dd),
-  avg_ff = mean(ff, na.rm = TRUE),
-  avg_mtr = mean(mtr, na.rm = TRUE)
+  avg_ff = mean(ff, na.rm = TRUE)
 ) %>%
 ungroup() -> flowviz_data
 ```
@@ -136,8 +136,7 @@ flowviz_data %>%
     !is.na(avg_v) | 
     !is.na(avg_dens) | 
     !is.na(avg_dd) | 
-    !is.na(avg_ff) |
-    !is.na(avg_mtr)
+    !is.na(avg_ff)
   ) -> flowviz_data
 
 ```
@@ -163,11 +162,9 @@ rename(
   
 # Add +00 for interval_start_time:
 mutate(interval_start_time = paste0(interval_start_time, "+00")) %>%
-  
-# Use NA for all non-finite values (e.g. NaN -> NA):
-mutate(avg_u_speed = ifelse(is.finite(avg_u_speed), avg_u_speed, NA)) %>% 
-mutate(avg_v_speed = ifelse(is.finite(avg_v_speed), avg_v_speed, NA)) %>%
-select(radar_id, interval_start_time, altitude_band, avg_u_speed, avg_v_speed) -> flowviz_data
+
+# Select columns
+select(radar_id, interval_start_time, altitude_band, avg_u_speed, avg_v_speed, avg_dens) -> flowviz_data
 ```
 
 Preview:
