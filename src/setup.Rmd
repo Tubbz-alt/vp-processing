@@ -41,7 +41,7 @@ raw_data_dir <- "../data/raw/all_flyway/"
 # Where it should write the processed data (needs a trailing slash).
 processed_data_dir <- "../data/processed/flyway/" # Make sure this folder exists!
 # Your processing settings:
-settings_file <- "../settings/flyway_settings.yaml"
+settings_file <- "../settings/flyway_test.yml"
 # The radar metadata (incl. coordinates):
 radars_metadata_file <- "../settings/radars.csv"
 ```
