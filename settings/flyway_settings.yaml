@@ -1,6 +1,6 @@
 # Ranges are [min, max], with both inclusive
 general:
-  include_dates: ["2016-10-01", "2016-10-09"]
+  include_dates: ["2016-09-19", "2016-09-25"]
   include_heights: [200, 4000]
 
 radars:
@@ -434,7 +434,7 @@ radars:
   plbrz:
     include_heights: [553, NA]
 
-  plbrze:
+  plrze:
     include_heights: [335, NA]
     exclude_datetimes:
     - ["2016-10-03 12:00", "2016-10-03 20:00"]
@@ -443,20 +443,22 @@ radars:
 
 #Belgium
   bejab:
-    include_heights: [, NA]
-   
-  bewid:
-    include_heights: [, NA]
-  
-  bezav:
-    include_heights: [, NA]
- 
-#Portugal
-  ptfar:
-    include_heights: [, NA]
+    include_heights: [150, NA]
 
-  ptlis:
-    include_heights: [, NA]
- 
+  bewid:
+    include_heights: [690, NA]
+    exclude_datetimes:
+    - ["2016-09-30 19:00", "2016-09-30 08:00"]
+
+#  bezav: #Excluded, filtered data
+#    include_heights: [190, NA]
+
+#Portugal
+  ptfar: #might have issues..
+    include_heights: [716, NA]
+
+  ptliz: #Changed name from "lis" to "liz" to not conflict with silis
+    include_heights: [293, NA]
+
   ptprt:
-    include_heights: [, NA]
+    include_heights: [1197, NA]
