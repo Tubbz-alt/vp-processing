@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Vertical profile (vp) data processing for analyses and visualizations</title>
   <meta name="description" content="Vertical profile (vp) data processing for analyses and visualizations">
-  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.4 and GitBook 2.6.7">
 
   <meta property="og:title" content="Vertical profile (vp) data processing for analyses and visualizations" />
   <meta property="og:type" content="book" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Peter Desmet">
 
 
-<meta name="date" content="2017-09-23">
+<meta name="date" content="2017-10-05">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -168,7 +168,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2><span class="header-section-number">3.1</span> Load settings</h2>
 <p>Load the same settings we defined and used before (see <a href="setup.html#settings">1.3</a>):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">settings &lt;-<span class="st"> </span><span class="kw">load_settings</span>(settings_file, radars_metadata_file)</code></pre></div>
-<p>Found <strong>3 radars from 1 countries</strong> in the settings.</p>
+<p>Found <strong>64 radars from 9 countries</strong> in the settings.</p>
 </div>
 <div id="read-data-from-csv-file" class="section level2">
 <h2><span class="header-section-number">3.2</span> Read data from CSV file</h2>
@@ -177,26 +177,30 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">processed_data_dir_no_slash &lt;-<span class="st"> </span><span class="kw">substr</span>(processed_data_dir, <span class="dv">1</span>, <span class="kw">nchar</span>(processed_data_dir)-<span class="dv">1</span>) 
 csv_files &lt;-<span class="st"> </span><span class="kw">dir</span>(processed_data_dir_no_slash, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.csv&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>, <span class="dt">recursive =</span> <span class="ot">FALSE</span>)
 csv_files</code></pre></div>
-<pre><code>## [1] &quot;../data/processed/example/vp_data_3_radars_20161003_20161004.csv&quot;</code></pre>
+<pre><code>## [1] &quot;../data/processed/flyway/vp_data_58_radars_20160919_20160924.csv&quot;
+## [2] &quot;../data/processed/flyway/vp_data_58_radars_20160925_20160930.csv&quot;
+## [3] &quot;../data/processed/flyway/vp_data_58_radars_20161001_20161009.csv&quot;
+## [4] &quot;../data/processed/flyway/vp_data_64_radars_20160919_20160919.csv&quot;
+## [5] &quot;../data/processed/flyway/vp_data_65_radars_20161001_20161001.csv&quot;</code></pre>
 <p>Read and concatenate files:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">csv_data &lt;-<span class="st"> </span><span class="kw">lapply</span>(csv_files, read.csv)
 flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv_data)</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(flowviz_data)</code></pre></div>
 <pre><code>##   radar_id            datetime HGHT  u  v dens dd ff mtr day_night
-## 1    seang 2016-10-03 20:00:00    0 NA NA   NA NA NA  NA     night
-## 2    seang 2016-10-03 20:00:00  200 NA NA   NA NA NA  NA     night
-## 3    seang 2016-10-03 20:00:00  400 NA NA   NA NA NA  NA     night
-## 4    seang 2016-10-03 20:00:00  600 NA NA   NA NA NA  NA     night
-## 5    seang 2016-10-03 20:00:00  800 NA NA   NA NA NA  NA     night
-## 6    seang 2016-10-03 20:00:00 1000 NA NA   NA NA NA  NA     night
+## 1    czbrd 2016-09-19 00:00:00    0 NA NA   NA NA NA  NA     night
+## 2    czbrd 2016-09-19 00:00:00  200 NA NA   NA NA NA  NA     night
+## 3    czbrd 2016-09-19 00:00:00  400 NA NA   NA NA NA  NA     night
+## 4    czbrd 2016-09-19 00:00:00  600 NA NA   NA NA NA  NA     night
+## 5    czbrd 2016-09-19 00:00:00  800 NA NA   NA NA NA  NA     night
+## 6    czbrd 2016-09-19 00:00:00 1000 NA NA   NA NA NA  NA     night
 ##   date_of_sunset exclusion_reason
-## 1       20161003         datetime
-## 2       20161003         datetime
-## 3       20161003         datetime
-## 4       20161003         datetime
-## 5       20161003         datetime
-## 6       20161003         datetime</code></pre>
+## 1       20160918           height
+## 2       20160918           height
+## 3       20160918           height
+## 4       20160918           height
+## 5       20160918           height
+## 6       20160918           height</code></pre>
 </div>
 <div id="add-time-bins" class="section level2">
 <h2><span class="header-section-number">3.3</span> Add time bins</h2>
@@ -214,48 +218,69 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
 )) -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(flowviz_data, <span class="dv">20</span>)</code></pre></div>
-<pre><code>##    radar_id            datetime HGHT  u  v dens dd ff mtr day_night
-## 1     seang 2016-10-03 20:00:00    0 NA NA   NA NA NA  NA     night
-## 2     seang 2016-10-03 20:00:00  200 NA NA   NA NA NA  NA     night
-## 3     seang 2016-10-03 20:00:00  400 NA NA   NA NA NA  NA     night
-## 4     seang 2016-10-03 20:00:00  600 NA NA   NA NA NA  NA     night
-## 5     seang 2016-10-03 20:00:00  800 NA NA   NA NA NA  NA     night
-## 6     seang 2016-10-03 20:00:00 1000 NA NA   NA NA NA  NA     night
-## 7     seang 2016-10-03 20:00:00 1200 NA NA   NA NA NA  NA     night
-## 8     seang 2016-10-03 20:00:00 1400 NA NA   NA NA NA  NA     night
-## 9     seang 2016-10-03 20:00:00 1600 NA NA   NA NA NA  NA     night
-## 10    seang 2016-10-03 20:00:00 1800 NA NA   NA NA NA  NA     night
-## 11    seang 2016-10-03 20:00:00 2000 NA NA   NA NA NA  NA     night
-## 12    seang 2016-10-03 20:00:00 2200 NA NA   NA NA NA  NA     night
-## 13    seang 2016-10-03 20:00:00 2400 NA NA   NA NA NA  NA     night
-## 14    seang 2016-10-03 20:00:00 2600 NA NA   NA NA NA  NA     night
-## 15    seang 2016-10-03 20:00:00 2800 NA NA   NA NA NA  NA     night
-## 16    seang 2016-10-03 20:00:00 3000 NA NA   NA NA NA  NA     night
-## 17    seang 2016-10-03 20:00:00 3200 NA NA   NA NA NA  NA     night
-## 18    seang 2016-10-03 20:00:00 3400 NA NA   NA NA NA  NA     night
-## 19    seang 2016-10-03 20:00:00 3600 NA NA   NA NA NA  NA     night
-## 20    seang 2016-10-03 20:00:00 3800 NA NA   NA NA NA  NA     night
-##    date_of_sunset exclusion_reason        datetime_bin height_bin
-## 1        20161003         datetime 2016-10-03 20:00:00       &lt;NA&gt;
-## 2        20161003         datetime 2016-10-03 20:00:00          1
-## 3        20161003         datetime 2016-10-03 20:00:00          1
-## 4        20161003         datetime 2016-10-03 20:00:00          1
-## 5        20161003         datetime 2016-10-03 20:00:00          1
-## 6        20161003         datetime 2016-10-03 20:00:00          1
-## 7        20161003         datetime 2016-10-03 20:00:00          1
-## 8        20161003         datetime 2016-10-03 20:00:00          1
-## 9        20161003         datetime 2016-10-03 20:00:00          1
-## 10       20161003         datetime 2016-10-03 20:00:00          1
-## 11       20161003         datetime 2016-10-03 20:00:00          2
-## 12       20161003         datetime 2016-10-03 20:00:00          2
-## 13       20161003         datetime 2016-10-03 20:00:00          2
-## 14       20161003         datetime 2016-10-03 20:00:00          2
-## 15       20161003         datetime 2016-10-03 20:00:00          2
-## 16       20161003         datetime 2016-10-03 20:00:00          2
-## 17       20161003         datetime 2016-10-03 20:00:00          2
-## 18       20161003         datetime 2016-10-03 20:00:00          2
-## 19       20161003         datetime 2016-10-03 20:00:00          2
-## 20       20161003         datetime 2016-10-03 20:00:00          2</code></pre>
+<pre><code>##    radar_id            datetime HGHT         u         v dens       dd
+## 1     czbrd 2016-09-19 00:00:00    0        NA        NA   NA       NA
+## 2     czbrd 2016-09-19 00:00:00  200        NA        NA   NA       NA
+## 3     czbrd 2016-09-19 00:00:00  400        NA        NA   NA       NA
+## 4     czbrd 2016-09-19 00:00:00  600        NA        NA   NA       NA
+## 5     czbrd 2016-09-19 00:00:00  800        NA        NA   NA       NA
+## 6     czbrd 2016-09-19 00:00:00 1000        NA        NA   NA       NA
+## 7     czbrd 2016-09-19 00:00:00 1200 -4.351987 -1.306744    0 253.2869
+## 8     czbrd 2016-09-19 00:00:00 1400 -3.953859 -1.190245    0 253.2464
+## 9     czbrd 2016-09-19 00:00:00 1600 -3.742980 -1.019125    0 254.7689
+## 10    czbrd 2016-09-19 00:00:00 1800 -3.612789 -1.175117    0 251.9821
+## 11    czbrd 2016-09-19 00:00:00 2000 -3.406420 -1.243227    0 249.9496
+## 12    czbrd 2016-09-19 00:00:00 2200        NA        NA    0       NA
+## 13    czbrd 2016-09-19 00:00:00 2400        NA        NA    0       NA
+## 14    czbrd 2016-09-19 00:00:00 2600        NA        NA    0       NA
+## 15    czbrd 2016-09-19 00:00:00 2800        NA        NA    0       NA
+## 16    czbrd 2016-09-19 00:00:00 3000        NA        NA    0       NA
+## 17    czbrd 2016-09-19 00:00:00 3200        NA        NA    0       NA
+## 18    czbrd 2016-09-19 00:00:00 3400        NA        NA    0       NA
+## 19    czbrd 2016-09-19 00:00:00 3600        NA        NA    0       NA
+## 20    czbrd 2016-09-19 00:00:00 3800        NA        NA    0       NA
+##          ff mtr day_night date_of_sunset exclusion_reason datetime_bin
+## 1        NA  NA     night       20160918           height   2016-09-19
+## 2        NA  NA     night       20160918           height   2016-09-19
+## 3        NA  NA     night       20160918           height   2016-09-19
+## 4        NA  NA     night       20160918           height   2016-09-19
+## 5        NA  NA     night       20160918           height   2016-09-19
+## 6        NA  NA     night       20160918           height   2016-09-19
+## 7  4.543938   0     night       20160918                    2016-09-19
+## 8  4.129127   0     night       20160918                    2016-09-19
+## 9  3.879241   0     night       20160918                    2016-09-19
+## 10 3.799098   0     night       20160918                    2016-09-19
+## 11 3.626197   0     night       20160918                    2016-09-19
+## 12       NA  NA     night       20160918                    2016-09-19
+## 13       NA  NA     night       20160918                    2016-09-19
+## 14       NA  NA     night       20160918                    2016-09-19
+## 15       NA  NA     night       20160918                    2016-09-19
+## 16       NA  NA     night       20160918                    2016-09-19
+## 17       NA  NA     night       20160918                    2016-09-19
+## 18       NA  NA     night       20160918                    2016-09-19
+## 19       NA  NA     night       20160918                    2016-09-19
+## 20       NA  NA     night       20160918                    2016-09-19
+##    height_bin
+## 1        &lt;NA&gt;
+## 2           1
+## 3           1
+## 4           1
+## 5           1
+## 6           1
+## 7           1
+## 8           1
+## 9           1
+## 10          1
+## 11          2
+## 12          2
+## 13          2
+## 14          2
+## 15          2
+## 16          2
+## 17          2
+## 18          2
+## 19          2
+## 20          2</code></pre>
 </div>
 <div id="filter-out-low-density-data" class="section level2">
 <h2><span class="header-section-number">3.5</span> Filter out low density data</h2>
@@ -291,16 +316,20 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
 <span class="kw">ungroup</span>() -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">data.frame</span>(flowviz_data))</code></pre></div>
-<pre><code>##   radar_id        datetime_bin height_bin      avg_u      avg_v  avg_dens
-## 1    seang 2016-10-03 20:00:00          1  -5.907009  -8.984443 15.906596
-## 2    searl 2016-10-04 00:00:00          1 -10.453945  -5.888262  6.004195
-## 3    searl 2016-10-04 01:00:00          1  -8.612792  -4.138238  5.963995
-## 4    sease 2016-10-03 21:00:00          1 -13.687247 -13.377694  5.281600
-##     avg_dd    avg_ff
-## 1 213.6003 10.793202
-## 2 240.0404 12.022151
-## 3 244.4419  9.562859
-## 4 225.6885 19.141515</code></pre>
+<pre><code>##   radar_id        datetime_bin height_bin     avg_u     avg_v  avg_dens
+## 1    bejab 2016-09-19 00:00:00          1 -4.724057 -6.276233 11.300968
+## 2    bejab 2016-09-19 01:00:00          1 -3.432383 -5.833267 10.496489
+## 3    bejab 2016-09-19 02:00:00          1 -2.602208 -5.786797 10.786040
+## 4    bejab 2016-09-19 03:00:00          1 -2.932833 -4.987901  9.556616
+## 5    bejab 2016-09-19 04:00:00          1 -2.067265 -3.580836  7.286111
+## 6    bejab 2016-09-19 05:00:00          1 -1.551661 -1.619145  8.005603
+##     avg_dd   avg_ff
+## 1 216.1673 7.894408
+## 2 209.7428 6.800435
+## 3 204.0742 6.354746
+## 4 210.5882 5.795676
+## 5 209.2596 4.148599
+## 6 225.2535 2.311368</code></pre>
 </div>
 <div id="filter-out-empty-rows" class="section level2">
 <h2><span class="header-section-number">3.7</span> Filter out empty rows</h2>
@@ -315,16 +344,20 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
   ) -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">data.frame</span>(flowviz_data))</code></pre></div>
-<pre><code>##   radar_id        datetime_bin height_bin      avg_u      avg_v  avg_dens
-## 1    seang 2016-10-03 20:00:00          1  -5.907009  -8.984443 15.906596
-## 2    searl 2016-10-04 00:00:00          1 -10.453945  -5.888262  6.004195
-## 3    searl 2016-10-04 01:00:00          1  -8.612792  -4.138238  5.963995
-## 4    sease 2016-10-03 21:00:00          1 -13.687247 -13.377694  5.281600
-##     avg_dd    avg_ff
-## 1 213.6003 10.793202
-## 2 240.0404 12.022151
-## 3 244.4419  9.562859
-## 4 225.6885 19.141515</code></pre>
+<pre><code>##   radar_id        datetime_bin height_bin     avg_u     avg_v  avg_dens
+## 1    bejab 2016-09-19 00:00:00          1 -4.724057 -6.276233 11.300968
+## 2    bejab 2016-09-19 01:00:00          1 -3.432383 -5.833267 10.496489
+## 3    bejab 2016-09-19 02:00:00          1 -2.602208 -5.786797 10.786040
+## 4    bejab 2016-09-19 03:00:00          1 -2.932833 -4.987901  9.556616
+## 5    bejab 2016-09-19 04:00:00          1 -2.067265 -3.580836  7.286111
+## 6    bejab 2016-09-19 05:00:00          1 -1.551661 -1.619145  8.005603
+##     avg_dd   avg_ff
+## 1 216.1673 7.894408
+## 2 209.7428 6.800435
+## 3 204.0742 6.354746
+## 4 210.5882 5.795676
+## 5 209.2596 4.148599
+## 6 225.2535 2.311368</code></pre>
 </div>
 <div id="rename-and-select-columns" class="section level2">
 <h2><span class="header-section-number">3.8</span> Rename and select columns</h2>
@@ -344,13 +377,15 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
 <span class="kw">select</span>(radar_id, interval_start_time, altitude_band, avg_u_speed, avg_v_speed, avg_dens) -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(flowviz_data)</code></pre></div>
-<pre><code>## # A tibble: 4 x 6
+<pre><code>## # A tibble: 6 x 6
 ##   radar_id    interval_start_time altitude_band avg_u_speed avg_v_speed
-##     &lt;fctr&gt;                  &lt;chr&gt;         &lt;chr&gt;       &lt;dbl&gt;       &lt;dbl&gt;
-## 1    seang 2016-10-03 20:00:00+00             1   -5.907009   -8.984443
-## 2    searl 2016-10-04 00:00:00+00             1  -10.453945   -5.888262
-## 3    searl 2016-10-04 01:00:00+00             1   -8.612792   -4.138238
-## 4    sease 2016-10-03 21:00:00+00             1  -13.687247  -13.377694
+##      &lt;chr&gt;                  &lt;chr&gt;         &lt;chr&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+## 1    bejab 2016-09-19 00:00:00+00             1   -4.724057   -6.276233
+## 2    bejab 2016-09-19 01:00:00+00             1   -3.432383   -5.833267
+## 3    bejab 2016-09-19 02:00:00+00             1   -2.602208   -5.786797
+## 4    bejab 2016-09-19 03:00:00+00             1   -2.932833   -4.987901
+## 5    bejab 2016-09-19 04:00:00+00             1   -2.067265   -3.580836
+## 6    bejab 2016-09-19 05:00:00+00             1   -1.551661   -1.619145
 ## # ... with 1 more variables: avg_dens &lt;dbl&gt;</code></pre>
 </div>
 <div id="export-to-a-csv-file-1" class="section level2">
@@ -389,7 +424,7 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
 <script>
-gitbook.require(["gitbook"], function(gitbook) {
+require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,

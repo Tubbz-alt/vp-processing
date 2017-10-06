@@ -1,6 +1,6 @@
 # Ranges are [min, max], with both inclusive
 general:
-  include_dates: ["2016-09-19", "2016-09-25"]
+  include_dates: ["2016-09-19", "2016-09-19"]
   include_heights: [200, 4000]
 
 radars:
@@ -462,3 +462,7 @@ radars:
 
   ptprt:
     include_heights: [1197, NA]
+
+#Bulgaria
+  bgvar: #check rain
+    include_heights: [439, NA]
