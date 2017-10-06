@@ -36,7 +36,7 @@ The processing requires a number of settings we need to define. If you want to [
 
 ```{r setup_define_settings}
 # Project name
-project_name <- "flyway"
+project_name <- "example"
 
 # Paths
 # The paths below use the project_name and are relative to this script 
