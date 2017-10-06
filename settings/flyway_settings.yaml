@@ -462,3 +462,7 @@ radars:
 
   ptprt:
     include_heights: [1197, NA]
+
+#Bulgaria
+  bgvar: #chech rain
+    include_heights: [439, NA]
