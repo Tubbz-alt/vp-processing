@@ -1,6 +1,6 @@
 # Ranges are [min, max], with both inclusive
 general:
-  include_dates: ["2016-09-19", "2016-09-21"]
+  include_dates: ["2016-09-19", "2016-10-09"]
   include_heights: [200, NA]
 
 radars:
@@ -52,7 +52,7 @@ radars:
 # sevil: # Excluded, major issue (large hole)
 #    include_heights: [323, NA]
 
-#  seosu: # Excluded, major issue (data missing, altitude cuts, opposite directions(?))
+#  seosu: # Excluded, major issue (data missing, altitude cuts, incorrect data)
 #    include_heights: [566, NA]
 
   seovi:
@@ -162,7 +162,7 @@ radars:
     exclude_datetimes:
     - ["2016-09-30 20:00", "2016-09-30 21:00"]
 
-#  frcol: #Excluded, probably S-band
+#  frcol: #Excluded, major issue (S-band)
 #    include_heights: [740, NA]
 
 #  frgre: # Excluded, major issue (many holes)
@@ -171,7 +171,7 @@ radars:
   frlep:
     include_heights: [1220, NA]
 
-#  frmcl: # Excluded, major issue (holes)
+#  frmcl: # Excluded, major issue (many holes)
 #    include_heights: [770, NA]
 
   frmom:
@@ -185,10 +185,10 @@ radars:
     - ["2016-10-01 05:30", "2016-10-01 05:30"]
     - ["2016-10-01 12:00", "2016-01-02 12:00"]
 
-#  frnan: #Excluded, major issue (altitude cuts, holes)
+#  frnan: #Excluded, major issue (Altitude cuts, holes)
 #    include_heights: [390, NA]
 
-#  frnim:  #Excluded, probably S-band
+#  frnim:  #Excluded, major issue (S-band)
 #    include_heights: [170, NA]
 
   frniz:
@@ -213,7 +213,7 @@ radars:
     exclude_datetimes:
     - ["2016-09-30 12:00", "2016-10-01 03:00"]
 
-#  frtre: # Excluded, major issue (missing days)
+#  frtre: # Excluded, major issue (missing data)
 #    include_heights: [170, NA]
 
   frtro:
@@ -262,7 +262,7 @@ radars:
     - ["2016-10-05 10:00", "2016-10-07 12:00"]
     - ["2016-10-08 04:30", "2016-10-09 12:00"]
 
-# deemd: # Excluded, no data
+# deemd: # Excluded, major issue (no data)
 #    include_heights: [XXX, NA]
 
   deess:
@@ -374,7 +374,7 @@ radars:
     - ["2016-10-05 12:00", "2016-10-06 12:00"]
     - ["2016-10-06 12:00", "2016-10-07 12:00"]
 
-#  deros: # excluded, missing days
+#  deros: # Excluded, major issue (missing data)
 #    include_heights: [137, NA]
 #    exclude_datetimes:
 #    - ["2016-09-21 00:00", "2016-09-21 05:00"]
@@ -454,7 +454,7 @@ radars:
     include_heights: [190, NA]
 
 #Portugal
-  ptfar: #might have issues..
+  ptfar:
     include_heights: [716, NA]
 
   ptliz: #Changed name from "lis" to "liz" to not conflict with silis
@@ -478,5 +478,9 @@ radars:
     include_heights: [623, NA]
     exclude_datetimes:
     - ["2016-10-06 08:00", "2016-10-06 16:00"]
+
+#Slovenia
+  #silis: #Excluded, major issue (no data)
+  #sipas: #Excluded, major issue (no data)
 
 
