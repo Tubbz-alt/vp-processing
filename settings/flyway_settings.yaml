@@ -145,7 +145,7 @@ radars:
     exclude_datetimes:
     - ["2016-09-29 18:00", "2016-09-29 21:00"]
 
-#  frale: #Excluded, major issue (Sband, no birds, altitude cut)
+#  frale: # Excluded, major issue (S-band, no birds, altitude cut)
 #    include_heights: [150, NA]
 
   frave:
@@ -154,7 +154,7 @@ radars:
   frbla:
     include_heights: [690, NA]
 
-#  frbol: #Excluded, major issue (Sband, no birds, altitude cut)
+#  frbol: # Excluded, major issue (S-band, no birds, altitude cut)
 #    include_heights: [410, NA]
 
   frbor:
@@ -177,7 +177,7 @@ radars:
     exclude_datetimes:
     - ["2016-09-30 20:00", "2016-09-30 21:00"]
 
-#  frcol: #Excluded, major issue (S-band)
+#  frcol: # Excluded, major issue (S-band)
 #    include_heights: [740, NA]
 
 #  frgre: # Excluded, major issue (many holes)
@@ -200,10 +200,10 @@ radars:
     - ["2016-10-01 05:30", "2016-10-01 05:30"]
     - ["2016-10-01 12:00", "2016-01-02 12:00"]
 
-#  frnan: #Excluded, major issue (Altitude cuts, holes)
+#  frnan: # Excluded, major issue (altitude cuts, holes)
 #    include_heights: [390, NA]
 
-#  frnim:  #Excluded, major issue (S-band)
+#  frnim:  # Excluded, major issue (S-band)
 #    include_heights: [170, NA]
 
   frniz:
@@ -211,7 +211,7 @@ radars:
     exclude_datetimes:
     - ["2016-10-01 14:00", "2016-10-02 00:30"]
 
-#  fropo: #Excluded, major issue (Sband, altitude cuts)
+#  fropo: # Excluded, major issue (S-band, altitude cuts)
 #    include_heights: [800, NA]
 
   frpla:
@@ -280,7 +280,7 @@ radars:
     - ["2016-10-05 10:00", "2016-10-07 12:00"]
     - ["2016-10-08 04:30", "2016-10-09 12:00"]
 
-# deemd: # Excluded, major issue (no data)
+#  deemd: # Excluded, major issue (no data)
 #    include_heights: [XXX, NA]
 
   deess:
@@ -484,7 +484,7 @@ radars:
   ptfar:
     include_heights: [716, NA]
 
-  ptliz: #Changed name from "lis" to "liz" to not conflict with silis
+  ptliz: # Changed name from "lis" to "liz" to not conflict with silis
     include_heights: [293, NA]
 
   ptprt:
@@ -512,10 +512,10 @@ radars:
     exclude_datetimes:
     - ["2016-10-06 08:00", "2016-10-06 16:00"]
 
-  #silis: #Excluded, major issue (no data)
-  #sipas: #Excluded, major issue (no data)
 
 # Slovenia
 # ========
 
+#  silis: # Excluded, major issue (no data)
 
+#  sipas: # Excluded, major issue (no data)
