@@ -4,7 +4,10 @@ general:
   include_heights: [200, NA]
 
 radars:
-#Sweden
+
+# Sweden
+# ======
+
   seang:
     include_heights: [309, NA] # altitude cut off at 1500 in raw data
 
@@ -64,12 +67,13 @@ radars:
   sekir:
     include_heights: [747, NA]
 
-# Finland
   filuo:
     include_heights: [633, NA]
 
   fiuta:
     include_heights: [218, NA]
+# Finland
+# =======
 
   fivim:
     include_heights: [300, NA]
@@ -108,7 +112,10 @@ radars:
   fikor:
     include_heights: [161, NA]
 
+
 # The Netherlands
+# ===============
+
   nldbl:
     include_heights: [144, NA]
 
@@ -117,14 +124,20 @@ radars:
     exclude_datetimes:
     - ["2016-10-02 05:00", "2016-10-02 20:00"]
 
+
 # Czech Republic
+# ==============
+
   czbrd:
     include_heights: [1016, NA]
 
   czska:
     include_heights: [867, NA]
 
+
 # France
+# ======
+
   frabb:
     include_heights: [170, NA]
     exclude_datetimes:
@@ -222,7 +235,10 @@ radars:
     - ["2016-09-30 12:00", "2016-10-01 12:00"]
     - ["2016-10-01 12:00", "2016-10-01 22:00"]
 
-#Germany
+
+# Germany
+# =======
+
   deboo:
     include_heights: [224.6, NA]
     exclude_datetimes:
@@ -404,7 +420,10 @@ radars:
     - ["2016-10-03 00:00", "2016-10-03 12:00"]
     - ["2016-10-03 12:00", "2016-10-04 04:00"]
 
-#Poland
+
+# Poland
+# ======
+
   plgda:
     include_heights: [258, NA]
     exclude_datetimes:
@@ -441,7 +460,11 @@ radars:
     - ["2016-10-01 15:00", "2016-10-01 17:00"]
     - ["2016-10-08 10:00", "2016-10-08 12:00"]
 
-#Belgium
+
+
+# Belgium
+# =======
+
   bejab:
     include_heights: [150, NA]
 
@@ -453,7 +476,10 @@ radars:
   bezav:
     include_heights: [190, NA]
 
-#Portugal
+
+# Portugal
+# ========
+
   ptfar:
     include_heights: [716, NA]
 
@@ -463,14 +489,20 @@ radars:
   ptprt:
     include_heights: [1197, NA]
 
-#Bulgaria
+
+# Bulgaria
+# ========
+
   bgvar:
     include_heights: [439, NA]
     exclude_datetimes:
     - ["2016-10-04 21:00", "2016-10-04 22:00"]
     - ["2016-10-05 17:00", "2016-10-05 19:00"]
 
-#Catalonia
+
+# Catalonia
+# =========
+
   ctcdv:
     include_heights: [885, NA]
 
@@ -479,8 +511,10 @@ radars:
     exclude_datetimes:
     - ["2016-10-06 08:00", "2016-10-06 16:00"]
 
-#Slovenia
   #silis: #Excluded, major issue (no data)
   #sipas: #Excluded, major issue (no data)
+
+# Slovenia
+# ========
 
 
