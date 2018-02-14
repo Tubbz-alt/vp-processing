@@ -280,9 +280,6 @@ radars:
     - ["2016-10-05 10:00", "2016-10-07 12:00"]
     - ["2016-10-08 04:30", "2016-10-09 12:00"]
 
-#  deemd: # Excluded, major issue (no data)
-#    include_heights: [XXX, NA]
-
   deess:
     include_heights: [285, NA]
     exclude_datetimes:
