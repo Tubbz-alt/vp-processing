@@ -4,7 +4,10 @@ general:
   include_heights: [200, NA]
 
 radars:
-#Sweden
+
+# Sweden
+# ======
+
   seang:
     include_heights: [309, NA] # altitude cut off at 1500 in raw data
 
@@ -29,14 +32,11 @@ radars:
     - ["2016-09-28 00:30", "2016-09-28 01:30"]
     - ["2016-09-29 08:00", "2016-09-29 18:00"]
 
-  sevar:
-    include_heights: [264, NA] # altitude cut off at 1500 in raw data
-    exclude_datetimes:
-    - ["2016-09-27 01:00", "2016-09-27 06:00"]
-    - ["2016-09-28 14:30", "2016-09-28 15:00"]
-    - ["2016-09-28 21:45", "2016-09-28 00:00"]
-    - ["2016-09-29 03:00", "2016-09-29 23:00"]
-    - ["2016-09-30 10:45", "2016-09-30 12:00"]
+  sekir:
+    include_heights: [747, NA]
+
+  sekkr:
+    include_heights: [223, NA]
 
   selek:
     include_heights: [557, NA]
@@ -46,11 +46,8 @@ radars:
     - ["2016-09-28 00:00", "2016-09-28 03:00"]
     - ["2016-09-29 07:00", "2016-09-29 14:30"]
 
-  sekkr:
-    include_heights: [223, NA]
-
-# sevil: # Excluded, major issue (large hole)
-#    include_heights: [323, NA]
+  selul:
+    include_heights: [168, NA]
 
 #  seosu: # Excluded, major issue (data missing, altitude cuts, incorrect data)
 #    include_heights: [566, NA]
@@ -58,42 +55,21 @@ radars:
   seovi:
     include_heights: [622, NA]
 
-  selul:
-    include_heights: [168, NA]
+  sevar:
+    include_heights: [264, NA] # altitude cut off at 1500 in raw data
+    exclude_datetimes:
+    - ["2016-09-27 01:00", "2016-09-27 06:00"]
+    - ["2016-09-28 14:30", "2016-09-28 15:00"]
+    - ["2016-09-28 21:45", "2016-09-28 00:00"]
+    - ["2016-09-29 03:00", "2016-09-29 23:00"]
+    - ["2016-09-30 10:45", "2016-09-30 12:00"]
 
-  sekir:
-    include_heights: [747, NA]
+#  sevil: # Excluded, major issue (large hole)
+#    include_heights: [323, NA]
+
 
 # Finland
-  filuo:
-    include_heights: [633, NA]
-
-  fiuta:
-    include_heights: [218, NA]
-
-  fivim:
-    include_heights: [300, NA]
-    exclude_datetimes:
-    - ["2016-09-23 23:00", "2016-09-23 00:00"]
-    - ["2016-09-24 00:00", "2016-09-24 13:00"]
-    - ["2016-09-29 16:00", "2016-09-29 20:00"]
-
-  fikuo:
-    include_heights: [368, NA]
-    exclude_datetimes:
-    - ["2016-09-29 19:00", "2016-09-29 20:00"]
-
-  fikes:
-    include_heights: [274, NA]
-    exclude_datetimes:
-    - ["2016-09-29 03:00", "2016-09-29 04:00"]
-    - ["2016-09-29 16:00", "2016-09-29 23:00"]
-
-  fipet:
-    include_heights: [371, NA]
-
-  fiika:
-    include_heights: [253, NA]
+# =======
 
   fianj:
     include_heights: [239, NA]
@@ -102,13 +78,46 @@ radars:
     - ["2016-09-29 13:00", "2016-09-29 19:00"]
     - ["2016-10-08 20:00", "2016-10-08 23:50"]
 
-  fivan:
-    include_heights: [182, NA]
+  fiika:
+    include_heights: [253, NA]
+
+  fikes:
+    include_heights: [274, NA]
+    exclude_datetimes:
+    - ["2016-09-29 03:00", "2016-09-29 04:00"]
+    - ["2016-09-29 16:00", "2016-09-29 23:00"]
 
   fikor:
     include_heights: [161, NA]
 
+  fikuo:
+    include_heights: [368, NA]
+    exclude_datetimes:
+    - ["2016-09-29 19:00", "2016-09-29 20:00"]
+
+  filuo:
+    include_heights: [633, NA]
+
+  fipet:
+    include_heights: [371, NA]
+
+  fiuta:
+    include_heights: [218, NA]
+
+  fivan:
+    include_heights: [182, NA]
+
+  fivim:
+    include_heights: [300, NA]
+    exclude_datetimes:
+    - ["2016-09-23 23:00", "2016-09-23 00:00"]
+    - ["2016-09-24 00:00", "2016-09-24 13:00"]
+    - ["2016-09-29 16:00", "2016-09-29 20:00"]
+
+
 # The Netherlands
+# ===============
+
   nldbl:
     include_heights: [144, NA]
 
@@ -117,20 +126,26 @@ radars:
     exclude_datetimes:
     - ["2016-10-02 05:00", "2016-10-02 20:00"]
 
+
 # Czech Republic
+# ==============
+
   czbrd:
     include_heights: [1016, NA]
 
   czska:
     include_heights: [867, NA]
 
+
 # France
+# ======
+
   frabb:
     include_heights: [170, NA]
     exclude_datetimes:
     - ["2016-09-29 18:00", "2016-09-29 21:00"]
 
-#  frale: #Excluded, major issue (Sband, no birds, altitude cut)
+#  frale: # Excluded, major issue (S-band, no birds, altitude cut)
 #    include_heights: [150, NA]
 
   frave:
@@ -139,7 +154,7 @@ radars:
   frbla:
     include_heights: [690, NA]
 
-#  frbol: #Excluded, major issue (Sband, no birds, altitude cut)
+#  frbol: # Excluded, major issue (S-band, no birds, altitude cut)
 #    include_heights: [410, NA]
 
   frbor:
@@ -162,7 +177,7 @@ radars:
     exclude_datetimes:
     - ["2016-09-30 20:00", "2016-09-30 21:00"]
 
-#  frcol: #Excluded, major issue (S-band)
+#  frcol: # Excluded, major issue (S-band)
 #    include_heights: [740, NA]
 
 #  frgre: # Excluded, major issue (many holes)
@@ -185,10 +200,10 @@ radars:
     - ["2016-10-01 05:30", "2016-10-01 05:30"]
     - ["2016-10-01 12:00", "2016-01-02 12:00"]
 
-#  frnan: #Excluded, major issue (Altitude cuts, holes)
+#  frnan: # Excluded, major issue (altitude cuts, holes)
 #    include_heights: [390, NA]
 
-#  frnim:  #Excluded, major issue (S-band)
+#  frnim:  # Excluded, major issue (S-band)
 #    include_heights: [170, NA]
 
   frniz:
@@ -196,7 +211,7 @@ radars:
     exclude_datetimes:
     - ["2016-10-01 14:00", "2016-10-02 00:30"]
 
-#  fropo: #Excluded, major issue (Sband, altitude cuts)
+#  fropo: # Excluded, major issue (S-band, altitude cuts)
 #    include_heights: [800, NA]
 
   frpla:
@@ -222,7 +237,10 @@ radars:
     - ["2016-09-30 12:00", "2016-10-01 12:00"]
     - ["2016-10-01 12:00", "2016-10-01 22:00"]
 
-#Germany
+
+# Germany
+# =======
+
   deboo:
     include_heights: [224.6, NA]
     exclude_datetimes:
@@ -261,9 +279,6 @@ radars:
     - ["2016-10-02 12:00", "2016-10-04 12:00"]
     - ["2016-10-05 10:00", "2016-10-07 12:00"]
     - ["2016-10-08 04:30", "2016-10-09 12:00"]
-
-# deemd: # Excluded, major issue (no data)
-#    include_heights: [XXX, NA]
 
   deess:
     include_heights: [285, NA]
@@ -404,16 +419,22 @@ radars:
     - ["2016-10-03 00:00", "2016-10-03 12:00"]
     - ["2016-10-03 12:00", "2016-10-04 04:00"]
 
-#Poland
+
+# Poland
+# ======
+
+  plbrz:
+    include_heights: [553, NA]
+
   plgda:
     include_heights: [258, NA]
     exclude_datetimes:
     - ["2016-09-28 03:00", "2016-09-28 10:00"]
 
-  plswi:
-    include_heights: [246, NA]
+  plleg:
+    include_heights: [230, NA]
     exclude_datetimes:
-    - ["2016-10-09 02:00", "2016-10-09 05:00"]
+    - ["2016-09-28 14:00", "2016-09-28 23:00"]
 
   plpoz:
     include_heights: [230, NA]
@@ -421,18 +442,10 @@ radars:
     - ["2016-10-05 20:00", "2016-10-05 21:00"]
     - ["2016-10-06 03:00", "2016-10-06 04:00"]
 
-  plleg:
-    include_heights: [230, NA]
-    exclude_datetimes:
-    - ["2016-09-28 14:00", "2016-09-28 23:00"]
-
   plram:
     include_heights: [458, NA]
     exclude_datetimes:
     - ["2016-10-05 12:00", "2016-10-05 15:00"]
-
-  plbrz:
-    include_heights: [553, NA]
 
   plrze:
     include_heights: [335, NA]
@@ -441,7 +454,15 @@ radars:
     - ["2016-10-01 15:00", "2016-10-01 17:00"]
     - ["2016-10-08 10:00", "2016-10-08 12:00"]
 
-#Belgium
+  plswi:
+    include_heights: [246, NA]
+    exclude_datetimes:
+    - ["2016-10-09 02:00", "2016-10-09 05:00"]
+
+
+# Belgium
+# =======
+
   bejab:
     include_heights: [150, NA]
 
@@ -453,24 +474,33 @@ radars:
   bezav:
     include_heights: [190, NA]
 
-#Portugal
+
+# Portugal
+# ========
+
   ptfar:
     include_heights: [716, NA]
 
-  ptliz: #Changed name from "lis" to "liz" to not conflict with silis
+  ptliz: # Changed name from "lis" to "liz" to not conflict with silis
     include_heights: [293, NA]
 
   ptprt:
     include_heights: [1197, NA]
 
-#Bulgaria
+
+# Bulgaria
+# ========
+
   bgvar:
     include_heights: [439, NA]
     exclude_datetimes:
     - ["2016-10-04 21:00", "2016-10-04 22:00"]
     - ["2016-10-05 17:00", "2016-10-05 19:00"]
 
-#Catalonia
+
+# Catalonia
+# =========
+
   ctcdv:
     include_heights: [885, NA]
 
@@ -479,8 +509,10 @@ radars:
     exclude_datetimes:
     - ["2016-10-06 08:00", "2016-10-06 16:00"]
 
-#Slovenia
-  #silis: #Excluded, major issue (no data)
-  #sipas: #Excluded, major issue (no data)
 
+# Slovenia
+# ========
 
+#  silis: # Excluded, major issue (no birds)
+
+#  sipas: # Excluded, major issue (no birds)
