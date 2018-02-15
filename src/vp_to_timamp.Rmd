@@ -1,7 +1,0 @@
-# Process vp data for TIMAMP {#vp-to-timamp}
-
-```{r timamp_rmd_settings, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
-```
-
-To be completed...
