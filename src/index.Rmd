@@ -1,6 +1,6 @@
 --- 
 title: "Vertical profile (vp) data processing for analyses and visualizations"
-author: "Peter Desmet"
+author: Peter Desmet, Cecilia Nilsson
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output:
