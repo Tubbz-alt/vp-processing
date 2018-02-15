@@ -4,7 +4,8 @@ This repository contains the code and documentation to process **vertical profil
 
 ## Documentation
 
-http://enram.github.io/vp-processing
+* Hosted: http://enram.github.io/vp-processing
+* As part of this repository: [docs/index.html](docs/index.html)
 
 ## Contributors
 
