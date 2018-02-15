@@ -39,11 +39,11 @@ csv_files
 Read and concatenate files:
 
 ```{r flowviz_read_csv_files}
-csv_data <- lapply(csv_files, read.csv)
+csv_data <- lapply(csv_files, read.csv) # Call read.csv for each file path
 flowviz_data <- bind_rows(csv_data)
 ```
 
-Preview:
+Preview of the **`r nrow(flowviz_data)` rows**:
 
 ```{r flowviz_preview}
 head(flowviz_data)
@@ -78,7 +78,7 @@ head(flowviz_data, 20)
 
 ## Filter out low density data
 
-Only keep data with a **density above or equal to 5 (birds)** and not marked to be excluded in \@ref(extract-vp):
+Only keep data with a **density above or equal to 10 (birds)** and not marked to be excluded in \@ref(extract-vp):
 
 ```{r flowviz_filter_excluded}
 flowviz_data %>%

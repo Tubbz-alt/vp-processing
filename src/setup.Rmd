@@ -8,7 +8,7 @@ This chapter explains how to get you up and running. It assumes you are working 
 
 ## Install packages
 
-First, you will need to install a number of R packages we will use:
+First, you will need to install a number of R packages that we will use:
 
 ```{r setup_install_packages, eval = FALSE}
 install.packages(c(
@@ -39,8 +39,9 @@ The processing requires a number of settings we need to define. If you want to [
 project_name <- "example"
 
 # Paths
-# The paths below use the project_name and are relative to this script 
-# (i.e. to the src directory). Make sure all directories exist!
+# The paths below are creating by pasting the project_name into a full path string
+# All paths are relative to this script (i.e. to the src directory).
+# Make sure all directories exist!
 
 # Where you store your raw data (needs a trailing slash)
 raw_data_dir <- paste0("../data/raw/", project_name, "/")
@@ -60,9 +61,6 @@ The processing of the vp data is done in several steps. Each has its own chapter
 1. [Get started](setup.html) (`setup.Rmd`) = this chapter
 2. [Extract vp data and process for further analyses](extract-vp.html) (`extract_vp.Rmd`)
 3. [Process vp data for the Bird migration flow visualization](vp-to-flowviz.html) (`vp_to_flowviz.Rmd`)
-4. [Process vp data for TIMAMP](vp-to-timamp.html) (`vp_to_timamp.Rmd`)
-
-_Step 3 and 4 are currently not yet implemented._
 
 The repository comes with [example settings](https://github.com/enram/vp-processing/tree/master/settings) and [data](https://github.com/enram/vp-processing/tree/master/data) for all steps, so you can run the processing out of the box:
 
@@ -73,18 +71,18 @@ The repository comes with [example settings](https://github.com/enram/vp-process
 
 To run all steps use the build functionality: it will run all the `.Rmd` files in `src` and generate [fancy documentation](#update-documentation):
 
-1. Click on the `Build` pane in RStudio
+1. Click on the `Build` tab in RStudio
 2. Click the `Build book` button
 3. Wait for the build to finish
 
-If you used example data, nothing should have changed: you've just reprocessed those files.
+If you used the example data, nothing should have changed: you just reprocessed those files.
 
 ### Run individual steps
 
 If you are adapting the code, it can be useful to run individual steps. Except for `setup.Rmd`, all steps read input data file(s) and generate output data file(s). If those data files are already there, you don't need to rerun the step that generated those. However, all files use the [processing settings](#settings) defined in `setup.Rmd`, so you need to run that file at least once first:
 
 1. Open and run `setup.Rmd` in RStudio
-2. Open and run one of the other `.Rmd` files
+2. Open and **run** one of the other `.Rmd` files
 3. Adapt the `.Rmd` file and run to test
 
 ## Run your own processing {#own-processing}
@@ -94,10 +92,10 @@ If you want to run the processing with your own data and processing settings, do
 ### Upload your data
 
 1. Add a new directory to `data/raw` and give it a meaningful name
-2. Update `raw_data_dir` in \@ref(settings) so the code can find your directory
+2. Update `raw_data_dir` or rely on `project_name` in \@ref(settings) so the code can find your directory
 2. Copy your vp data to that directory or download vp data from the [ENRAM bird profile data repository](http://enram.github.io/data-repository)
 
-To download data, adapt the following to your needs and run it. You might want to get some ☕ as this could take a while:
+To download data, adapt the following code to your needs and run it. You might want to get some ☕ as this could take a while:
 
 ```{r setup_download_data, results="hide", eval=FALSE}
 library(bioRad)
@@ -112,14 +110,14 @@ bioRad::download_vp(
 
 ### Update settings
 
-1. Copy and paste `example_settings.yaml` in `settings` and give it a meaningful name
+1. Copy and paste `example_processing_settings.yaml` in `settings` and give it a meaningful name
 2. Update `settings_file` in \@ref(settings) so the code can find your file
 3. Adapt your settings file to your own needs
 
 ### Update radars metadata
 
-1. Copy and paste `example_radars.csv` in `settings` and give it a meaningful name
-2. Update `radars_file` in \@ref(settings) so the code can find your file
+1. Copy and paste `radar_metadata.csv` in `settings` and give it a meaningful name
+2. Update `radars_metadata_file` in \@ref(settings) so the code can find your file
 3. Adapt your settings file to your own needs
 
 Once done, [run all steps of the processing](#run-all-steps). There should be no need to adapt the code.

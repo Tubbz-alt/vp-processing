@@ -17,7 +17,7 @@ source("functions/load_settings.R")
 
 ## Load settings
 
-All of the filtering options we'll use here are defined in **yaml settings file**, which we pointed to in `setup.Rmd` (see \@ref(settings)). Let's load those:
+All of the filtering options we'll use here are defined in a **yaml settings file**, which we pointed to in `setup.Rmd` (see \@ref(settings)). Let's load those:
 
 ```{r extract_load_settings}
 settings <- load_settings(settings_file, radars_metadata_file)
@@ -60,17 +60,17 @@ vp_files <- bioRad::readvp.list(vp_file_paths)
 
 ## Select variables
 
-A single vp file contains a data frame with heights as rows and variables as columns:
+A single vp file contains a data frame with heights as rows and variables as columns (see [the bird profile format specifation](https://github.com/adokter/vol2bird/wiki/ODIM-bird-profile-format-specification) for more information regarding the variables):
 
 ```{r extract_show_vp_data_structure}
 str(vp_files[[1]]$data)
 ```
 
-We only need a couple of variables (`HGHT`, `u`, `v`, `dens`, `dd`, `ff`) and attributes (`date_time` and `radar_id`) from the vp_files (_column selection_). We retrieve those with the custom function `vp_to_df()` after which we combine all data in one single data frame, sorted on `radar_id`, `date_time`, and `HGHT`:
+We only need a couple of variables (`HGHT`, `u`, `v`, `dens`, `dd`, `ff`, `DBZH`) and attributes (`date_time` and `radar_id`) from the vp_files (_column selection_). We retrieve those with the custom function `vp_to_df()` after which we combine all data in one single data frame, sorted on `radar_id`, `date_time`, and `HGHT`:
 
 ```{r extract_select_columns_and_sort}
 vp_data <- list()
-variables = c("u", "v", "dens", "dd", "ff","DBZH") # HGHT is added by default in vp_to_df()
+variables = c("u", "v", "dens", "dd", "ff", "DBZH") # HGHT is added by default in vp_to_df()
 for (i in seq_along(vp_files)) {
   vp_data[[i]] <- vp_to_df(vp_files[[i]], variables)
 }
@@ -208,7 +208,7 @@ head(vp_data, 20)
 
 ## Filter out datetimes
 
-For some radars certain datetime ranges need to be excluded due to (remaining) rain clutter (_row selection_). Those datetime ranges were discovered during manual inspection and are defined in our settings (see \@ref(settings))._
+For some radars certain datetime ranges need to be excluded due to (remaining) rain clutter (_row selection_). Those datetime ranges were discovered during manual inspection and are defined in our settings (see \@ref(settings)).
 
 To do this, we take the `exclude_datetimes` range for each radar and set the data inside that range to `NA`.
 
