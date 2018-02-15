@@ -28,11 +28,11 @@ Found **`r length(settings$general$radar_ids_5char)` radars from `r length(setti
 
 To allow this chapter to run without having to process all the vp data, we'll load the data from the CSV file(s) rather than from the dataframe created in \@ref(extract-vp).
 
-Search in the defined processed data directory for csv files:
+Search in the defined processed data directory for csv files with `processed_` in the filename:
 
 ```{r flowviz_get_csv_files}
 processed_data_dir_no_slash <- substr(processed_data_dir, 1, nchar(processed_data_dir)-1) 
-csv_files <- dir(processed_data_dir_no_slash, pattern = "\\.csv", full.names = TRUE, recursive = FALSE)
+csv_files <- dir(processed_data_dir_no_slash, pattern = ".*processed_.*.csv", full.names = TRUE, recursive = FALSE)
 csv_files
 ```
 
