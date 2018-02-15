@@ -82,7 +82,7 @@ Only keep data with a **density above or equal to 5 (birds)** and not marked to 
 
 ```{r flowviz_filter_excluded}
 flowviz_data %>%
-filter(dens >= 5) %>%
+filter(dens >= 10) %>%
 filter(exclusion_reason == "") -> flowviz_data
 ```
 
