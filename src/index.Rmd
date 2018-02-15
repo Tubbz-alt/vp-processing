@@ -1,5 +1,5 @@
 --- 
-title: "Vertical profile (vp) data processing for analyses and visualizations"
+title: "Vertical profiles of birds (vp) data processing for analyses and visualizations"
 author: Peter Desmet, Cecilia Nilsson
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -18,7 +18,7 @@ github-repo: enram/vp-processing
 
 # Preface {-}
 
-This document describes how we process **vertical profile (vp) data**[^1] for further analysis and visualizations such as the [bird migration flow visualization](http://enram.github.io/bird-migration-flow-visualization/viz/).
+This document describes how we process **vertical profiles of birds (vp)**[^1] data for further analysis and the [bird migration flow visualization](http://enram.github.io/bird-migration-flow-visualization/viz/).
 
 [^1]: Vertical profiles of birds generated from weather radar volume scans by [vol2bird](https://github.com/adokter/vol2bird).
 
