@@ -178,7 +178,7 @@ head(flowviz_data)
 Export the data to a flowviz data file:
 
 ```{r}
-write.csv(flowviz_data, file = paste0(flowviz_data_dir, "birds.csv"), na = "", row.names = FALSE)
+write.csv(flowviz_data, file = paste0(processed_data_dir, project_name, "_flowviz.csv"), na = "", row.names = FALSE)
 ```
 
 ## Create metadata

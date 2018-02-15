@@ -44,15 +44,13 @@ project_name <- "example"
 
 # Where you store your raw data (needs a trailing slash)
 raw_data_dir <- paste0("../data/raw/", project_name, "/")
-# Where it processed vp data should go (needs a trailing slash)
+# Where the processed vp data should go (needs a trailing slash)
 processed_data_dir <- paste0("../data/processed/", project_name, "/")
-# Where it processed flowviz data should go (needs a trailing slash)
-flowviz_data_dir <- paste0("../data/flowviz/", project_name, "/")
 
 # Your processing settings:
-settings_file <- paste0("../settings/", project_name, "_settings.yaml")
+settings_file <- paste0("../settings/", project_name, "_processing_settings.yaml")
 # The radar metadata (incl. coordinates):
-radars_metadata_file <- "../settings/radars.csv"
+radars_metadata_file <- "../settings/radar_metadata.csv"
 ```
 
 ## Run processing
