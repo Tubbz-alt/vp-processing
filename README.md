@@ -1,10 +1,11 @@
-# Vertical profile data processing for analyses and visualizations
+# Vertical profiles of birds (vp) data processing for analyses and visualizations
 
-This repository contains the code and documentation to process **vertical profile (vp) data** for further analysis and visualizations such as [bird migration flow visualization](http://enram.github.io/bird-migration-flow-visualization/viz/) and [TIMAMP](http://timamp.github.io/).
+This repository contains the code and documentation to process **vertical profiles of birds (vp)** data for further analysis and the [bird migration flow visualization](http://enram.github.io/bird-migration-flow-visualization/viz/).
 
 ## Documentation
 
-http://enram.github.io/vp-processing
+* Hosted: http://enram.github.io/vp-processing
+* As part of this repository: [docs/index.html](docs/index.html)
 
 ## Contributors
 

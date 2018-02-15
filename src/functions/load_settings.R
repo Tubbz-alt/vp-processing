@@ -114,7 +114,7 @@ load_settings <- function(settings_file, radars_metadata_file) {
 
   # Create output filename
   settings$general$vp_output_file <- paste0(
-    "vp_data_",
+    "processed_",
     length(radar_ids), # Number of radars
     "_radars_",
     gsub("-", "", general_start_date_string), # YYYYMMDD

@@ -6,6 +6,9 @@ book_filename: vp-processing.Rmd
 # The output will be generated in the docs directory:
 output_dir: ../docs
 
+# Remove the Rmd file created in the build process:
+delete_merged_file: true
+
 # The order of the chapters (and which Rmd files to include) is defined here:
 rmd_files: [index.Rmd, setup.Rmd, extract_vp.Rmd, vp_to_flowviz.Rmd]
 

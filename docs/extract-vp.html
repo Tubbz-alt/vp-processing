@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Vertical profile (vp) data processing for analyses and visualizations</title>
-  <meta name="description" content="Vertical profile (vp) data processing for analyses and visualizations">
-  <meta name="generator" content="bookdown 0.4 and GitBook 2.6.7">
+  <title>Vertical profiles of birds (vp) data processing for analyses and visualizations</title>
+  <meta name="description" content="Vertical profiles of birds (vp) data processing for analyses and visualizations">
+  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
 
-  <meta property="og:title" content="Vertical profile (vp) data processing for analyses and visualizations" />
+  <meta property="og:title" content="Vertical profiles of birds (vp) data processing for analyses and visualizations" />
   <meta property="og:type" content="book" />
   
   
@@ -17,15 +17,15 @@
   <meta name="github-repo" content="enram/vp-processing" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Vertical profile (vp) data processing for analyses and visualizations" />
+  <meta name="twitter:title" content="Vertical profiles of birds (vp) data processing for analyses and visualizations" />
   
   
   
 
-<meta name="author" content="Peter Desmet">
+<meta name="author" content="Peter Desmet, Cecilia Nilsson">
 
 
-<meta name="date" content="2017-11-09">
+<meta name="date" content="2018-02-15">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -148,7 +148,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Vertical profile (vp) data processing for analyses and visualizations</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Vertical profiles of birds (vp) data processing for analyses and visualizations</a>
           </h1>
         </div>
 
@@ -167,240 +167,240 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">source</span>(<span class="st">&quot;functions/load_settings.R&quot;</span>)</code></pre></div>
 <div id="load-settings" class="section level2">
 <h2><span class="header-section-number">2.1</span> Load settings</h2>
-<p>All of the filtering options we’ll use here are defined in <strong>yaml settings file</strong>, which we pointed to in <code>setup.Rmd</code> (see <a href="setup.html#settings">1.3</a>). Let’s load those:</p>
+<p>All of the filtering options we’ll use here are defined in a <strong>yaml settings file</strong>, which we pointed to in <code>setup.Rmd</code> (see <a href="setup.html#settings">1.3</a>). Let’s load those:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">settings &lt;-<span class="st"> </span><span class="kw">load_settings</span>(settings_file, radars_metadata_file)</code></pre></div>
-<p>Found <strong>70 radars from 11 countries</strong> in the settings.</p>
+<p>Found <strong>3 radars from 1 countries</strong> in the settings.</p>
 </div>
 <div id="select-date-range-radars" class="section level2">
 <h2><span class="header-section-number">2.2</span> Select date range &amp; radars</h2>
 <p>Select vp files on the date range and radars we defined in our settings (<em>file selection</em>):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_file_paths &lt;-<span class="st"> </span>bioRad::<span class="kw">retrieve_vp_paths</span>(
-  <span class="dt">start_date =</span> settings$general$start_date,
-  <span class="dt">end_date =</span> settings$general$end_date,
-  <span class="dt">radar =</span> settings$general$radar_ids_3char,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_file_paths &lt;-<span class="st"> </span>bioRad<span class="op">::</span><span class="kw">retrieve_vp_paths</span>(
+  <span class="dt">start_date =</span> settings<span class="op">$</span>general<span class="op">$</span>start_date,
+  <span class="dt">end_date =</span> settings<span class="op">$</span>general<span class="op">$</span>end_date,
+  <span class="dt">radar =</span> settings<span class="op">$</span>general<span class="op">$</span>radar_ids_3char,
   <span class="dt">path =</span> raw_data_dir
 )</code></pre></div>
 <p>The file paths we get back only start from the data directory, so we need to append those with the path to the data directory itself:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_file_paths &lt;-<span class="st"> </span><span class="kw">paste0</span>(raw_data_dir, vp_file_paths)</code></pre></div>
-<p>There are <strong>25104 vp files</strong> that meet our criteria. Preview:</p>
+<p>There are <strong>75 vp files</strong> that meet our criteria. Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(vp_file_paths, <span class="dv">5</span>)</code></pre></div>
-<pre><code>## [1] &quot;../data/raw/flyway/bgvar_vp_data_autumn2016/bgvar_vp_20160919T0000Z.h5&quot;
-## [2] &quot;../data/raw/flyway/bgvar_vp_data_autumn2016/bgvar_vp_20160919T0005Z.h5&quot;
-## [3] &quot;../data/raw/flyway/bgvar_vp_data_autumn2016/bgvar_vp_20160919T0010Z.h5&quot;
-## [4] &quot;../data/raw/flyway/bgvar_vp_data_autumn2016/bgvar_vp_20160919T0015Z.h5&quot;
-## [5] &quot;../data/raw/flyway/bgvar_vp_data_autumn2016/bgvar_vp_20160919T0020Z.h5&quot;</code></pre>
+<pre><code>## [1] &quot;../data/raw/example/seang_vp_20161003T2000Z.h5&quot;
+## [2] &quot;../data/raw/example/seang_vp_20161003T2015Z.h5&quot;
+## [3] &quot;../data/raw/example/seang_vp_20161003T2030Z.h5&quot;
+## [4] &quot;../data/raw/example/seang_vp_20161003T2045Z.h5&quot;
+## [5] &quot;../data/raw/example/seang_vp_20161003T2100Z.h5&quot;</code></pre>
 </div>
 <div id="read-vp-files" class="section level2">
 <h2><span class="header-section-number">2.3</span> Read vp files</h2>
 <p>We read all those files with bioRad. This could take a while (☕ or 🛌 time):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_files &lt;-<span class="st"> </span>bioRad::<span class="kw">readvp.list</span>(vp_file_paths)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_files &lt;-<span class="st"> </span>bioRad<span class="op">::</span><span class="kw">readvp.list</span>(vp_file_paths)</code></pre></div>
 </div>
 <div id="select-variables" class="section level2">
 <h2><span class="header-section-number">2.4</span> Select variables</h2>
-<p>A single vp file contains a data frame with heights as rows and variables as columns:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(vp_files[[<span class="dv">1</span>]]$data)</code></pre></div>
-<pre><code>## &#39;data.frame&#39;:    20 obs. of  16 variables:
-##  $ ff       : num  NA 8.312 1.469 0.745 0.878 ...
-##  $ dbz      : num  NA -5.28 -4.22 -5.92 -8.69 ...
-##  $ dens     : num  NA 9.68 12.35 8.35 4.41 ...
-##  $ u        : num  NA -7.408 -1.347 -0.698 -0.877 ...
-##  $ v        : num  NA -3.7704 0.5853 0.2628 -0.0167 ...
-##  $ gap      : num  1 0 0 0 0 0 0 0 0 0 ...
-##  $ w        : num  NA 352.9 -30.8 -26.5 -12.3 ...
-##  $ n_dbz    : num  0 13599 12117 20697 17694 ...
-##  $ dd       : num  NA 243 293 291 269 ...
-##  $ n        : num  0 3463 9705 14618 7509 ...
-##  $ DBZH     : num  NA 5.55 1.11 -5.66 -4.53 ...
+<p>A single vp file contains a data frame with heights as rows and variables as columns (see <a href="https://github.com/adokter/vol2bird/wiki/ODIM-bird-profile-format-specification">the bird profile format specifation</a> for more information regarding the variables):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(vp_files[[<span class="dv">1</span>]]<span class="op">$</span>data)</code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    25 obs. of  16 variables:
+##  $ ff       : num  NA 13.5 12.2 10.4 11.8 ...
+##  $ dbz      : num  NA 0.518 1.162 -2.417 -2.637 ...
+##  $ dens     : num  NA 35.6 41.3 18.1 17.2 ...
+##  $ u        : num  NA -9.63 -8.46 -6.58 -6.64 ...
+##  $ v        : num  NA -9.42 -8.75 -8.01 -9.76 ...
+##  $ gap      : num  1 0 0 0 0 0 1 1 1 1 ...
+##  $ w        : num  NA 73.14 -2.75 -28.69 7.32 ...
+##  $ n_dbz    : num  0 1177 3367 5710 3791 ...
+##  $ dd       : num  NA 226 224 219 214 ...
+##  $ n        : num  0 213 1044 1421 940 ...
+##  $ DBZH     : num  NA 6.973 3.865 -0.865 -2.637 ...
 ##  $ HGHT     : num  0 200 400 600 800 1000 1200 1400 1600 1800 ...
-##  $ n_dbz_all: num  0 28280 20406 22298 19177 ...
-##  $ eta      : num  NA 106.5 135.8 91.8 48.5 ...
-##  $ sd_vvp   : num  NA 3.06 5.45 5.63 5.54 ...
-##  $ n_all    : num  0 9832 17100 15545 7710 ...</code></pre>
-<p>We only need a couple of variables (<code>HGHT</code>, <code>u</code>, <code>v</code>, <code>dens</code>, <code>dd</code>, <code>ff</code>) and attributes (<code>date_time</code> and <code>radar_id</code>) from the vp_files (<em>column selection</em>). We retrieve those with the custom function <code>vp_to_df()</code> after which we combine all data in one single data frame, sorted on <code>radar_id</code>, <code>date_time</code>, and <code>HGHT</code>:</p>
+##  $ n_dbz_all: num  0 14686 12063 9070 3791 ...
+##  $ eta      : num  NA 391 454 199 189 ...
+##  $ sd_vvp   : num  NA 5.06 4.99 4.64 4.52 ...
+##  $ n_all    : num  0 4971 3973 2520 940 ...</code></pre>
+<p>We only need a couple of variables (<code>HGHT</code>, <code>u</code>, <code>v</code>, <code>dens</code>, <code>dd</code>, <code>ff</code>, <code>DBZH</code>) and attributes (<code>date_time</code> and <code>radar_id</code>) from the vp_files (<em>column selection</em>). We retrieve those with the custom function <code>vp_to_df()</code> after which we combine all data in one single data frame, sorted on <code>radar_id</code>, <code>date_time</code>, and <code>HGHT</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_data &lt;-<span class="st"> </span><span class="kw">list</span>()
-variables =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;u&quot;</span>, <span class="st">&quot;v&quot;</span>, <span class="st">&quot;dens&quot;</span>, <span class="st">&quot;dd&quot;</span>, <span class="st">&quot;ff&quot;</span>,<span class="st">&quot;DBZH&quot;</span>) <span class="co"># HGHT is added by default in vp_to_df()</span>
-for (i in <span class="kw">seq_along</span>(vp_files)) {
+variables =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;u&quot;</span>, <span class="st">&quot;v&quot;</span>, <span class="st">&quot;dens&quot;</span>, <span class="st">&quot;dd&quot;</span>, <span class="st">&quot;ff&quot;</span>, <span class="st">&quot;DBZH&quot;</span>) <span class="co"># HGHT is added by default in vp_to_df()</span>
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(vp_files)) {
   vp_data[[i]] &lt;-<span class="st"> </span><span class="kw">vp_to_df</span>(vp_files[[i]], variables)
 }
 
-<span class="kw">bind_rows</span>(vp_data) %&gt;%
+<span class="kw">bind_rows</span>(vp_data) <span class="op">%&gt;%</span>
 <span class="kw">arrange</span>(radar_id, datetime, HGHT) -&gt;<span class="st"> </span>vp_data</code></pre></div>
 <p>To uniquely reference records later, we add an <code>id</code> column:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_data &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;id&quot;</span> =<span class="st"> </span><span class="kw">seq.int</span>(<span class="kw">nrow</span>(vp_data)), vp_data)</code></pre></div>
-<p>That data frame contains <strong>531900 records</strong>.</p>
+<p>That data frame contains <strong>1740 records</strong>.</p>
 </div>
 <div id="calculate-mtr-per-height" class="section level2">
 <h2><span class="header-section-number">2.5</span> Calculate MTR per height</h2>
 <p>We also want migration traffic rate (mtr) per height for further analysis, so we calculate and add it as an extra column:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate mtr: times 3.6 to convert ff from m/s to km/h, divide by 5 because 200m bins</span>
-vp_data$mtr &lt;-<span class="st"> </span>vp_data$ff *<span class="st"> </span><span class="fl">3.6</span> *<span class="st"> </span>vp_data$dens /<span class="st"> </span><span class="dv">5</span>
+vp_data<span class="op">$</span>mtr &lt;-<span class="st"> </span>vp_data<span class="op">$</span>ff <span class="op">*</span><span class="st"> </span><span class="fl">3.6</span> <span class="op">*</span><span class="st"> </span>vp_data<span class="op">$</span>dens <span class="op">/</span><span class="st"> </span><span class="dv">5</span>
 
 <span class="co"># Add our new mtr to variables</span>
 variables &lt;-<span class="st"> </span><span class="kw">c</span>(variables, <span class="st">&quot;mtr&quot;</span>)</code></pre></div>
 <p>Preview</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(vp_data, <span class="dv">20</span>)</code></pre></div>
-<pre><code>##    id radar_id   datetime HGHT          u          v       dens        dd
-## 1   1    bejab 2016-09-19    0 -2.9332356 -5.1274614 26.3651314 209.77231
-## 2   2    bejab 2016-09-19  200 -5.9695516 -6.7025647 19.9679146 221.68944
-## 3   3    bejab 2016-09-19  400 -5.8944726 -6.5680308  9.6763630 221.90636
-## 4   4    bejab 2016-09-19  600 -3.1691368 -5.8770409  5.9785151 208.33533
-## 5   5    bejab 2016-09-19  800 -2.3166976 -5.9704909  4.1655445 201.20747
-## 6   6    bejab 2016-09-19 1000 -1.0189155 -3.9789803  2.5513470 194.36334
-## 7   7    bejab 2016-09-19 1200 -0.2915183 -2.7959254  1.1012880 185.95245
-## 8   8    bejab 2016-09-19 1400  0.9222706 -2.8132153  1.1282989 161.84904
-## 9   9    bejab 2016-09-19 1600  1.4770844 -0.2543128  0.2693528  99.76896
-## 10 10    bejab 2016-09-19 1800  0.5449337 -0.8506422  2.0088153 147.35579
-## 11 11    bejab 2016-09-19 2000 -0.3131877 -0.2932509  0.3424582 226.88293
-## 12 12    bejab 2016-09-19 2200  0.9098089  0.3120916  0.2928373  71.06651
-## 13 13    bejab 2016-09-19 2400        NaN        NaN  0.0000000       NaN
-## 14 14    bejab 2016-09-19 2600        NaN        NaN  0.0000000       NaN
-## 15 15    bejab 2016-09-19 2800        NaN        NaN  0.0000000       NaN
-## 16 16    bejab 2016-09-19 3000        NaN        NaN  0.0000000       NaN
-## 17 17    bejab 2016-09-19 3200        NaN        NaN  0.0000000       NaN
-## 18 18    bejab 2016-09-19 3400        NaN        NaN  0.0000000       NaN
-## 19 19    bejab 2016-09-19 3600        NaN        NaN  0.0000000       NaN
-## 20 20    bejab 2016-09-19 3800        NaN        NaN  0.0000000       NaN
-##           ff        DBZH         mtr
-## 1  5.9071765  26.8374157 112.1353087
-## 2  8.9755182  22.2238140 129.0401145
-## 3  8.8251820  -1.5062730  61.4848782
-## 4  6.6770530  -6.7373443  28.7415809
-## 5  6.4042058  -8.7595072  19.2074431
-## 6  4.1073680 -10.3248863   7.5451112
-## 7  2.8110819 -14.4957666   2.2289837
-## 8  2.9605343  -3.9724452   2.4050647
-## 9  1.4988173 -20.7430286   0.2906717
-## 10 1.0102202   0.2131391   1.4611289
-## 11 0.4290484 -19.7001667   0.1057904
-## 12 0.9618490 -20.3799801   0.2027990
-## 13       NaN -25.4913998         NaN
-## 14       NaN -21.8373203         NaN
-## 15       NaN -20.4837914         NaN
-## 16       NaN -21.9515171         NaN
-## 17       NaN -26.1533337         NaN
-## 18       NaN -30.5740471         NaN
-## 19       NaN -17.2520542         NaN
-## 20       NaN -30.8071022         NaN</code></pre>
+<pre><code>##    id radar_id            datetime HGHT         u          v     dens
+## 1   1    seang 2016-10-03 20:00:00    0        NA         NA       NA
+## 2   2    seang 2016-10-03 20:00:00  200 -9.632832  -9.421702 35.59053
+## 3   3    seang 2016-10-03 20:00:00  400 -8.461532  -8.746634 41.27831
+## 4   4    seang 2016-10-03 20:00:00  600 -6.581830  -8.013961 18.10636
+## 5   5    seang 2016-10-03 20:00:00  800 -6.643213  -9.764238 17.21185
+## 6   6    seang 2016-10-03 20:00:00 1000 -6.028350 -10.171729 11.11173
+## 7   7    seang 2016-10-03 20:00:00 1200        NA         NA       NA
+## 8   8    seang 2016-10-03 20:00:00 1400        NA         NA       NA
+## 9   9    seang 2016-10-03 20:00:00 1600        NA         NA       NA
+## 10 10    seang 2016-10-03 20:00:00 1800        NA         NA       NA
+## 11 11    seang 2016-10-03 20:00:00 2000        NA         NA       NA
+## 12 12    seang 2016-10-03 20:00:00 2200        NA         NA       NA
+## 13 13    seang 2016-10-03 20:00:00 2400        NA         NA       NA
+## 14 14    seang 2016-10-03 20:00:00 2600        NA         NA       NA
+## 15 15    seang 2016-10-03 20:00:00 2800        NA         NA       NA
+## 16 16    seang 2016-10-03 20:00:00 3000        NA         NA       NA
+## 17 17    seang 2016-10-03 20:00:00 3200        NA         NA       NA
+## 18 18    seang 2016-10-03 20:00:00 3400        NA         NA       NA
+## 19 19    seang 2016-10-03 20:00:00 3600        NA         NA       NA
+## 20 20    seang 2016-10-03 20:00:00 3800        NA         NA       NA
+##          dd       ff       DBZH       mtr
+## 1        NA       NA         NA        NA
+## 2  225.6348 13.47442  6.9733987 345.28437
+## 3  224.0508 12.16968  3.8646252 361.68759
+## 4  219.3961 10.37035 -0.8646818 135.19384
+## 5  214.2299 11.80985 -2.6370287 146.35399
+## 6  210.6534 11.82392 -4.5374875  94.59664
+## 7        NA       NA         NA        NA
+## 8        NA       NA         NA        NA
+## 9        NA       NA         NA        NA
+## 10       NA       NA         NA        NA
+## 11       NA       NA         NA        NA
+## 12       NA       NA         NA        NA
+## 13       NA       NA         NA        NA
+## 14       NA       NA         NA        NA
+## 15       NA       NA         NA        NA
+## 16       NA       NA         NA        NA
+## 17       NA       NA         NA        NA
+## 18       NA       NA         NA        NA
+## 19       NA       NA         NA        NA
+## 20       NA       NA         NA        NA</code></pre>
 </div>
 <div id="add-daynight-information" class="section level2">
 <h2><span class="header-section-number">2.6</span> Add day/night information</h2>
 <p>To add day/night information, we first create a sunrise/sunset dataframe for each radar/date combination, using the latitude/longitude from our radar metadata and the <code>suntime()</code> function in bioRad:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a simple dataframe from the settings with radar, latitude, longitude</span>
-<span class="kw">bind_rows</span>(<span class="kw">lapply</span>(settings$radars, data.frame)) %&gt;%
+<span class="kw">bind_rows</span>(<span class="kw">lapply</span>(settings<span class="op">$</span>radars, data.frame)) <span class="op">%&gt;%</span>
 <span class="kw">select</span>(radar_id, latitude, longitude) -&gt;<span class="st"> </span>radars_lat_long
 
 <span class="co"># Group vp_data by radar and date</span>
-vp_data %&gt;%
-<span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">as.Date</span>(datetime)) %&gt;%
-<span class="kw">group_by</span>(radar_id, date) %&gt;%
-<span class="kw">summarize</span>() %&gt;%
+vp_data <span class="op">%&gt;%</span>
+<span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">as.Date</span>(datetime)) <span class="op">%&gt;%</span>
+<span class="kw">group_by</span>(radar_id, date) <span class="op">%&gt;%</span>
+<span class="kw">summarize</span>() <span class="op">%&gt;%</span>
 
 <span class="co"># Join with radar_lat_long to get the latitude and longitude column</span>
-<span class="kw">left_join</span>(radars_lat_long, <span class="dt">by =</span> <span class="st">&quot;radar_id&quot;</span>) %&gt;%
+<span class="kw">left_join</span>(radars_lat_long, <span class="dt">by =</span> <span class="st">&quot;radar_id&quot;</span>) <span class="op">%&gt;%</span>
 
 <span class="co"># Use bioRad to add sunrise/sunset information</span>
-<span class="kw">mutate</span>(<span class="dt">sunrise =</span> bioRad::<span class="kw">suntime</span>(<span class="dt">date =</span> date, <span class="dt">lat =</span> latitude, <span class="dt">lon =</span> longitude, <span class="dt">rise =</span> <span class="ot">TRUE</span>)) %&gt;%
-<span class="kw">mutate</span>(<span class="dt">sunset =</span> bioRad::<span class="kw">suntime</span>(<span class="dt">date =</span> date, <span class="dt">lat =</span> latitude, <span class="dt">lon =</span> longitude, <span class="dt">rise =</span> <span class="ot">FALSE</span>)) -&gt;<span class="st"> </span>radars_dates_sunriset</code></pre></div>
+<span class="kw">mutate</span>(<span class="dt">sunrise =</span> bioRad<span class="op">::</span><span class="kw">suntime</span>(<span class="dt">date =</span> date, <span class="dt">lat =</span> latitude, <span class="dt">lon =</span> longitude, <span class="dt">rise =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span>
+<span class="kw">mutate</span>(<span class="dt">sunset =</span> bioRad<span class="op">::</span><span class="kw">suntime</span>(<span class="dt">date =</span> date, <span class="dt">lat =</span> latitude, <span class="dt">lon =</span> longitude, <span class="dt">rise =</span> <span class="ot">FALSE</span>)) -&gt;<span class="st"> </span>radars_dates_sunriset</code></pre></div>
 <p>Preview</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(radars_dates_sunriset, <span class="dv">5</span>)</code></pre></div>
 <pre><code>## # A tibble: 5 x 6
 ## # Groups:   radar_id [3]
-##   radar_id       date latitude longitude             sunrise
-##      &lt;chr&gt;     &lt;date&gt;    &lt;dbl&gt;     &lt;dbl&gt;              &lt;dttm&gt;
-## 1    bejab 2016-09-19  51.1917    3.0642 2016-09-19 05:33:40
-## 2    bejab 2016-09-20  51.1917    3.0642 2016-09-20 05:35:14
-## 3    bejab 2016-09-21  51.1917    3.0642 2016-09-21 05:36:49
-## 4    bewid 2016-09-21  49.9143    5.5056 2016-09-21 05:27:11
-## 5    bezav 2016-09-19  50.9055    4.4550 2016-09-19 05:28:10
-## # ... with 1 more variables: sunset &lt;dttm&gt;</code></pre>
+##   radar_id date       latitude longitude sunrise            
+##   &lt;chr&gt;    &lt;date&gt;        &lt;dbl&gt;     &lt;dbl&gt; &lt;dttm&gt;             
+## 1 seang    2016-10-03     56.4      12.9 2016-10-03 05:21:06
+## 2 seang    2016-10-04     56.4      12.9 2016-10-04 05:23:08
+## 3 searl    2016-10-03     59.7      17.9 2016-10-03 05:04:02
+## 4 searl    2016-10-04     59.7      17.9 2016-10-04 05:06:23
+## 5 sease    2016-10-03     57.3      18.4 2016-10-03 04:59:47
+## # ... with 1 more variable: sunset &lt;dttm&gt;</code></pre>
 <p>We then combine this sunrise/sunset information back with our vp data, to figure out if it is day or night and to which date they belong (<code>date_of_sunset</code>). For the latter, we consider night timestamps between midnight and sunrise as belonging to the previous date:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_data %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_data <span class="op">%&gt;%</span>
 <span class="co"># A date (not datetime) column to match with radars_sunriset</span>
-<span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">as.Date</span>(datetime)) %&gt;%
+<span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">as.Date</span>(datetime)) <span class="op">%&gt;%</span>
 
 <span class="co"># Combine vp data with radar_sunriset information</span>
-<span class="kw">right_join</span>(radars_dates_sunriset, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;radar_id&quot;</span> =<span class="st"> &quot;radar_id&quot;</span>, <span class="st">&quot;date&quot;</span> =<span class="st"> &quot;date&quot;</span>)) %&gt;%
+<span class="kw">right_join</span>(radars_dates_sunriset, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;radar_id&quot;</span> =<span class="st"> &quot;radar_id&quot;</span>, <span class="st">&quot;date&quot;</span> =<span class="st"> &quot;date&quot;</span>)) <span class="op">%&gt;%</span>
 <span class="st">  </span>
 <span class="co"># Define nights as starting before sunrise and after sunset</span>
 <span class="kw">mutate</span>(<span class="dt">day_night =</span> <span class="kw">if_else</span>(
-  datetime &lt;<span class="st"> </span>sunrise |<span class="st"> </span>datetime &gt;<span class="st"> </span>sunset,
+  datetime <span class="op">&lt;</span><span class="st"> </span>sunrise <span class="op">|</span><span class="st"> </span>datetime <span class="op">&gt;</span><span class="st"> </span>sunset,
   <span class="st">&quot;night&quot;</span>,
   <span class="st">&quot;day&quot;</span>
-)) %&gt;%
+)) <span class="op">%&gt;%</span>
 <span class="st">  </span>
 <span class="co"># Calculate the date of sunrise:</span>
 <span class="co"># For days: keep the date of the datetime</span>
 <span class="co"># For nights: rewind the time with 12 hours, so that night timestamps between</span>
 <span class="co">#             midnight and sunrise are considered belonging to previous day.</span>
 <span class="kw">mutate</span>(<span class="dt">date_of_sunset =</span> <span class="kw">if_else</span>(
-  day_night ==<span class="st"> &quot;night&quot;</span>,
-  datetime -<span class="st"> </span><span class="kw">hours</span>(<span class="dv">12</span>),
+  day_night <span class="op">==</span><span class="st"> &quot;night&quot;</span>,
+  datetime <span class="op">-</span><span class="st"> </span><span class="kw">hours</span>(<span class="dv">12</span>),
   datetime
-)) %&gt;%
-<span class="kw">mutate</span>(<span class="dt">date_of_sunset =</span> <span class="kw">format</span>(date_of_sunset, <span class="dt">format =</span> <span class="st">&quot;%Y%m%d&quot;</span>)) %&gt;%
+)) <span class="op">%&gt;%</span>
+<span class="kw">mutate</span>(<span class="dt">date_of_sunset =</span> <span class="kw">format</span>(date_of_sunset, <span class="dt">format =</span> <span class="st">&quot;%Y%m%d&quot;</span>)) <span class="op">%&gt;%</span>
 
 <span class="co"># Remove unneeded columns</span>
-<span class="kw">select</span>(-date, -latitude, -longitude, -sunrise, -sunset) -&gt;<span class="st"> </span>vp_data</code></pre></div>
+<span class="kw">select</span>(<span class="op">-</span>date, <span class="op">-</span>latitude, <span class="op">-</span>longitude, <span class="op">-</span>sunrise, <span class="op">-</span>sunset) -&gt;<span class="st"> </span>vp_data</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(vp_data, <span class="dv">20</span>)</code></pre></div>
-<pre><code>##    id radar_id   datetime HGHT          u          v       dens        dd
-## 1   1    bejab 2016-09-19    0 -2.9332356 -5.1274614 26.3651314 209.77231
-## 2   2    bejab 2016-09-19  200 -5.9695516 -6.7025647 19.9679146 221.68944
-## 3   3    bejab 2016-09-19  400 -5.8944726 -6.5680308  9.6763630 221.90636
-## 4   4    bejab 2016-09-19  600 -3.1691368 -5.8770409  5.9785151 208.33533
-## 5   5    bejab 2016-09-19  800 -2.3166976 -5.9704909  4.1655445 201.20747
-## 6   6    bejab 2016-09-19 1000 -1.0189155 -3.9789803  2.5513470 194.36334
-## 7   7    bejab 2016-09-19 1200 -0.2915183 -2.7959254  1.1012880 185.95245
-## 8   8    bejab 2016-09-19 1400  0.9222706 -2.8132153  1.1282989 161.84904
-## 9   9    bejab 2016-09-19 1600  1.4770844 -0.2543128  0.2693528  99.76896
-## 10 10    bejab 2016-09-19 1800  0.5449337 -0.8506422  2.0088153 147.35579
-## 11 11    bejab 2016-09-19 2000 -0.3131877 -0.2932509  0.3424582 226.88293
-## 12 12    bejab 2016-09-19 2200  0.9098089  0.3120916  0.2928373  71.06651
-## 13 13    bejab 2016-09-19 2400        NaN        NaN  0.0000000       NaN
-## 14 14    bejab 2016-09-19 2600        NaN        NaN  0.0000000       NaN
-## 15 15    bejab 2016-09-19 2800        NaN        NaN  0.0000000       NaN
-## 16 16    bejab 2016-09-19 3000        NaN        NaN  0.0000000       NaN
-## 17 17    bejab 2016-09-19 3200        NaN        NaN  0.0000000       NaN
-## 18 18    bejab 2016-09-19 3400        NaN        NaN  0.0000000       NaN
-## 19 19    bejab 2016-09-19 3600        NaN        NaN  0.0000000       NaN
-## 20 20    bejab 2016-09-19 3800        NaN        NaN  0.0000000       NaN
-##           ff        DBZH         mtr day_night date_of_sunset
-## 1  5.9071765  26.8374157 112.1353087     night       20160918
-## 2  8.9755182  22.2238140 129.0401145     night       20160918
-## 3  8.8251820  -1.5062730  61.4848782     night       20160918
-## 4  6.6770530  -6.7373443  28.7415809     night       20160918
-## 5  6.4042058  -8.7595072  19.2074431     night       20160918
-## 6  4.1073680 -10.3248863   7.5451112     night       20160918
-## 7  2.8110819 -14.4957666   2.2289837     night       20160918
-## 8  2.9605343  -3.9724452   2.4050647     night       20160918
-## 9  1.4988173 -20.7430286   0.2906717     night       20160918
-## 10 1.0102202   0.2131391   1.4611289     night       20160918
-## 11 0.4290484 -19.7001667   0.1057904     night       20160918
-## 12 0.9618490 -20.3799801   0.2027990     night       20160918
-## 13       NaN -25.4913998         NaN     night       20160918
-## 14       NaN -21.8373203         NaN     night       20160918
-## 15       NaN -20.4837914         NaN     night       20160918
-## 16       NaN -21.9515171         NaN     night       20160918
-## 17       NaN -26.1533337         NaN     night       20160918
-## 18       NaN -30.5740471         NaN     night       20160918
-## 19       NaN -17.2520542         NaN     night       20160918
-## 20       NaN -30.8071022         NaN     night       20160918</code></pre>
+<pre><code>##    id radar_id            datetime HGHT         u          v     dens
+## 1   1    seang 2016-10-03 20:00:00    0        NA         NA       NA
+## 2   2    seang 2016-10-03 20:00:00  200 -9.632832  -9.421702 35.59053
+## 3   3    seang 2016-10-03 20:00:00  400 -8.461532  -8.746634 41.27831
+## 4   4    seang 2016-10-03 20:00:00  600 -6.581830  -8.013961 18.10636
+## 5   5    seang 2016-10-03 20:00:00  800 -6.643213  -9.764238 17.21185
+## 6   6    seang 2016-10-03 20:00:00 1000 -6.028350 -10.171729 11.11173
+## 7   7    seang 2016-10-03 20:00:00 1200        NA         NA       NA
+## 8   8    seang 2016-10-03 20:00:00 1400        NA         NA       NA
+## 9   9    seang 2016-10-03 20:00:00 1600        NA         NA       NA
+## 10 10    seang 2016-10-03 20:00:00 1800        NA         NA       NA
+## 11 11    seang 2016-10-03 20:00:00 2000        NA         NA       NA
+## 12 12    seang 2016-10-03 20:00:00 2200        NA         NA       NA
+## 13 13    seang 2016-10-03 20:00:00 2400        NA         NA       NA
+## 14 14    seang 2016-10-03 20:00:00 2600        NA         NA       NA
+## 15 15    seang 2016-10-03 20:00:00 2800        NA         NA       NA
+## 16 16    seang 2016-10-03 20:00:00 3000        NA         NA       NA
+## 17 17    seang 2016-10-03 20:00:00 3200        NA         NA       NA
+## 18 18    seang 2016-10-03 20:00:00 3400        NA         NA       NA
+## 19 19    seang 2016-10-03 20:00:00 3600        NA         NA       NA
+## 20 20    seang 2016-10-03 20:00:00 3800        NA         NA       NA
+##          dd       ff       DBZH       mtr day_night date_of_sunset
+## 1        NA       NA         NA        NA     night       20161003
+## 2  225.6348 13.47442  6.9733987 345.28437     night       20161003
+## 3  224.0508 12.16968  3.8646252 361.68759     night       20161003
+## 4  219.3961 10.37035 -0.8646818 135.19384     night       20161003
+## 5  214.2299 11.80985 -2.6370287 146.35399     night       20161003
+## 6  210.6534 11.82392 -4.5374875  94.59664     night       20161003
+## 7        NA       NA         NA        NA     night       20161003
+## 8        NA       NA         NA        NA     night       20161003
+## 9        NA       NA         NA        NA     night       20161003
+## 10       NA       NA         NA        NA     night       20161003
+## 11       NA       NA         NA        NA     night       20161003
+## 12       NA       NA         NA        NA     night       20161003
+## 13       NA       NA         NA        NA     night       20161003
+## 14       NA       NA         NA        NA     night       20161003
+## 15       NA       NA         NA        NA     night       20161003
+## 16       NA       NA         NA        NA     night       20161003
+## 17       NA       NA         NA        NA     night       20161003
+## 18       NA       NA         NA        NA     night       20161003
+## 19       NA       NA         NA        NA     night       20161003
+## 20       NA       NA         NA        NA     night       20161003</code></pre>
 </div>
 <div id="filter-out-heights" class="section level2">
 <h2><span class="header-section-number">2.7</span> Filter out heights</h2>
 <p>For each radar we only want to select the data above 200m above ground level (AGL) (<em>row selection</em>). Since the heights in the data are expressed in above sea level (ASL), the height range to exclude is the <em>altitude of the radar + 100m</em>, which differs from radar to radar. Those height ranges are defined in our settings (see <a href="setup.html#settings">1.3</a>).</p>
 <p>To do this, we take the <code>include_heights</code> range for each radar<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> and set the data outside that range to <code>NA</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">for (radar in settings$radars) { <span class="co"># For each radar</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (radar <span class="cf">in</span> settings<span class="op">$</span>radars) { <span class="co"># For each radar</span>
   <span class="co"># Create height subset for that radar</span>
   subset =<span class="st"> </span>
-<span class="st">    </span>vp_data %&gt;%
+<span class="st">    </span>vp_data <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">filter</span>(
-      radar_id ==<span class="st"> </span>radar$radar_id &amp;<span class="st"> </span><span class="co"># Specific radar</span>
-<span class="st">      </span>(HGHT &lt;<span class="st"> </span>radar$min_height |<span class="st">   </span><span class="co"># Below min height</span>
-<span class="st">       </span>HGHT &gt;<span class="st"> </span>radar$max_height)    <span class="co"># Above max height</span>
-    ) %&gt;%
+      radar_id <span class="op">==</span><span class="st"> </span>radar<span class="op">$</span>radar_id <span class="op">&amp;</span><span class="st"> </span><span class="co"># Specific radar</span>
+<span class="st">      </span>(HGHT <span class="op">&lt;</span><span class="st"> </span>radar<span class="op">$</span>min_height <span class="op">|</span><span class="st">   </span><span class="co"># Below min height</span>
+<span class="st">       </span>HGHT <span class="op">&gt;</span><span class="st"> </span>radar<span class="op">$</span>max_height)    <span class="co"># Above max height</span>
+    ) <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="co"># Set variables to NA</span>
-<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">u =</span> <span class="ot">NA</span>, <span class="dt">v =</span> <span class="ot">NA</span>, <span class="dt">dens =</span> <span class="ot">NA</span>, <span class="dt">dd =</span> <span class="ot">NA</span>, <span class="dt">ff =</span> <span class="ot">NA</span>, <span class="dt">mtr =</span> <span class="ot">NA</span>, <span class="dt">DBZH =</span> <span class="ot">NA</span>) %&gt;%
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">u =</span> <span class="ot">NA</span>, <span class="dt">v =</span> <span class="ot">NA</span>, <span class="dt">dens =</span> <span class="ot">NA</span>, <span class="dt">dd =</span> <span class="ot">NA</span>, <span class="dt">ff =</span> <span class="ot">NA</span>, <span class="dt">mtr =</span> <span class="ot">NA</span>, <span class="dt">DBZH =</span> <span class="ot">NA</span>) <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="co"># Mention that the row was excluded because of height</span>
 <span class="st">    </span><span class="kw">mutate</span>(<span class="dt">exclusion_reason =</span> <span class="st">&quot;height&quot;</span>)
   
@@ -409,51 +409,51 @@ vp_data %&gt;%
 }</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(vp_data, <span class="dv">20</span>)</code></pre></div>
-<pre><code>##    id radar_id   datetime HGHT          u          v       dens        dd
-## 1   1    bejab 2016-09-19    0         NA         NA         NA        NA
-## 2   2    bejab 2016-09-19  200 -5.9695516 -6.7025647 19.9679146 221.68944
-## 3   3    bejab 2016-09-19  400 -5.8944726 -6.5680308  9.6763630 221.90636
-## 4   4    bejab 2016-09-19  600 -3.1691368 -5.8770409  5.9785151 208.33533
-## 5   5    bejab 2016-09-19  800 -2.3166976 -5.9704909  4.1655445 201.20747
-## 6   6    bejab 2016-09-19 1000 -1.0189155 -3.9789803  2.5513470 194.36334
-## 7   7    bejab 2016-09-19 1200 -0.2915183 -2.7959254  1.1012880 185.95245
-## 8   8    bejab 2016-09-19 1400  0.9222706 -2.8132153  1.1282989 161.84904
-## 9   9    bejab 2016-09-19 1600  1.4770844 -0.2543128  0.2693528  99.76896
-## 10 10    bejab 2016-09-19 1800  0.5449337 -0.8506422  2.0088153 147.35579
-## 11 11    bejab 2016-09-19 2000 -0.3131877 -0.2932509  0.3424582 226.88293
-## 12 12    bejab 2016-09-19 2200  0.9098089  0.3120916  0.2928373  71.06651
-## 13 13    bejab 2016-09-19 2400        NaN        NaN  0.0000000       NaN
-## 14 14    bejab 2016-09-19 2600        NaN        NaN  0.0000000       NaN
-## 15 15    bejab 2016-09-19 2800        NaN        NaN  0.0000000       NaN
-## 16 16    bejab 2016-09-19 3000        NaN        NaN  0.0000000       NaN
-## 17 17    bejab 2016-09-19 3200        NaN        NaN  0.0000000       NaN
-## 18 18    bejab 2016-09-19 3400        NaN        NaN  0.0000000       NaN
-## 19 19    bejab 2016-09-19 3600        NaN        NaN  0.0000000       NaN
-## 20 20    bejab 2016-09-19 3800        NaN        NaN  0.0000000       NaN
-##           ff        DBZH         mtr day_night date_of_sunset
-## 1         NA          NA          NA     night       20160918
-## 2  8.9755182  22.2238140 129.0401145     night       20160918
-## 3  8.8251820  -1.5062730  61.4848782     night       20160918
-## 4  6.6770530  -6.7373443  28.7415809     night       20160918
-## 5  6.4042058  -8.7595072  19.2074431     night       20160918
-## 6  4.1073680 -10.3248863   7.5451112     night       20160918
-## 7  2.8110819 -14.4957666   2.2289837     night       20160918
-## 8  2.9605343  -3.9724452   2.4050647     night       20160918
-## 9  1.4988173 -20.7430286   0.2906717     night       20160918
-## 10 1.0102202   0.2131391   1.4611289     night       20160918
-## 11 0.4290484 -19.7001667   0.1057904     night       20160918
-## 12 0.9618490 -20.3799801   0.2027990     night       20160918
-## 13       NaN -25.4913998         NaN     night       20160918
-## 14       NaN -21.8373203         NaN     night       20160918
-## 15       NaN -20.4837914         NaN     night       20160918
-## 16       NaN -21.9515171         NaN     night       20160918
-## 17       NaN -26.1533337         NaN     night       20160918
-## 18       NaN -30.5740471         NaN     night       20160918
-## 19       NaN -17.2520542         NaN     night       20160918
-## 20       NaN -30.8071022         NaN     night       20160918
+<pre><code>##    id radar_id            datetime HGHT         u          v     dens
+## 1   1    seang 2016-10-03 20:00:00    0        NA         NA       NA
+## 2   2    seang 2016-10-03 20:00:00  200        NA         NA       NA
+## 3   3    seang 2016-10-03 20:00:00  400 -8.461532  -8.746634 41.27831
+## 4   4    seang 2016-10-03 20:00:00  600 -6.581830  -8.013961 18.10636
+## 5   5    seang 2016-10-03 20:00:00  800 -6.643213  -9.764238 17.21185
+## 6   6    seang 2016-10-03 20:00:00 1000 -6.028350 -10.171729 11.11173
+## 7   7    seang 2016-10-03 20:00:00 1200        NA         NA       NA
+## 8   8    seang 2016-10-03 20:00:00 1400        NA         NA       NA
+## 9   9    seang 2016-10-03 20:00:00 1600        NA         NA       NA
+## 10 10    seang 2016-10-03 20:00:00 1800        NA         NA       NA
+## 11 11    seang 2016-10-03 20:00:00 2000        NA         NA       NA
+## 12 12    seang 2016-10-03 20:00:00 2200        NA         NA       NA
+## 13 13    seang 2016-10-03 20:00:00 2400        NA         NA       NA
+## 14 14    seang 2016-10-03 20:00:00 2600        NA         NA       NA
+## 15 15    seang 2016-10-03 20:00:00 2800        NA         NA       NA
+## 16 16    seang 2016-10-03 20:00:00 3000        NA         NA       NA
+## 17 17    seang 2016-10-03 20:00:00 3200        NA         NA       NA
+## 18 18    seang 2016-10-03 20:00:00 3400        NA         NA       NA
+## 19 19    seang 2016-10-03 20:00:00 3600        NA         NA       NA
+## 20 20    seang 2016-10-03 20:00:00 3800        NA         NA       NA
+##          dd       ff       DBZH       mtr day_night date_of_sunset
+## 1        NA       NA         NA        NA     night       20161003
+## 2        NA       NA         NA        NA     night       20161003
+## 3  224.0508 12.16968  3.8646252 361.68759     night       20161003
+## 4  219.3961 10.37035 -0.8646818 135.19384     night       20161003
+## 5  214.2299 11.80985 -2.6370287 146.35399     night       20161003
+## 6  210.6534 11.82392 -4.5374875  94.59664     night       20161003
+## 7        NA       NA         NA        NA     night       20161003
+## 8        NA       NA         NA        NA     night       20161003
+## 9        NA       NA         NA        NA     night       20161003
+## 10       NA       NA         NA        NA     night       20161003
+## 11       NA       NA         NA        NA     night       20161003
+## 12       NA       NA         NA        NA     night       20161003
+## 13       NA       NA         NA        NA     night       20161003
+## 14       NA       NA         NA        NA     night       20161003
+## 15       NA       NA         NA        NA     night       20161003
+## 16       NA       NA         NA        NA     night       20161003
+## 17       NA       NA         NA        NA     night       20161003
+## 18       NA       NA         NA        NA     night       20161003
+## 19       NA       NA         NA        NA     night       20161003
+## 20       NA       NA         NA        NA     night       20161003
 ##    exclusion_reason
 ## 1            height
-## 2              &lt;NA&gt;
+## 2            height
 ## 3              &lt;NA&gt;
 ## 4              &lt;NA&gt;
 ## 5              &lt;NA&gt;
@@ -463,36 +463,36 @@ vp_data %&gt;%
 ## 9              &lt;NA&gt;
 ## 10             &lt;NA&gt;
 ## 11             &lt;NA&gt;
-## 12             &lt;NA&gt;
-## 13             &lt;NA&gt;
-## 14             &lt;NA&gt;
-## 15             &lt;NA&gt;
-## 16             &lt;NA&gt;
-## 17             &lt;NA&gt;
-## 18             &lt;NA&gt;
-## 19             &lt;NA&gt;
-## 20             &lt;NA&gt;</code></pre>
+## 12           height
+## 13           height
+## 14           height
+## 15           height
+## 16           height
+## 17           height
+## 18           height
+## 19           height
+## 20           height</code></pre>
 </div>
 <div id="filter-out-datetimes" class="section level2">
 <h2><span class="header-section-number">2.8</span> Filter out datetimes</h2>
-<p>For some radars certain datetime ranges need to be excluded due to (remaining) rain clutter (<em>row selection</em>). Those datetime ranges were discovered during manual inspection and are defined in our settings (see <a href="setup.html#settings">1.3</a>)._</p>
+<p>For some radars certain datetime ranges need to be excluded due to (remaining) rain clutter (<em>row selection</em>). Those datetime ranges were discovered during manual inspection and are defined in our settings (see <a href="setup.html#settings">1.3</a>).</p>
 <p>To do this, we take the <code>exclude_datetimes</code> range for each radar and set the data inside that range to <code>NA</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vp_data_temp &lt;-<span class="st"> </span>vp_data
-for (radar in settings$radars) { <span class="co"># For each radar</span>
-  for (i in <span class="kw">seq_along</span>(radar$exclude_datetime_from)) { <span class="co"># For each exclude_datetime</span>
+<span class="cf">for</span> (radar <span class="cf">in</span> settings<span class="op">$</span>radars) { <span class="co"># For each radar</span>
+  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(radar<span class="op">$</span>exclude_datetime_from)) { <span class="co"># For each exclude_datetime</span>
     <span class="co"># Create datetime subset for that radar</span>
     subset =<span class="st"> </span>
-<span class="st">      </span>vp_data_temp %&gt;%
+<span class="st">      </span>vp_data_temp <span class="op">%&gt;%</span>
 <span class="st">      </span><span class="kw">filter</span>(
-        radar_id ==<span class="st"> </span>radar$radar_id &amp;<span class="st"> </span><span class="co"># Specific radar</span>
+        radar_id <span class="op">==</span><span class="st"> </span>radar<span class="op">$</span>radar_id <span class="op">&amp;</span><span class="st"> </span><span class="co"># Specific radar</span>
 <span class="st">        </span><span class="kw">between</span>(
           datetime,
-          radar$exclude_datetime_from[[i]], <span class="co"># From this datetime</span>
-          radar$exclude_datetime_to[[i]]    <span class="co"># Until this datetime</span>
+          radar<span class="op">$</span>exclude_datetime_from[[i]], <span class="co"># From this datetime</span>
+          radar<span class="op">$</span>exclude_datetime_to[[i]]    <span class="co"># Until this datetime</span>
         )
-      ) %&gt;%
+      ) <span class="op">%&gt;%</span>
 <span class="st">      </span><span class="co"># Set variables to NA</span>
-<span class="st">      </span><span class="kw">mutate</span>(<span class="dt">u =</span> <span class="ot">NA</span>, <span class="dt">v =</span> <span class="ot">NA</span>, <span class="dt">dens =</span> <span class="ot">NA</span>, <span class="dt">dd =</span> <span class="ot">NA</span>, <span class="dt">ff =</span> <span class="ot">NA</span>, <span class="dt">mtr =</span> <span class="ot">NA</span>) %&gt;%
+<span class="st">      </span><span class="kw">mutate</span>(<span class="dt">u =</span> <span class="ot">NA</span>, <span class="dt">v =</span> <span class="ot">NA</span>, <span class="dt">dens =</span> <span class="ot">NA</span>, <span class="dt">dd =</span> <span class="ot">NA</span>, <span class="dt">ff =</span> <span class="ot">NA</span>, <span class="dt">mtr =</span> <span class="ot">NA</span>) <span class="op">%&gt;%</span>
 <span class="st">      </span><span class="co"># Mention that the row was excluded because of datetime</span>
 <span class="st">      </span><span class="co"># This will overwrite any previous &quot;height&quot; reason</span>
 <span class="st">      </span><span class="kw">mutate</span>(<span class="dt">exclusion_reason =</span> <span class="st">&quot;datetime&quot;</span>)
@@ -503,78 +503,57 @@ for (radar in settings$radars) { <span class="co"># For each radar</span>
 }</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(vp_data, <span class="dv">20</span>)</code></pre></div>
-<pre><code>##    id radar_id   datetime HGHT          u          v       dens        dd
-## 1   1    bejab 2016-09-19    0         NA         NA         NA        NA
-## 2   2    bejab 2016-09-19  200 -5.9695516 -6.7025647 19.9679146 221.68944
-## 3   3    bejab 2016-09-19  400 -5.8944726 -6.5680308  9.6763630 221.90636
-## 4   4    bejab 2016-09-19  600 -3.1691368 -5.8770409  5.9785151 208.33533
-## 5   5    bejab 2016-09-19  800 -2.3166976 -5.9704909  4.1655445 201.20747
-## 6   6    bejab 2016-09-19 1000 -1.0189155 -3.9789803  2.5513470 194.36334
-## 7   7    bejab 2016-09-19 1200 -0.2915183 -2.7959254  1.1012880 185.95245
-## 8   8    bejab 2016-09-19 1400  0.9222706 -2.8132153  1.1282989 161.84904
-## 9   9    bejab 2016-09-19 1600  1.4770844 -0.2543128  0.2693528  99.76896
-## 10 10    bejab 2016-09-19 1800  0.5449337 -0.8506422  2.0088153 147.35579
-## 11 11    bejab 2016-09-19 2000 -0.3131877 -0.2932509  0.3424582 226.88293
-## 12 12    bejab 2016-09-19 2200  0.9098089  0.3120916  0.2928373  71.06651
-## 13 13    bejab 2016-09-19 2400        NaN        NaN  0.0000000       NaN
-## 14 14    bejab 2016-09-19 2600        NaN        NaN  0.0000000       NaN
-## 15 15    bejab 2016-09-19 2800        NaN        NaN  0.0000000       NaN
-## 16 16    bejab 2016-09-19 3000        NaN        NaN  0.0000000       NaN
-## 17 17    bejab 2016-09-19 3200        NaN        NaN  0.0000000       NaN
-## 18 18    bejab 2016-09-19 3400        NaN        NaN  0.0000000       NaN
-## 19 19    bejab 2016-09-19 3600        NaN        NaN  0.0000000       NaN
-## 20 20    bejab 2016-09-19 3800        NaN        NaN  0.0000000       NaN
-##           ff        DBZH         mtr day_night date_of_sunset
-## 1         NA          NA          NA     night       20160918
-## 2  8.9755182  22.2238140 129.0401145     night       20160918
-## 3  8.8251820  -1.5062730  61.4848782     night       20160918
-## 4  6.6770530  -6.7373443  28.7415809     night       20160918
-## 5  6.4042058  -8.7595072  19.2074431     night       20160918
-## 6  4.1073680 -10.3248863   7.5451112     night       20160918
-## 7  2.8110819 -14.4957666   2.2289837     night       20160918
-## 8  2.9605343  -3.9724452   2.4050647     night       20160918
-## 9  1.4988173 -20.7430286   0.2906717     night       20160918
-## 10 1.0102202   0.2131391   1.4611289     night       20160918
-## 11 0.4290484 -19.7001667   0.1057904     night       20160918
-## 12 0.9618490 -20.3799801   0.2027990     night       20160918
-## 13       NaN -25.4913998         NaN     night       20160918
-## 14       NaN -21.8373203         NaN     night       20160918
-## 15       NaN -20.4837914         NaN     night       20160918
-## 16       NaN -21.9515171         NaN     night       20160918
-## 17       NaN -26.1533337         NaN     night       20160918
-## 18       NaN -30.5740471         NaN     night       20160918
-## 19       NaN -17.2520542         NaN     night       20160918
-## 20       NaN -30.8071022         NaN     night       20160918
-##    exclusion_reason
-## 1            height
-## 2              &lt;NA&gt;
-## 3              &lt;NA&gt;
-## 4              &lt;NA&gt;
-## 5              &lt;NA&gt;
-## 6              &lt;NA&gt;
-## 7              &lt;NA&gt;
-## 8              &lt;NA&gt;
-## 9              &lt;NA&gt;
-## 10             &lt;NA&gt;
-## 11             &lt;NA&gt;
-## 12             &lt;NA&gt;
-## 13             &lt;NA&gt;
-## 14             &lt;NA&gt;
-## 15             &lt;NA&gt;
-## 16             &lt;NA&gt;
-## 17             &lt;NA&gt;
-## 18             &lt;NA&gt;
-## 19             &lt;NA&gt;
-## 20             &lt;NA&gt;</code></pre>
+<pre><code>##    id radar_id            datetime HGHT  u  v dens dd ff       DBZH mtr
+## 1   1    seang 2016-10-03 20:00:00    0 NA NA   NA NA NA         NA  NA
+## 2   2    seang 2016-10-03 20:00:00  200 NA NA   NA NA NA         NA  NA
+## 3   3    seang 2016-10-03 20:00:00  400 NA NA   NA NA NA  3.8646252  NA
+## 4   4    seang 2016-10-03 20:00:00  600 NA NA   NA NA NA -0.8646818  NA
+## 5   5    seang 2016-10-03 20:00:00  800 NA NA   NA NA NA -2.6370287  NA
+## 6   6    seang 2016-10-03 20:00:00 1000 NA NA   NA NA NA -4.5374875  NA
+## 7   7    seang 2016-10-03 20:00:00 1200 NA NA   NA NA NA         NA  NA
+## 8   8    seang 2016-10-03 20:00:00 1400 NA NA   NA NA NA         NA  NA
+## 9   9    seang 2016-10-03 20:00:00 1600 NA NA   NA NA NA         NA  NA
+## 10 10    seang 2016-10-03 20:00:00 1800 NA NA   NA NA NA         NA  NA
+## 11 11    seang 2016-10-03 20:00:00 2000 NA NA   NA NA NA         NA  NA
+## 12 12    seang 2016-10-03 20:00:00 2200 NA NA   NA NA NA         NA  NA
+## 13 13    seang 2016-10-03 20:00:00 2400 NA NA   NA NA NA         NA  NA
+## 14 14    seang 2016-10-03 20:00:00 2600 NA NA   NA NA NA         NA  NA
+## 15 15    seang 2016-10-03 20:00:00 2800 NA NA   NA NA NA         NA  NA
+## 16 16    seang 2016-10-03 20:00:00 3000 NA NA   NA NA NA         NA  NA
+## 17 17    seang 2016-10-03 20:00:00 3200 NA NA   NA NA NA         NA  NA
+## 18 18    seang 2016-10-03 20:00:00 3400 NA NA   NA NA NA         NA  NA
+## 19 19    seang 2016-10-03 20:00:00 3600 NA NA   NA NA NA         NA  NA
+## 20 20    seang 2016-10-03 20:00:00 3800 NA NA   NA NA NA         NA  NA
+##    day_night date_of_sunset exclusion_reason
+## 1      night       20161003         datetime
+## 2      night       20161003         datetime
+## 3      night       20161003         datetime
+## 4      night       20161003         datetime
+## 5      night       20161003         datetime
+## 6      night       20161003         datetime
+## 7      night       20161003         datetime
+## 8      night       20161003         datetime
+## 9      night       20161003         datetime
+## 10     night       20161003         datetime
+## 11     night       20161003         datetime
+## 12     night       20161003         datetime
+## 13     night       20161003         datetime
+## 14     night       20161003         datetime
+## 15     night       20161003         datetime
+## 16     night       20161003         datetime
+## 17     night       20161003         datetime
+## 18     night       20161003         datetime
+## 19     night       20161003         datetime
+## 20     night       20161003         datetime</code></pre>
 </div>
 <div id="export-to-a-csv-file" class="section level2">
 <h2><span class="header-section-number">2.9</span> Export to a CSV file</h2>
 <p>Finally, we export the data to a CSV file<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Remove id column</span>
-vp_data %&gt;%<span class="st"> </span><span class="kw">select</span>(-id) -&gt;<span class="st"> </span>vp_data
+vp_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>id) -&gt;<span class="st"> </span>vp_data
 
 <span class="co"># Write data to file (filename is dynamically created by load_settings)</span>
-<span class="kw">write.csv</span>(vp_data, <span class="dt">file =</span> <span class="kw">paste0</span>(processed_data_dir, settings$general$vp_output_file), <span class="dt">na =</span> <span class="st">&quot;&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<span class="kw">write.csv</span>(vp_data, <span class="dt">file =</span> <span class="kw">paste0</span>(processed_data_dir, project_name, <span class="st">&quot;_&quot;</span>, settings<span class="op">$</span>general<span class="op">$</span>vp_output_file), <span class="dt">na =</span> <span class="st">&quot;&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</code></pre></div>
 
 </div>
 </div>
@@ -602,7 +581,7 @@ vp_data %&gt;%<span class="st"> </span><span class="kw">select</span>(-id) -&gt;
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
 <script>
-require(["gitbook"], function(gitbook) {
+gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,

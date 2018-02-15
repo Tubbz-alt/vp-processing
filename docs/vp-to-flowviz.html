@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Vertical profile (vp) data processing for analyses and visualizations</title>
-  <meta name="description" content="Vertical profile (vp) data processing for analyses and visualizations">
-  <meta name="generator" content="bookdown 0.4 and GitBook 2.6.7">
+  <title>Vertical profiles of birds (vp) data processing for analyses and visualizations</title>
+  <meta name="description" content="Vertical profiles of birds (vp) data processing for analyses and visualizations">
+  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
 
-  <meta property="og:title" content="Vertical profile (vp) data processing for analyses and visualizations" />
+  <meta property="og:title" content="Vertical profiles of birds (vp) data processing for analyses and visualizations" />
   <meta property="og:type" content="book" />
   
   
@@ -17,15 +17,15 @@
   <meta name="github-repo" content="enram/vp-processing" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Vertical profile (vp) data processing for analyses and visualizations" />
+  <meta name="twitter:title" content="Vertical profiles of birds (vp) data processing for analyses and visualizations" />
   
   
   
 
-<meta name="author" content="Peter Desmet">
+<meta name="author" content="Peter Desmet, Cecilia Nilsson">
 
 
-<meta name="date" content="2017-11-09">
+<meta name="date" content="2018-02-15">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -148,7 +148,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Vertical profile (vp) data processing for analyses and visualizations</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Vertical profiles of birds (vp) data processing for analyses and visualizations</a>
           </h1>
         </div>
 
@@ -168,234 +168,200 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2><span class="header-section-number">3.1</span> Load settings</h2>
 <p>Load the same settings we defined and used before (see <a href="setup.html#settings">1.3</a>):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">settings &lt;-<span class="st"> </span><span class="kw">load_settings</span>(settings_file, radars_metadata_file)</code></pre></div>
-<p>Found <strong>70 radars from 11 countries</strong> in the settings.</p>
+<p>Found <strong>3 radars from 1 countries</strong> in the settings.</p>
 </div>
 <div id="read-data-from-csv-file" class="section level2">
 <h2><span class="header-section-number">3.2</span> Read data from CSV file</h2>
 <p>To allow this chapter to run without having to process all the vp data, we’ll load the data from the CSV file(s) rather than from the dataframe created in <a href="extract-vp.html#extract-vp">2</a>.</p>
-<p>Search in the defined processed data directory for csv files:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">processed_data_dir_no_slash &lt;-<span class="st"> </span><span class="kw">substr</span>(processed_data_dir, <span class="dv">1</span>, <span class="kw">nchar</span>(processed_data_dir)-<span class="dv">1</span>) 
-csv_files &lt;-<span class="st"> </span><span class="kw">dir</span>(processed_data_dir_no_slash, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.csv&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>, <span class="dt">recursive =</span> <span class="ot">FALSE</span>)
+<p>Search in the defined processed data directory for csv files with <code>processed_</code> in the filename:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">processed_data_dir_no_slash &lt;-<span class="st"> </span><span class="kw">substr</span>(processed_data_dir, <span class="dv">1</span>, <span class="kw">nchar</span>(processed_data_dir)<span class="op">-</span><span class="dv">1</span>) 
+csv_files &lt;-<span class="st"> </span><span class="kw">dir</span>(processed_data_dir_no_slash, <span class="dt">pattern =</span> <span class="st">&quot;.*processed_.*.csv&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>, <span class="dt">recursive =</span> <span class="ot">FALSE</span>)
 csv_files</code></pre></div>
-<pre><code>## [1] &quot;../data/processed/flyway/vp_data_70_radars_20160919_20160919.csv&quot;
-## [2] &quot;../data/processed/flyway/vp_data_70_radars_20160919_20160921.csv&quot;
-## [3] &quot;../data/processed/flyway/vp_data_70_radars_20160920_20160921.csv&quot;
-## [4] &quot;../data/processed/flyway/vp_data_70_radars_20160922_20160924.csv&quot;
-## [5] &quot;../data/processed/flyway/vp_data_70_radars_20160925_20160927.csv&quot;
-## [6] &quot;../data/processed/flyway/vp_data_70_radars_20160928_20160930.csv&quot;
-## [7] &quot;../data/processed/flyway/vp_data_70_radars_20161001_20161003.csv&quot;
-## [8] &quot;../data/processed/flyway/vp_data_70_radars_20161004_20161006.csv&quot;
-## [9] &quot;../data/processed/flyway/vp_data_70_radars_20161007_20161009.csv&quot;</code></pre>
+<pre><code>## [1] &quot;../data/processed/example/example_processed_3_radars_20161003_20161004.csv&quot;</code></pre>
 <p>Read and concatenate files:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">csv_data &lt;-<span class="st"> </span><span class="kw">lapply</span>(csv_files, read.csv)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">csv_data &lt;-<span class="st"> </span><span class="kw">lapply</span>(csv_files, read.csv) <span class="co"># Call read.csv for each file path</span>
 flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv_data)</code></pre></div>
-<p>Preview:</p>
+<p>Preview of the <strong>1740 rows</strong>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(flowviz_data)</code></pre></div>
-<pre><code>##   radar_id            datetime HGHT         u         v      dens       dd
-## 1    bejab 2016-09-19 00:00:00    0        NA        NA        NA       NA
-## 2    bejab 2016-09-19 00:00:00  200 -5.969552 -6.702565 19.967915 221.6894
-## 3    bejab 2016-09-19 00:00:00  400 -5.894473 -6.568031  9.676363 221.9064
-## 4    bejab 2016-09-19 00:00:00  600 -3.169137 -5.877041  5.978515 208.3353
-## 5    bejab 2016-09-19 00:00:00  800 -2.316698 -5.970491  4.165545 201.2075
-## 6    bejab 2016-09-19 00:00:00 1000 -1.018916 -3.978980  2.551347 194.3633
-##         ff       DBZH        mtr day_night date_of_sunset exclusion_reason
-## 1       NA         NA         NA     night       20160918           height
-## 2 8.975518  22.223814 129.040115     night       20160918                 
-## 3 8.825182  -1.506273  61.484878     night       20160918                 
-## 4 6.677053  -6.737344  28.741581     night       20160918                 
-## 5 6.404206  -8.759507  19.207443     night       20160918                 
-## 6 4.107368 -10.324886   7.545111     night       20160918</code></pre>
+<pre><code>##   radar_id            datetime HGHT  u  v dens dd ff       DBZH mtr
+## 1    seang 2016-10-03 20:00:00    0 NA NA   NA NA NA         NA  NA
+## 2    seang 2016-10-03 20:00:00  200 NA NA   NA NA NA         NA  NA
+## 3    seang 2016-10-03 20:00:00  400 NA NA   NA NA NA  3.8646252  NA
+## 4    seang 2016-10-03 20:00:00  600 NA NA   NA NA NA -0.8646818  NA
+## 5    seang 2016-10-03 20:00:00  800 NA NA   NA NA NA -2.6370287  NA
+## 6    seang 2016-10-03 20:00:00 1000 NA NA   NA NA NA -4.5374875  NA
+##   day_night date_of_sunset exclusion_reason
+## 1     night       20161003         datetime
+## 2     night       20161003         datetime
+## 3     night       20161003         datetime
+## 4     night       20161003         datetime
+## 5     night       20161003         datetime
+## 6     night       20161003         datetime</code></pre>
 </div>
 <div id="add-time-bins" class="section level2">
 <h2><span class="header-section-number">3.3</span> Add time bins</h2>
 <p>Add time bins per hour:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flowviz_data %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flowviz_data <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">datetime_bin =</span> <span class="kw">floor_date</span>(<span class="kw">as.POSIXct</span>(datetime, <span class="dt">tz =</span> <span class="st">&quot;UTC&quot;</span>), <span class="st">&quot;hour&quot;</span>)) -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 </div>
 <div id="add-height-bins" class="section level2">
 <h2><span class="header-section-number">3.4</span> Add height bins</h2>
 <p>Add two height bins: <code>200-2000</code> and <code>above 2000</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flowviz_data %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flowviz_data <span class="op">%&gt;%</span>
 <span class="kw">mutate</span>(<span class="dt">height_bin =</span> <span class="kw">case_when</span>(
-  .$HGHT &gt;=<span class="st"> </span><span class="dv">200</span> &amp;<span class="st"> </span>.$HGHT &lt;<span class="st"> </span><span class="dv">2000</span> ~<span class="st"> &quot;1&quot;</span>,
-  .$HGHT &gt;=<span class="st"> </span><span class="dv">2000</span> ~<span class="st"> &quot;2&quot;</span>
+  .<span class="op">$</span>HGHT <span class="op">&gt;=</span><span class="st"> </span><span class="dv">200</span> <span class="op">&amp;</span><span class="st"> </span>.<span class="op">$</span>HGHT <span class="op">&lt;</span><span class="st"> </span><span class="dv">2000</span> <span class="op">~</span><span class="st"> &quot;1&quot;</span>,
+  .<span class="op">$</span>HGHT <span class="op">&gt;=</span><span class="st"> </span><span class="dv">2000</span> <span class="op">~</span><span class="st"> &quot;2&quot;</span>
 )) -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(flowviz_data, <span class="dv">20</span>)</code></pre></div>
-<pre><code>##    radar_id            datetime HGHT          u          v       dens
-## 1     bejab 2016-09-19 00:00:00    0         NA         NA         NA
-## 2     bejab 2016-09-19 00:00:00  200 -5.9695516 -6.7025647 19.9679146
-## 3     bejab 2016-09-19 00:00:00  400 -5.8944726 -6.5680308  9.6763630
-## 4     bejab 2016-09-19 00:00:00  600 -3.1691368 -5.8770409  5.9785151
-## 5     bejab 2016-09-19 00:00:00  800 -2.3166976 -5.9704909  4.1655445
-## 6     bejab 2016-09-19 00:00:00 1000 -1.0189155 -3.9789803  2.5513470
-## 7     bejab 2016-09-19 00:00:00 1200 -0.2915183 -2.7959254  1.1012880
-## 8     bejab 2016-09-19 00:00:00 1400  0.9222706 -2.8132153  1.1282989
-## 9     bejab 2016-09-19 00:00:00 1600  1.4770844 -0.2543128  0.2693528
-## 10    bejab 2016-09-19 00:00:00 1800  0.5449337 -0.8506422  2.0088153
-## 11    bejab 2016-09-19 00:00:00 2000 -0.3131877 -0.2932509  0.3424582
-## 12    bejab 2016-09-19 00:00:00 2200  0.9098089  0.3120916  0.2928373
-## 13    bejab 2016-09-19 00:00:00 2400         NA         NA  0.0000000
-## 14    bejab 2016-09-19 00:00:00 2600         NA         NA  0.0000000
-## 15    bejab 2016-09-19 00:00:00 2800         NA         NA  0.0000000
-## 16    bejab 2016-09-19 00:00:00 3000         NA         NA  0.0000000
-## 17    bejab 2016-09-19 00:00:00 3200         NA         NA  0.0000000
-## 18    bejab 2016-09-19 00:00:00 3400         NA         NA  0.0000000
-## 19    bejab 2016-09-19 00:00:00 3600         NA         NA  0.0000000
-## 20    bejab 2016-09-19 00:00:00 3800         NA         NA  0.0000000
-##           dd        ff        DBZH         mtr day_night date_of_sunset
-## 1         NA        NA          NA          NA     night       20160918
-## 2  221.68944 8.9755182  22.2238140 129.0401145     night       20160918
-## 3  221.90636 8.8251820  -1.5062730  61.4848782     night       20160918
-## 4  208.33533 6.6770530  -6.7373443  28.7415809     night       20160918
-## 5  201.20747 6.4042058  -8.7595072  19.2074431     night       20160918
-## 6  194.36334 4.1073680 -10.3248863   7.5451112     night       20160918
-## 7  185.95245 2.8110819 -14.4957666   2.2289837     night       20160918
-## 8  161.84904 2.9605343  -3.9724452   2.4050647     night       20160918
-## 9   99.76896 1.4988173 -20.7430286   0.2906717     night       20160918
-## 10 147.35579 1.0102202   0.2131391   1.4611289     night       20160918
-## 11 226.88293 0.4290484 -19.7001667   0.1057904     night       20160918
-## 12  71.06651 0.9618490 -20.3799801   0.2027990     night       20160918
-## 13        NA        NA -25.4913998          NA     night       20160918
-## 14        NA        NA -21.8373203          NA     night       20160918
-## 15        NA        NA -20.4837914          NA     night       20160918
-## 16        NA        NA -21.9515171          NA     night       20160918
-## 17        NA        NA -26.1533337          NA     night       20160918
-## 18        NA        NA -30.5740471          NA     night       20160918
-## 19        NA        NA -17.2520542          NA     night       20160918
-## 20        NA        NA -30.8071022          NA     night       20160918
-##    exclusion_reason datetime_bin height_bin
-## 1            height   2016-09-19       &lt;NA&gt;
-## 2                     2016-09-19          1
-## 3                     2016-09-19          1
-## 4                     2016-09-19          1
-## 5                     2016-09-19          1
-## 6                     2016-09-19          1
-## 7                     2016-09-19          1
-## 8                     2016-09-19          1
-## 9                     2016-09-19          1
-## 10                    2016-09-19          1
-## 11                    2016-09-19          2
-## 12                    2016-09-19          2
-## 13                    2016-09-19          2
-## 14                    2016-09-19          2
-## 15                    2016-09-19          2
-## 16                    2016-09-19          2
-## 17                    2016-09-19          2
-## 18                    2016-09-19          2
-## 19                    2016-09-19          2
-## 20                    2016-09-19          2</code></pre>
+<pre><code>##    radar_id            datetime HGHT  u  v dens dd ff       DBZH mtr
+## 1     seang 2016-10-03 20:00:00    0 NA NA   NA NA NA         NA  NA
+## 2     seang 2016-10-03 20:00:00  200 NA NA   NA NA NA         NA  NA
+## 3     seang 2016-10-03 20:00:00  400 NA NA   NA NA NA  3.8646252  NA
+## 4     seang 2016-10-03 20:00:00  600 NA NA   NA NA NA -0.8646818  NA
+## 5     seang 2016-10-03 20:00:00  800 NA NA   NA NA NA -2.6370287  NA
+## 6     seang 2016-10-03 20:00:00 1000 NA NA   NA NA NA -4.5374875  NA
+## 7     seang 2016-10-03 20:00:00 1200 NA NA   NA NA NA         NA  NA
+## 8     seang 2016-10-03 20:00:00 1400 NA NA   NA NA NA         NA  NA
+## 9     seang 2016-10-03 20:00:00 1600 NA NA   NA NA NA         NA  NA
+## 10    seang 2016-10-03 20:00:00 1800 NA NA   NA NA NA         NA  NA
+## 11    seang 2016-10-03 20:00:00 2000 NA NA   NA NA NA         NA  NA
+## 12    seang 2016-10-03 20:00:00 2200 NA NA   NA NA NA         NA  NA
+## 13    seang 2016-10-03 20:00:00 2400 NA NA   NA NA NA         NA  NA
+## 14    seang 2016-10-03 20:00:00 2600 NA NA   NA NA NA         NA  NA
+## 15    seang 2016-10-03 20:00:00 2800 NA NA   NA NA NA         NA  NA
+## 16    seang 2016-10-03 20:00:00 3000 NA NA   NA NA NA         NA  NA
+## 17    seang 2016-10-03 20:00:00 3200 NA NA   NA NA NA         NA  NA
+## 18    seang 2016-10-03 20:00:00 3400 NA NA   NA NA NA         NA  NA
+## 19    seang 2016-10-03 20:00:00 3600 NA NA   NA NA NA         NA  NA
+## 20    seang 2016-10-03 20:00:00 3800 NA NA   NA NA NA         NA  NA
+##    day_night date_of_sunset exclusion_reason        datetime_bin
+## 1      night       20161003         datetime 2016-10-03 20:00:00
+## 2      night       20161003         datetime 2016-10-03 20:00:00
+## 3      night       20161003         datetime 2016-10-03 20:00:00
+## 4      night       20161003         datetime 2016-10-03 20:00:00
+## 5      night       20161003         datetime 2016-10-03 20:00:00
+## 6      night       20161003         datetime 2016-10-03 20:00:00
+## 7      night       20161003         datetime 2016-10-03 20:00:00
+## 8      night       20161003         datetime 2016-10-03 20:00:00
+## 9      night       20161003         datetime 2016-10-03 20:00:00
+## 10     night       20161003         datetime 2016-10-03 20:00:00
+## 11     night       20161003         datetime 2016-10-03 20:00:00
+## 12     night       20161003         datetime 2016-10-03 20:00:00
+## 13     night       20161003         datetime 2016-10-03 20:00:00
+## 14     night       20161003         datetime 2016-10-03 20:00:00
+## 15     night       20161003         datetime 2016-10-03 20:00:00
+## 16     night       20161003         datetime 2016-10-03 20:00:00
+## 17     night       20161003         datetime 2016-10-03 20:00:00
+## 18     night       20161003         datetime 2016-10-03 20:00:00
+## 19     night       20161003         datetime 2016-10-03 20:00:00
+## 20     night       20161003         datetime 2016-10-03 20:00:00
+##    height_bin
+## 1        &lt;NA&gt;
+## 2           1
+## 3           1
+## 4           1
+## 5           1
+## 6           1
+## 7           1
+## 8           1
+## 9           1
+## 10          1
+## 11          2
+## 12          2
+## 13          2
+## 14          2
+## 15          2
+## 16          2
+## 17          2
+## 18          2
+## 19          2
+## 20          2</code></pre>
 </div>
 <div id="filter-out-low-density-data" class="section level2">
 <h2><span class="header-section-number">3.5</span> Filter out low density data</h2>
-<p>Only keep data with a <strong>density above or equal to 5 (birds)</strong> and not marked to be excluded in <a href="extract-vp.html#extract-vp">2</a>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flowviz_data %&gt;%
-<span class="kw">filter</span>(dens &gt;=<span class="st"> </span><span class="dv">5</span>) %&gt;%
-<span class="kw">filter</span>(exclusion_reason ==<span class="st"> &quot;&quot;</span>) -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
+<p>Only keep data with a <strong>density above or equal to 10 (birds)</strong> and not marked to be excluded in <a href="extract-vp.html#extract-vp">2</a>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flowviz_data <span class="op">%&gt;%</span>
+<span class="kw">filter</span>(dens <span class="op">&gt;=</span><span class="st"> </span><span class="dv">10</span>) <span class="op">%&gt;%</span>
+<span class="kw">filter</span>(exclusion_reason <span class="op">==</span><span class="st"> &quot;&quot;</span>) -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 </div>
 <div id="aggregate-data" class="section level2">
 <h2><span class="header-section-number">3.6</span> Aggregate data</h2>
 <p>Aggregate the data by datetime and height bin, taking the mean for every value. For the direction <code>dd</code> we need to calculate the circular mean, with a little helper function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">circular_mean_degrees &lt;-<span class="st"> </span>function(directions) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">circular_mean_degrees &lt;-<span class="st"> </span><span class="cf">function</span>(directions) {
   <span class="co"># If all directions are NA, mean.circular will throw an error, so we test it beforehand:</span>
-  if (<span class="kw">all</span>(<span class="kw">is.na</span>(directions))) {
+  <span class="cf">if</span> (<span class="kw">all</span>(<span class="kw">is.na</span>(directions))) {
     circular_mean =<span class="st"> </span><span class="ot">NA</span>
-  } else {
+  } <span class="cf">else</span> {
     circular_mean &lt;-<span class="st"> </span><span class="kw">mean.circular</span>(<span class="kw">circular</span>(directions, <span class="dt">units =</span> <span class="st">&quot;degrees&quot;</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)[[<span class="dv">1</span>]]
     <span class="co"># Convert negative to positive degrees (e.g. -45 = 315):</span>
-    circular_mean &lt;-<span class="st"> </span>if (circular_mean &lt;<span class="st"> </span><span class="dv">0</span>) <span class="dv">360</span> +<span class="st"> </span>circular_mean else circular_mean
+    circular_mean &lt;-<span class="st"> </span><span class="cf">if</span> (circular_mean <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>) <span class="dv">360</span> <span class="op">+</span><span class="st"> </span>circular_mean <span class="cf">else</span> circular_mean
   }
   <span class="kw">return</span>(circular_mean)
 }</code></pre></div>
 <p>Aggregate data:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flowviz_data %&gt;%
-<span class="kw">group_by</span>(radar_id, datetime_bin, height_bin) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flowviz_data <span class="op">%&gt;%</span>
+<span class="kw">group_by</span>(radar_id, datetime_bin, height_bin) <span class="op">%&gt;%</span>
 <span class="kw">summarize</span>(
   <span class="dt">avg_u =</span> <span class="kw">mean</span>(u, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
   <span class="dt">avg_v =</span> <span class="kw">mean</span>(v, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
   <span class="dt">avg_dens =</span> <span class="kw">mean</span>(dens, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
   <span class="dt">avg_dd =</span> <span class="kw">circular_mean_degrees</span>(dd),
   <span class="dt">avg_ff =</span> <span class="kw">mean</span>(ff, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
-) %&gt;%
+) <span class="op">%&gt;%</span>
 <span class="kw">ungroup</span>() -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">data.frame</span>(flowviz_data))</code></pre></div>
-<pre><code>##   radar_id        datetime_bin height_bin     avg_u     avg_v  avg_dens
-## 1    bejab 2016-09-19 00:00:00          1 -4.724057 -6.276233 11.300968
-## 2    bejab 2016-09-19 01:00:00          1 -3.432383 -5.833267 10.496489
-## 3    bejab 2016-09-19 02:00:00          1 -2.602208 -5.786797 10.786040
-## 4    bejab 2016-09-19 03:00:00          1 -2.932833 -4.987901  9.556616
-## 5    bejab 2016-09-19 04:00:00          1 -2.067265 -3.580836  7.286111
-## 6    bejab 2016-09-19 05:00:00          1 -1.551661 -1.619145  8.005603
-##     avg_dd   avg_ff
-## 1 216.1673 7.894408
-## 2 209.7428 6.800435
-## 3 204.0742 6.354746
-## 4 210.5882 5.795676
-## 5 209.2596 4.148599
-## 6 225.2535 2.311368</code></pre>
+<pre><code>##   radar_id        datetime_bin height_bin     avg_u     avg_v avg_dens
+## 1    seang 2016-10-03 20:00:00          1 -6.028157 -8.363182 18.63652
+##    avg_dd   avg_ff
+## 1 215.778 10.33008</code></pre>
 </div>
 <div id="filter-out-empty-rows" class="section level2">
 <h2><span class="header-section-number">3.7</span> Filter out empty rows</h2>
 <p>Only keep data where at least one of the calculated values is not <code>NA</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flowviz_data %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flowviz_data <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">filter</span>(
-    !<span class="kw">is.na</span>(avg_u) |<span class="st"> </span>
-<span class="st">    </span>!<span class="kw">is.na</span>(avg_v) |<span class="st"> </span>
-<span class="st">    </span>!<span class="kw">is.na</span>(avg_dens) |<span class="st"> </span>
-<span class="st">    </span>!<span class="kw">is.na</span>(avg_dd) |<span class="st"> </span>
-<span class="st">    </span>!<span class="kw">is.na</span>(avg_ff)
+    <span class="op">!</span><span class="kw">is.na</span>(avg_u) <span class="op">|</span><span class="st"> </span>
+<span class="st">    </span><span class="op">!</span><span class="kw">is.na</span>(avg_v) <span class="op">|</span><span class="st"> </span>
+<span class="st">    </span><span class="op">!</span><span class="kw">is.na</span>(avg_dens) <span class="op">|</span><span class="st"> </span>
+<span class="st">    </span><span class="op">!</span><span class="kw">is.na</span>(avg_dd) <span class="op">|</span><span class="st"> </span>
+<span class="st">    </span><span class="op">!</span><span class="kw">is.na</span>(avg_ff)
   ) -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">data.frame</span>(flowviz_data))</code></pre></div>
-<pre><code>##   radar_id        datetime_bin height_bin     avg_u     avg_v  avg_dens
-## 1    bejab 2016-09-19 00:00:00          1 -4.724057 -6.276233 11.300968
-## 2    bejab 2016-09-19 01:00:00          1 -3.432383 -5.833267 10.496489
-## 3    bejab 2016-09-19 02:00:00          1 -2.602208 -5.786797 10.786040
-## 4    bejab 2016-09-19 03:00:00          1 -2.932833 -4.987901  9.556616
-## 5    bejab 2016-09-19 04:00:00          1 -2.067265 -3.580836  7.286111
-## 6    bejab 2016-09-19 05:00:00          1 -1.551661 -1.619145  8.005603
-##     avg_dd   avg_ff
-## 1 216.1673 7.894408
-## 2 209.7428 6.800435
-## 3 204.0742 6.354746
-## 4 210.5882 5.795676
-## 5 209.2596 4.148599
-## 6 225.2535 2.311368</code></pre>
+<pre><code>##   radar_id        datetime_bin height_bin     avg_u     avg_v avg_dens
+## 1    seang 2016-10-03 20:00:00          1 -6.028157 -8.363182 18.63652
+##    avg_dd   avg_ff
+## 1 215.778 10.33008</code></pre>
 </div>
 <div id="rename-and-select-columns" class="section level2">
 <h2><span class="header-section-number">3.8</span> Rename and select columns</h2>
 <p>Rename and select the columns required by the flowviz:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flowviz_data %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flowviz_data <span class="op">%&gt;%</span>
 <span class="kw">rename</span>(
   <span class="dt">interval_start_time =</span> datetime_bin,
   <span class="dt">altitude_band =</span> height_bin,
   <span class="dt">avg_u_speed =</span> avg_u,
   <span class="dt">avg_v_speed =</span> avg_v
-) %&gt;%
+) <span class="op">%&gt;%</span>
 <span class="st">  </span>
 <span class="co"># Add +00 for interval_start_time:</span>
-<span class="kw">mutate</span>(<span class="dt">interval_start_time =</span> <span class="kw">paste0</span>(interval_start_time, <span class="st">&quot;+00&quot;</span>)) %&gt;%
+<span class="kw">mutate</span>(<span class="dt">interval_start_time =</span> <span class="kw">paste0</span>(interval_start_time, <span class="st">&quot;+00&quot;</span>)) <span class="op">%&gt;%</span>
 
 <span class="co"># Select columns</span>
 <span class="kw">select</span>(radar_id, interval_start_time, altitude_band, avg_u_speed, avg_v_speed, avg_dens) -&gt;<span class="st"> </span>flowviz_data</code></pre></div>
 <p>Preview:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(flowviz_data)</code></pre></div>
-<pre><code>## # A tibble: 6 x 6
-##   radar_id    interval_start_time altitude_band avg_u_speed avg_v_speed
-##      &lt;chr&gt;                  &lt;chr&gt;         &lt;chr&gt;       &lt;dbl&gt;       &lt;dbl&gt;
-## 1    bejab 2016-09-19 00:00:00+00             1   -4.724057   -6.276233
-## 2    bejab 2016-09-19 01:00:00+00             1   -3.432383   -5.833267
-## 3    bejab 2016-09-19 02:00:00+00             1   -2.602208   -5.786797
-## 4    bejab 2016-09-19 03:00:00+00             1   -2.932833   -4.987901
-## 5    bejab 2016-09-19 04:00:00+00             1   -2.067265   -3.580836
-## 6    bejab 2016-09-19 05:00:00+00             1   -1.551661   -1.619145
-## # ... with 1 more variables: avg_dens &lt;dbl&gt;</code></pre>
+<pre><code>## # A tibble: 1 x 6
+##   radar_id interval_start_~ altitude_band avg_u_speed avg_v_speed avg_dens
+##   &lt;fct&gt;    &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt;
+## 1 seang    2016-10-03 20:0~ 1                   -6.03       -8.36     18.6</code></pre>
 </div>
 <div id="export-to-a-csv-file-1" class="section level2">
 <h2><span class="header-section-number">3.9</span> Export to a CSV file</h2>
 <p>Export the data to a flowviz data file:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.csv</span>(flowviz_data, <span class="dt">file =</span> <span class="kw">paste0</span>(flowviz_data_dir, <span class="st">&quot;birds.csv&quot;</span>), <span class="dt">na =</span> <span class="st">&quot;&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.csv</span>(flowviz_data, <span class="dt">file =</span> <span class="kw">paste0</span>(processed_data_dir, project_name, <span class="st">&quot;_flowviz.csv&quot;</span>), <span class="dt">na =</span> <span class="st">&quot;&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</code></pre></div>
 </div>
 <div id="create-metadata" class="section level2">
 <h2><span class="header-section-number">3.10</span> Create metadata</h2>
@@ -428,7 +394,7 @@ flowviz_data &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(csv
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
 <script>
-require(["gitbook"], function(gitbook) {
+gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,
