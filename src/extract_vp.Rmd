@@ -60,7 +60,7 @@ vp_files <- bioRad::readvp.list(vp_file_paths)
 
 ## Select variables
 
-A single vp file contains a data frame with heights as rows and variables as columns (see [the bird profile format specifation](https://github.com/adokter/vol2bird/wiki/ODIM-bird-profile-format-specification) for more information regarding the variables):
+A single vp file contains a data frame with heights as rows and variables as columns (see [the bird profile format specification](https://github.com/adokter/vol2bird/wiki/ODIM-bird-profile-format-specification) for more information regarding the variables):
 
 ```{r extract_show_vp_data_structure}
 str(vp_files[[1]]$data)
