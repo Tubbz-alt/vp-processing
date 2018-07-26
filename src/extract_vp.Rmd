@@ -73,6 +73,9 @@ vp_data <- list()
 variables = c("u", "v", "dens", "dd", "ff", "DBZH") # HGHT is added by default in vp_to_df()
 for (i in seq_along(vp_files)) {
   vp_data[[i]] <- vp_to_df(vp_files[[i]], variables)
+  # radar/datetime will be extracted from a vp attribute.
+  # If you want to extract it from the name of the file instead, use:
+  # vp_data[[i]] <- vp_to_df(vp_files[[i]], variables, basename(vp_file_paths[[i]]))
 }
 
 bind_rows(vp_data) %>%

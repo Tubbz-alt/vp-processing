@@ -9,20 +9,21 @@
 #'
 #' @param vp bioRad 'vp' object (vertical profile)
 #' @param variables vector of variables that need to be extracted from vp$data
+#' @param filename string to extract radar and datetime from (default: from vp object)
 #' @return data frame with select metadata and data of that vp (records = HGHTs)
 #' @examples
 #' {
 #' vp_to_df(vp, variables)
 #' }
-vp_to_df <- function(vp, variables) {
+vp_to_df <- function(vp, variables, filename = NULL) {
   # Add HGHT as default variable
   variables <- c("HGHT", variables)
 
   # Select data from the vp$data
   df <- subset(vp$data, select = variables)
 
-  # Get filename
-  filename <- basename(vp$attributes$how$filename_vp)
+  # Get filename from vp object if not provided as a parameter
+  if (is.null(filename)) filename <- basename(vp$attributes$how$filename_vp)
 
   # Extract radar_id (e.g. "seang") from start of filename
   radar_id <- regmatches(filename, regexpr("^[a-z]{5}", filename))
